@@ -11,7 +11,10 @@ const Header = () => {
     <nav>
       <div className='header-container'>
         <div className='header'>
-          <img src={InstagramLogo} alt='Instagram'></img>
+          <img
+            className='header__instagram'
+            src={InstagramLogo}
+            alt='Instagram'></img>
           <div className='header-icons'>
             <HomeIcon className='header__icon' />
             <DirectIcon className='header__icon' />

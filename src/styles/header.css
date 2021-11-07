@@ -8,6 +8,7 @@ body {
   align-items: center;
   height: 54px;
   width: 100vw;
+  border-bottom: solid 1px rgb(219, 219, 219);
 }
 
 .header {
@@ -17,6 +18,15 @@ body {
   width: clamp(1px, 100vw, 978px);
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.header__instagram {
+  margin-top: 7px;
+}
+
+.header-icons {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .header__icon {
