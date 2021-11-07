@@ -1,5 +1,6 @@
 body {
   box-sizing: border-box;
+  background-color: rgb(250, 250, 250);
 }
 
 .header-container {
@@ -9,6 +10,7 @@ body {
   height: 54px;
   width: 100vw;
   border-bottom: solid 1px rgb(219, 219, 219);
+  background-color: rgb(255, 255, 255);
 }
 
 .header {
@@ -27,6 +29,7 @@ body {
 .header-icons {
   display: flex;
   flex-wrap: nowrap;
+  cursor: pointer;
 }
 
 .header__icon {
