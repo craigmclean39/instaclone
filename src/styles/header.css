@@ -1,0 +1,28 @@
+body {
+  box-sizing: border-box;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 54px;
+  width: 100vw;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: clamp(1px, 100vw, 978px);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header__icon {
+  fill: #383838;
+}
+
+.header__icon:not(:first-child) {
+  padding-left: 24px;
+}
