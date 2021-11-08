@@ -3,7 +3,7 @@ import { AppContextActionType } from '../Context/AppContext';
 import { Page } from '../Context/AppContext';
 
 export interface ExploreProps {
-  dispatch(o: AppContextActionType): any;
+  dispatch(o: AppContextActionType): void;
 }
 
 const Explore: React.FC<ExploreProps> = ({ dispatch }): JSX.Element => {

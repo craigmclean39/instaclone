@@ -16,7 +16,7 @@ export type AppContextActionType = { type: 'changePage'; payload: Page };
 export const appContextReducer = (
   state: AppContextType,
   action: AppContextActionType
-) => {
+): AppContextType => {
   /* console.log('resumeReducer ' + action.type);
   console.dir(state);
   console.dir(action); */
