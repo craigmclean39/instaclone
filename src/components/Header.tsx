@@ -6,24 +6,34 @@ import { ReactComponent as FeedIcon } from '../media/activityfeed.svg';
 import InstagramLogo from '../media/instagram-header.png';
 import '../styles/header.css';
 
-const Header = () => {
+const Header = (): JSX.Element => {
   return (
     <nav>
-      <div className='header-container'>
+      <header className='header-container'>
         <div className='header'>
           <img
             className='header__instagram'
             src={InstagramLogo}
             alt='Instagram'></img>
-          <div className='header-icons'>
-            <HomeIcon className='header__icon' />
-            <DirectIcon className='header__icon' />
-            <PostIcon className='header__icon' />
-            <ExploreIcon className='header__icon' />
-            <FeedIcon className='header__icon' />
-          </div>
+          <ul className='header-icons'>
+            <li className='header__icon'>
+              <HomeIcon />
+            </li>
+            <li className='header__icon'>
+              <DirectIcon />
+            </li>
+            <li className='header__icon'>
+              <PostIcon />
+            </li>
+            <li className='header__icon'>
+              <ExploreIcon />
+            </li>
+            <li className='header__icon'>
+              <FeedIcon />
+            </li>
+          </ul>
         </div>
-      </div>
+      </header>
     </nav>
   );
 };
