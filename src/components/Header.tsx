@@ -5,7 +5,7 @@ import { ReactComponent as PostIcon } from '../media/newpost.svg';
 import { ReactComponent as ExploreIcon } from '../media/explore.svg';
 import { ReactComponent as ExploreIconFilled } from '../media/explorefilled.svg';
 import { ReactComponent as FeedIcon } from '../media/activityfeed.svg';
-import InstagramLogo from '../media/instagram-header.png';
+import InstagramLogo from '../media/instagram-header1.png';
 import '../styles/header.css';
 import { AppContext, AppContextType } from '../Context/AppContext';
 import { useContext } from 'react';
