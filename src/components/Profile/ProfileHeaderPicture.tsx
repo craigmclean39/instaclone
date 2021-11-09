@@ -2,7 +2,13 @@ import '../../styles/profile.css';
 import { useContext, useState, useEffect } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
 
-const ProfileHeaderPicture: React.FC = () => {
+interface ProfileHeaderPictureProps {
+  isSmall: boolean;
+}
+
+const ProfileHeaderPicture: React.FC<ProfileHeaderPictureProps> = ({
+  isSmall,
+}) => {
   const { userInfo } = useContext(AppContext) as AppContextType;
   const [userProfilePicLoaded, setUserProfilePicLoaded] = useState(false);
 
@@ -16,11 +22,20 @@ const ProfileHeaderPicture: React.FC = () => {
     <div className='profile-header__profile-pic-container'>
       {userProfilePicLoaded ? (
         <img
-          className='profile-header__profile-pic'
+          className={
+            !isSmall
+              ? 'profile-header__profile-pic'
+              : 'profile-header__profile-pic--small'
+          }
           src={userInfo?.userProfilePic}
           alt='Change Profile Pic'></img>
       ) : (
-        <div className='profile-header__no-profile-pic'></div>
+        <div
+          className={
+            !isSmall
+              ? 'profile-header__no-profile-pic'
+              : 'profile-header__no-profile-pic--small'
+          }></div>
       )}
     </div>
   );
