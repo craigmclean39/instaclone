@@ -54,6 +54,15 @@ const Header = (): JSX.Element => {
             <li className='header__icon'>
               <FeedIcon />
             </li>
+            <li className='header__icon'>
+              <Link to='profile'>
+                {currentPage === Page.ProfilePage ? (
+                  <div className='profile-pic-circle'></div>
+                ) : (
+                  <div className='profile-pic-circle'></div>
+                )}
+              </Link>
+            </li>
           </ul>
         </div>
       </header>

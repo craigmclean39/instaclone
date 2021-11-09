@@ -41,3 +41,10 @@ body {
 .header__icon:not(:first-child) {
   padding-left: 24px;
 }
+
+.profile-pic-circle {
+  height: 28px;
+  width: 28px;
+  border: solid 1px #383838;
+  border-radius: 14px;
+}

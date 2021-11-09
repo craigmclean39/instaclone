@@ -1,5 +1,5 @@
 // FIREBASE
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -8,6 +8,9 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
+
+import { getFirestore } from 'firebase/firestore';
+import { Firestore } from '@firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDmKG6Vua6FJNJGL0rWuqkd7x3GnpuMNVM',
@@ -23,14 +26,16 @@ const initFirebaseAuth = (authStateObserver: any) => {
 };
 
 const useFirebase = (authStateObserverCallback: any) => {
-  const authStateObserver = useRef(authStateObserverCallback);
+  //const authStateObserver = useRef(authStateObserverCallback);
+  const [firestoreDb, setFirestoreDb] = useState<Firestore | null>(null);
 
   useEffect(() => {
     initializeApp(firebaseConfig);
-    initFirebaseAuth(authStateObserver.current);
+    setFirestoreDb(getFirestore());
+    //initFirebaseAuth(authStateObserver.current);
   }, []);
 
-  async function signIn() {
+  /* async function signIn() {
     let provider = new GoogleAuthProvider();
     await signInWithPopup(getAuth(), provider);
   }
@@ -49,14 +54,10 @@ const useFirebase = (authStateObserverCallback: any) => {
 
   const getUserId = () => {
     return getAuth().currentUser?.uid;
-  };
+  }; */
 
   return {
-    signIn,
-    signOutUser,
-    getProfilePicUrl,
-    getUserName,
-    getUserId,
+    firestoreDb,
   };
 };
 
