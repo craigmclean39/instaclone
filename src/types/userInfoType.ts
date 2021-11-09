@@ -3,4 +3,7 @@ export default interface UserInfoType {
   userName: string;
   userProfilePic: string;
   userNickname: string;
+  following: string[];
+  followers: string[];
+  description: string;
 }

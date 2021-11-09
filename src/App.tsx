@@ -46,6 +46,9 @@ const getUserInfoFromDb = async (
     userName: userDoc.data().name,
     userNickname: userDoc.data().nickname,
     userProfilePic: userDoc.data().profilePic,
+    followers: userDoc.data().followers ? userDoc.data().followers : [],
+    following: userDoc.data().following ? userDoc.data().following : [],
+    description: userDoc.data().description,
   };
 
   const storage = getStorage();
