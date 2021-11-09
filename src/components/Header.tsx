@@ -8,12 +8,19 @@ import { ReactComponent as FeedIcon } from '../media/activityfeed.svg';
 import InstagramLogo from '../media/instagram-header1.png';
 import '../styles/header.css';
 import { AppContext, AppContextType } from '../Context/AppContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Page } from '../Context/AppContext';
 import { Link } from 'react-router-dom';
 
 const Header = (): JSX.Element => {
-  const { currentPage } = useContext(AppContext) as AppContextType;
+  const { currentPage, userInfo } = useContext(AppContext) as AppContextType;
+  const [userProfilePicLoaded, setUserProfilePicLoaded] = useState(false);
+
+  useEffect(() => {
+    if (userInfo?.userProfilePic) {
+      setUserProfilePicLoaded(true);
+    }
+  }, [userInfo]);
 
   return (
     <nav>
@@ -57,9 +64,25 @@ const Header = (): JSX.Element => {
             <li className='header__icon'>
               <Link to='profile'>
                 {currentPage === Page.ProfilePage ? (
-                  <div className='profile-pic-circle'></div>
+                  <div className='profile-pic__circle'>
+                    {userProfilePicLoaded ? (
+                      <img
+                        className='profile-pic__image'
+                        alt='profile pic'
+                        src={`${userInfo?.userProfilePic}`}></img>
+                    ) : (
+                      <div className='profile-pic__no-circle'></div>
+                    )}
+                  </div>
+                ) : userProfilePicLoaded ? (
+                  <div className='profile-pic__no-circle'>
+                    <img
+                      className='profile-pic__image'
+                      alt='profile pic'
+                      src={`${userInfo?.userProfilePic}`}></img>
+                  </div>
                 ) : (
-                  <div className='profile-pic-circle'></div>
+                  <div className='profile-pic__no-circle'></div>
                 )}
               </Link>
             </li>

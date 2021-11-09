@@ -35,22 +35,24 @@ const getUserInfoFromDb = async (
   firestoreDb: Firestore,
   dispatch: Dispatch<AppContextActionType>
 ) => {
-  const ref = collection(firestoreDb, 'users');
-  const q = query(ref, where('id', '==', '1234'));
+  const ref1 = collection(firestoreDb, 'users');
+  const q = query(ref1, where('id', '==', '1234'));
   const querySnapshot = await getDocs(q);
 
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data());
+  const userDoc = querySnapshot.docs[0];
 
-    const userInfo: UserInfoType = {
-      userId: doc.data().id,
-      userName: doc.data().name,
-      userNickname: doc.data().nickname,
-      userProfilePic: doc.data().profilePic,
-    };
+  const userInfo: UserInfoType = {
+    userId: userDoc.data().id,
+    userName: userDoc.data().name,
+    userNickname: userDoc.data().nickname,
+    userProfilePic: userDoc.data().profilePic,
+  };
 
-    dispatch({ type: 'updateUserInfo', payload: userInfo });
-  });
+  const storage = getStorage();
+  const imageRef = ref(storage, `${userInfo.userProfilePic}.jpg`);
+  const dlUrl = await getDownloadURL(imageRef);
+  userInfo.userProfilePic = dlUrl;
+  dispatch({ type: 'updateUserInfo', payload: userInfo });
 };
 
 const test2 = async (firestoreDb: Firestore) => {

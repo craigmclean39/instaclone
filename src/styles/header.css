@@ -42,9 +42,23 @@ body {
   padding-left: 24px;
 }
 
-.profile-pic-circle {
+.profile-pic__image {
+  height: 22px;
+  width: 22px;
+  border-radius: 11px;
+}
+
+.profile-pic__circle,
+.profile-pic__no-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 28px;
   width: 28px;
   border: solid 1px #383838;
   border-radius: 14px;
+}
+
+.profile-pic__no-circle {
+  border: none;
 }
