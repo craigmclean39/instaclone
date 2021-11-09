@@ -11,6 +11,7 @@ import { AppContext, AppContextType } from '../Context/AppContext';
 import { useContext, useEffect, useState } from 'react';
 import { Page } from '../Context/AppContext';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const Header = (): JSX.Element => {
   const { currentPage, userInfo } = useContext(AppContext) as AppContextType;
@@ -22,9 +23,12 @@ const Header = (): JSX.Element => {
     }
   }, [userInfo]);
 
+  const isSmall = useMediaQuery('(max-width: 720px)');
+
   return (
     <nav>
-      <header className='header-container'>
+      <header
+        className={isSmall ? 'header-container--small' : 'header-container'}>
         <div className='header'>
           <img
             className='header__instagram'

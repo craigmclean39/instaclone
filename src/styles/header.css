@@ -1,9 +1,5 @@
-body {
-  box-sizing: border-box;
-  background-color: rgb(250, 250, 250);
-}
-
-.header-container {
+.header-container,
+.header-container--small {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,6 +8,10 @@ body {
   border-bottom: solid 1px rgb(219, 219, 219);
   background-color: rgb(255, 255, 255);
   margin-bottom: 30px;
+}
+
+.header-container--small {
+  margin-bottom: 0px;
 }
 
 .header {

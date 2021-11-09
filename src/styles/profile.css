@@ -1,7 +1,6 @@
 .profile-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100vw;
   height: auto;
 }
@@ -20,6 +19,7 @@
 .profile--small {
   padding-left: 0px;
   padding-right: 0px;
+  padding-top: 0px;
 }
 
 .profile-header {
