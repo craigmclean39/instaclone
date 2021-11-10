@@ -1,4 +1,4 @@
-import '../styles/post.css';
+import '../../styles/post.css';
 
 const PostHeader: React.FC = () => {
   return (

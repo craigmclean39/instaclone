@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import Header from './components/Header';
+import React, { useEffect, useState } from 'react';
+import Header from './components/Header/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
@@ -79,17 +79,18 @@ function App(): JSX.Element {
     initialState
   );
 
+  const [signedIn, setSignedIn] = useState(false);
   const { firestoreDb } = useFirebase(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (firestoreDb != null) {
       getUserInfoFromDb(firestoreDb, appContextDispatch);
       test2(firestoreDb);
     }
-  }, [firestoreDb]);
+  }, [firestoreDb]); */
 
-  return (
-    <>
+  if (signedIn) {
+    return (
       <AppContext.Provider value={appContext}>
         <BrowserRouter>
           <Header />
@@ -106,8 +107,10 @@ function App(): JSX.Element {
           </Routes>
         </BrowserRouter>
       </AppContext.Provider>
-    </>
-  );
+    );
+  } else {
+    return <></>;
+  }
 }
 
 export default App;

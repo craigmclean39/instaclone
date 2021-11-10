@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { AppContextActionType } from '../Context/AppContext';
 import { Page } from '../Context/AppContext';
-import Post from '../components/Post';
+import Post from '../components/Post/Post';
 
 export interface HomeProps {
   dispatch(o: AppContextActionType): void;
