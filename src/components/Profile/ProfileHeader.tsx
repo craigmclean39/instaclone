@@ -34,10 +34,12 @@ const ProfileHeader: React.FC = () => {
             <ProfileHeaderStats
               numFollowing={numFollowing ? numFollowing : 0}
               numFollowers={numFollowers ? numFollowers : 0}
+              isSmall={isSmall}
             />
             <ProfileHeaderDescription
               name={userInfo?.userName}
               description={userInfo?.description}
+              isSmall={isSmall}
             />
           </div>
         </header>
@@ -51,6 +53,12 @@ const ProfileHeader: React.FC = () => {
             <ProfileHeaderDescription
               name={userInfo?.userName}
               description={userInfo?.description}
+              isSmall={isSmall}
+            />
+            <ProfileHeaderStats
+              numFollowing={numFollowing ? numFollowing : 0}
+              numFollowers={numFollowers ? numFollowers : 0}
+              isSmall={isSmall}
             />
           </div>
         </header>

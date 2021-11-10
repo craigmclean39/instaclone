@@ -24,6 +24,7 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
     <div className='profile-container'>
       <div className={isSmall ? 'profile--small' : 'profile'}>
         <ProfileHeader />
+        {isSmall ? null : <div className='profile__decorative-line'></div>}
       </div>
     </div>
   );
