@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from './components/Header/Header';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
@@ -25,10 +25,13 @@ import {
 
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { Dispatch } from 'react';
+import LogIn from './components/Login/LogIn';
+import SignUp from './components/Login/SignUp';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
   userInfo: null,
+  signedIn: false,
 };
 
 const getUserInfoFromDb = async (
@@ -79,8 +82,7 @@ function App(): JSX.Element {
     initialState
   );
 
-  const [signedIn, setSignedIn] = useState(false);
-  const { firestoreDb } = useFirebase(null);
+  const { firestoreDb } = useFirebase();
 
   /* useEffect(() => {
     if (firestoreDb != null) {
@@ -89,28 +91,32 @@ function App(): JSX.Element {
     }
   }, [firestoreDb]); */
 
-  if (signedIn) {
-    return (
-      <AppContext.Provider value={appContext}>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path='/' element={<Home dispatch={appContextDispatch} />} />
-            <Route
-              path='explore'
-              element={<Explore dispatch={appContextDispatch} />}
-            />
-            <Route
-              path='profile'
-              element={<Profile dispatch={appContextDispatch} />}
-            />
-          </Routes>
-        </BrowserRouter>
-      </AppContext.Provider>
-    );
-  } else {
-    return <></>;
-  }
+  return (
+    <AppContext.Provider value={appContext}>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home dispatch={appContextDispatch} />} />
+          <Route
+            path='explore'
+            element={<Explore dispatch={appContextDispatch} />}
+          />
+          <Route
+            path='profile'
+            element={<Profile dispatch={appContextDispatch} />}
+          />
+          <Route
+            path='/login'
+            element={<LogIn dispatch={appContextDispatch} />}
+          />
+          <Route
+            path='/signup'
+            element={<SignUp dispatch={appContextDispatch} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </AppContext.Provider>
+  );
 }
 
 export default App;

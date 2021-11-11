@@ -17,6 +17,8 @@ const Header = (): JSX.Element => {
   const { currentPage, userInfo } = useContext(AppContext) as AppContextType;
   const [userProfilePicLoaded, setUserProfilePicLoaded] = useState(false);
 
+  const { signedIn } = useContext(AppContext) as AppContextType;
+
   useEffect(() => {
     if (userInfo?.userProfilePic) {
       setUserProfilePicLoaded(true);
@@ -25,76 +27,80 @@ const Header = (): JSX.Element => {
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 
-  return (
-    <nav>
-      <header
-        className={isSmall ? 'header-container--small' : 'header-container'}>
-        <div className='header'>
-          <img
-            className='header__instagram'
-            src={InstagramLogo}
-            alt='Instagram'></img>
-          <ul className='header-icons'>
-            <li className='header__icon'>
-              <Link to='/'>
-                {currentPage === Page.HomePage ? (
-                  <HomeIconFilled />
-                ) : (
-                  <HomeIcon />
-                )}
-              </Link>
-            </li>
+  if (signedIn) {
+    return (
+      <nav>
+        <header
+          className={isSmall ? 'header-container--small' : 'header-container'}>
+          <div className='header'>
+            <img
+              className='header__instagram'
+              src={InstagramLogo}
+              alt='Instagram'></img>
+            <ul className='header-icons'>
+              <li className='header__icon'>
+                <Link to='/'>
+                  {currentPage === Page.HomePage ? (
+                    <HomeIconFilled />
+                  ) : (
+                    <HomeIcon />
+                  )}
+                </Link>
+              </li>
 
-            <li className='header__icon'>
-              <DirectIcon />
-            </li>
-            <li className='header__icon'>
-              <PostIcon />
-            </li>
+              <li className='header__icon'>
+                <DirectIcon />
+              </li>
+              <li className='header__icon'>
+                <PostIcon />
+              </li>
 
-            <li className='header__icon'>
-              <Link to='explore'>
-                {currentPage === Page.ExplorePage ? (
-                  <ExploreIconFilled />
-                ) : (
-                  <ExploreIcon />
-                )}
-              </Link>
-            </li>
+              <li className='header__icon'>
+                <Link to='explore'>
+                  {currentPage === Page.ExplorePage ? (
+                    <ExploreIconFilled />
+                  ) : (
+                    <ExploreIcon />
+                  )}
+                </Link>
+              </li>
 
-            <li className='header__icon'>
-              <FeedIcon />
-            </li>
-            <li className='header__icon'>
-              <Link to='profile'>
-                {currentPage === Page.ProfilePage ? (
-                  <div className='profile-pic__circle'>
-                    {userProfilePicLoaded ? (
+              <li className='header__icon'>
+                <FeedIcon />
+              </li>
+              <li className='header__icon'>
+                <Link to='profile'>
+                  {currentPage === Page.ProfilePage ? (
+                    <div className='profile-pic__circle'>
+                      {userProfilePicLoaded ? (
+                        <img
+                          className='profile-pic__image'
+                          alt='profile pic'
+                          src={`${userInfo?.userProfilePic}`}></img>
+                      ) : (
+                        <div className='profile-pic__no-circle'></div>
+                      )}
+                    </div>
+                  ) : userProfilePicLoaded ? (
+                    <div className='profile-pic__no-circle'>
                       <img
                         className='profile-pic__image'
                         alt='profile pic'
                         src={`${userInfo?.userProfilePic}`}></img>
-                    ) : (
-                      <div className='profile-pic__no-circle'></div>
-                    )}
-                  </div>
-                ) : userProfilePicLoaded ? (
-                  <div className='profile-pic__no-circle'>
-                    <img
-                      className='profile-pic__image'
-                      alt='profile pic'
-                      src={`${userInfo?.userProfilePic}`}></img>
-                  </div>
-                ) : (
-                  <div className='profile-pic__no-circle'></div>
-                )}
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </header>
-    </nav>
-  );
+                    </div>
+                  ) : (
+                    <div className='profile-pic__no-circle'></div>
+                  )}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </header>
+      </nav>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Header;
