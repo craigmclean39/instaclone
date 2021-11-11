@@ -81,7 +81,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
               onChange={handleChange('email')}
               value={email}></input>
             <input
-              type='text'
+              type='password'
               aria-required='true'
               required
               placeholder='Password'

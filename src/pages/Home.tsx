@@ -24,7 +24,7 @@ const Home: React.FC<HomeProps> = ({ dispatch }): JSX.Element => {
     if (!signedIn) {
       navigate('/login', { replace: true });
     }
-  }, []);
+  }, [signedIn, navigate]);
 
   return (
     <div className='post-wrapper'>
