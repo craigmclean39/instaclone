@@ -1,5 +1,10 @@
-import { AppContextActionType, Page } from '../../Context/AppContext';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import {
+  AppContext,
+  AppContextActionType,
+  AppContextType,
+  Page,
+} from '../../Context/AppContext';
+import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import '../../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -29,7 +34,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
     dispatch({ type: 'changePage', payload: Page.LogInPage });
   }, [dispatch]);
 
-  const { auth } = useAuth();
+  const { auth } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
   const handleChange = (name: string) => (e: SyntheticEvent) => {

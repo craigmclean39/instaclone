@@ -4,6 +4,7 @@ import { initializeApp } from 'firebase/app';
 
 import { getFirestore } from 'firebase/firestore';
 import { Firestore } from '@firebase/firestore';
+import { Auth, getAuth } from '@firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDmKG6Vua6FJNJGL0rWuqkd7x3GnpuMNVM',
@@ -16,15 +17,18 @@ const firebaseConfig = {
 
 const useFirebase = () => {
   //const authStateObserver = useRef(authStateObserverCallback);
-  const [firestoreDb, setFirestoreDb] = useState<Firestore | null>(null);
+  const [db, setDb] = useState<Firestore | null>(null);
+  const [auth, setAuth] = useState<Auth | null>(null);
 
   useEffect(() => {
     initializeApp(firebaseConfig);
-    setFirestoreDb(getFirestore());
+    setDb(getFirestore());
+    setAuth(getAuth());
   }, []);
 
   return {
-    firestoreDb,
+    db,
+    auth,
   };
 };
 

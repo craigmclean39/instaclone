@@ -67,6 +67,10 @@
   margin-right: 28px;
 }
 
+.profile-header__name-container {
+  display: flex;
+}
+
 .profile-header__name {
   font-size: 28px;
   font-weight: 300;

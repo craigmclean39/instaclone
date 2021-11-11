@@ -1,5 +1,10 @@
-import { AppContextActionType, Page } from '../../Context/AppContext';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import {
+  AppContext,
+  AppContextActionType,
+  AppContextType,
+  Page,
+} from '../../Context/AppContext';
+import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
@@ -21,8 +26,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
     dispatch({ type: 'changePage', payload: Page.SignUpPage });
   }, [dispatch]);
 
-  const { auth } = useAuth();
-  const { db } = useFirestore();
+  const { db, auth } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
   const handleChange = (name: string) => (e: SyntheticEvent) => {
@@ -62,7 +66,6 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
         console.log(userCred);
 
         //TODO: After successful user creation, create a new entry in the firestore users collection with additional info
-
         if (db != null) {
           await createNewUser(db, userCred.user.uid, fullName, username);
         }

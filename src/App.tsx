@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Header from './components/Header/Header';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
@@ -21,6 +21,8 @@ import {
   where,
   getDocs,
   Firestore,
+  doc,
+  getDoc,
 } from '@firebase/firestore';
 
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
@@ -28,38 +30,47 @@ import { Dispatch } from 'react';
 import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
 import { useFirestore } from './hooks/useFirestore';
+import { useAuth } from './hooks/useAuth';
+import { onAuthStateChanged } from '@firebase/auth';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
   userInfo: null,
   signedIn: false,
+  db: null,
+  auth: null,
 };
 
 const getUserInfoFromDb = async (
-  firestoreDb: Firestore,
+  uid: string,
+  db: Firestore,
   dispatch: Dispatch<AppContextActionType>
 ) => {
-  const ref1 = collection(firestoreDb, 'users');
-  const q = query(ref1, where('id', '==', '1234'));
-  const querySnapshot = await getDocs(q);
+  const docRef = doc(db, 'users', uid);
+  const docSnap = await getDoc(docRef);
 
-  const userDoc = querySnapshot.docs[0];
+  if (docSnap.exists()) {
+    console.log('Document data:', docSnap.data());
+    const userData = docSnap.data();
+    const userInfo: UserInfoType = {
+      userId: userData.userId,
+      userName: userData.userName,
+      userNickname: userData.userNickname,
+      userProfilePic: userData.userProfilePic,
+      followers: userData.followers ? userData.followers : [],
+      following: userData.following ? userData.following : [],
+      description: userData.description,
+    };
 
-  const userInfo: UserInfoType = {
-    userId: userDoc.data().id,
-    userName: userDoc.data().name,
-    userNickname: userDoc.data().nickname,
-    userProfilePic: userDoc.data().profilePic,
-    followers: userDoc.data().followers ? userDoc.data().followers : [],
-    following: userDoc.data().following ? userDoc.data().following : [],
-    description: userDoc.data().description,
-  };
+    if (userInfo.userProfilePic != '') {
+      const storage = getStorage();
+      const imageRef = ref(storage, `${userInfo.userProfilePic}.jpg`);
+      const dlUrl = await getDownloadURL(imageRef);
+      userInfo.userProfilePic = dlUrl;
+    }
 
-  const storage = getStorage();
-  const imageRef = ref(storage, `${userInfo.userProfilePic}.jpg`);
-  const dlUrl = await getDownloadURL(imageRef);
-  userInfo.userProfilePic = dlUrl;
-  dispatch({ type: 'updateUserInfo', payload: userInfo });
+    dispatch({ type: 'updateUserInfo', payload: userInfo });
+  }
 };
 
 const test2 = async (firestoreDb: Firestore) => {
@@ -83,40 +94,54 @@ function App(): JSX.Element {
     initialState
   );
 
-  useFirebase();
-  const { db } = useFirestore();
+  const { db, auth } = useFirebase();
+  const navigate = useNavigate();
 
-  /* useEffect(() => {
-    if (firestoreDb != null) {
-      getUserInfoFromDb(firestoreDb, appContextDispatch);
-      test2(firestoreDb);
+  useEffect(() => {
+    appContextDispatch({ type: 'setDb', payload: db });
+    appContextDispatch({ type: 'setAuth', payload: auth });
+
+    if (auth != null) {
+      onAuthStateChanged(auth, (user) => {
+        console.log('AuthStateChange');
+        if (!user) {
+          console.log('Signing Out');
+          appContextDispatch({ type: 'signIn', payload: false });
+          navigate('/login', { replace: true });
+        } else {
+          console.log('signing in');
+
+          getUserInfoFromDb(user.uid, db as Firestore, appContextDispatch);
+
+          appContextDispatch({ type: 'signIn', payload: true });
+          navigate('/', { replace: true });
+        }
+      });
     }
-  }, [firestoreDb]); */
+  }, [db, auth]);
 
   return (
     <AppContext.Provider value={appContext}>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path='/' element={<Home dispatch={appContextDispatch} />} />
-          <Route
-            path='explore'
-            element={<Explore dispatch={appContextDispatch} />}
-          />
-          <Route
-            path='profile'
-            element={<Profile dispatch={appContextDispatch} />}
-          />
-          <Route
-            path='/login'
-            element={<LogIn dispatch={appContextDispatch} />}
-          />
-          <Route
-            path='/signup'
-            element={<SignUp dispatch={appContextDispatch} />}
-          />
-        </Routes>
-      </BrowserRouter>
+      {appContext.signedIn ? <Header /> : null}
+      <Routes>
+        <Route path='/' element={<Home dispatch={appContextDispatch} />} />
+        <Route
+          path='explore'
+          element={<Explore dispatch={appContextDispatch} />}
+        />
+        <Route
+          path='profile'
+          element={<Profile dispatch={appContextDispatch} />}
+        />
+        <Route
+          path='/login'
+          element={<LogIn dispatch={appContextDispatch} />}
+        />
+        <Route
+          path='/signup'
+          element={<SignUp dispatch={appContextDispatch} />}
+        />
+      </Routes>
     </AppContext.Provider>
   );
 }
