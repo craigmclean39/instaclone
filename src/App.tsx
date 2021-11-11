@@ -27,6 +27,7 @@ import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { Dispatch } from 'react';
 import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
+import { useFirestore } from './hooks/useFirestore';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -82,7 +83,8 @@ function App(): JSX.Element {
     initialState
   );
 
-  const { firestoreDb } = useFirebase();
+  useFirebase();
+  const { db } = useFirestore();
 
   /* useEffect(() => {
     if (firestoreDb != null) {
