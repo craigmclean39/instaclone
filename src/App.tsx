@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header/Header';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
@@ -29,8 +29,6 @@ import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { Dispatch } from 'react';
 import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
-import { useFirestore } from './hooks/useFirestore';
-import { useAuth } from './hooks/useAuth';
 import { onAuthStateChanged } from '@firebase/auth';
 
 const initialState: AppContextType = {
@@ -62,7 +60,7 @@ const getUserInfoFromDb = async (
       description: userData.description,
     };
 
-    if (userInfo.userProfilePic != '') {
+    if (userInfo.userProfilePic !== '') {
       const storage = getStorage();
       const imageRef = ref(storage, `${userInfo.userProfilePic}.jpg`);
       const dlUrl = await getDownloadURL(imageRef);
@@ -98,6 +96,7 @@ function App(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('USEEFFECT');
     appContextDispatch({ type: 'setDb', payload: db });
     appContextDispatch({ type: 'setAuth', payload: auth });
 

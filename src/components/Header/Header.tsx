@@ -9,20 +9,13 @@ import InstagramLogo from '../../media/instagram-header1.png';
 import ProfilePhotoFallback from '../../media/profilepic-fallback.jpg';
 import '../../styles/header.css';
 import { AppContext, AppContextType } from '../../Context/AppContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Page } from '../../Context/AppContext';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const Header = (): JSX.Element => {
   const { currentPage, userInfo } = useContext(AppContext) as AppContextType;
-  const [userProfilePicLoaded, setUserProfilePicLoaded] = useState(false);
-
-  useEffect(() => {
-    if (userInfo?.userProfilePic) {
-      setUserProfilePicLoaded(true);
-    }
-  }, [userInfo]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 
@@ -74,8 +67,8 @@ const Header = (): JSX.Element => {
                       className='profile-pic__image'
                       alt='profile pic'
                       src={`${
-                        userInfo?.userProfilePic != ''
-                          ? userInfo?.userProfilePic != ''
+                        userInfo?.userProfilePic !== ''
+                          ? userInfo?.userProfilePic
                           : ProfilePhotoFallback
                       }`}></img>
                   </div>
@@ -85,8 +78,8 @@ const Header = (): JSX.Element => {
                       className='profile-pic__image'
                       alt='profile pic'
                       src={`${
-                        userInfo?.userProfilePic != ''
-                          ? userInfo?.userProfilePic != ''
+                        userInfo?.userProfilePic !== ''
+                          ? userInfo?.userProfilePic
                           : ProfilePhotoFallback
                       }`}></img>
                   </div>

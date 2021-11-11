@@ -1,7 +1,6 @@
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { AppContextActionType } from '../Context/AppContext';
-import { Page, AppContext, AppContextType } from '../Context/AppContext';
-import UserInfoType from '../types/userInfoType';
+import { Page } from '../Context/AppContext';
 import '../styles/profile.css';
 import ProfileHeader from '../components/Profile/ProfileHeader';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -11,11 +10,8 @@ export interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
-  const { userInfo } = useContext(AppContext) as AppContextType;
-
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.ProfilePage });
-    console.log(userInfo);
   }, [dispatch]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');

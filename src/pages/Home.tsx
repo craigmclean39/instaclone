@@ -1,9 +1,5 @@
-import { useContext, useEffect } from 'react';
-import {
-  AppContext,
-  AppContextActionType,
-  AppContextType,
-} from '../Context/AppContext';
+import { useEffect } from 'react';
+import { AppContextActionType } from '../Context/AppContext';
 import { Page } from '../Context/AppContext';
 import Post from '../components/Post/Post';
 

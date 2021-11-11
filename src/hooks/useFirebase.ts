@@ -15,7 +15,12 @@ const firebaseConfig = {
   appId: '1:415999378036:web:e7e09f165af03a6a8b8721',
 };
 
-const useFirebase = () => {
+interface userFirebaseReturnValue {
+  db: Firestore | null;
+  auth: Auth | null;
+}
+
+const useFirebase = (): userFirebaseReturnValue => {
   //const authStateObserver = useRef(authStateObserverCallback);
   const [db, setDb] = useState<Firestore | null>(null);
   const [auth, setAuth] = useState<Auth | null>(null);

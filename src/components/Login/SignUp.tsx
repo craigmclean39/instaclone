@@ -6,11 +6,8 @@ import {
 } from '../../Context/AppContext';
 import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { createNewUser } from '../../utilities/FirestoreHelpers';
-import { useFirebase } from '../../hooks/useFirebase';
-import { useFirestore } from '../../hooks/useFirestore';
 
 export interface SignUpProps {
   dispatch(o: AppContextActionType): void;
@@ -84,7 +81,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
         <div className='login__form-container'>
           <form className='login__form' onSubmit={handleSubmit}>
             <input
-              type='text'
+              type='email'
               aria-required='true'
               required
               placeholder='Email'

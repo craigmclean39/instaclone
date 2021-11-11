@@ -5,7 +5,7 @@ export const createNewUser = async (
   uid: string,
   fullname: string,
   nickname: string
-) => {
+): Promise<void> => {
   await setDoc(doc(db, 'users', uid), {
     userId: uid,
     userName: fullname,

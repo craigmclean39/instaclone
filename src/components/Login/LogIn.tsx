@@ -7,8 +7,7 @@ import {
 import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import '../../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useAuth } from '../../hooks/useAuth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export interface LogInProps {
   dispatch(o: AppContextActionType): void;

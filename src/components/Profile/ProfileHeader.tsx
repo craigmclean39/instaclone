@@ -11,7 +11,7 @@ const ProfileHeader: React.FC = () => {
   const { userInfo } = useContext(AppContext) as AppContextType;
 
   const countUsers = (prev: any, current: any) => {
-    if (current != '') {
+    if (current !== '') {
       return prev + 1;
     } else {
       return prev;
