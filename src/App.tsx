@@ -10,12 +10,22 @@ import { appContextReducer } from './Context/AppContext';
 import { useFirebase } from './hooks/useFirebase';
 
 import { Firestore } from '@firebase/firestore';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from '@firebase/storage';
 
 import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
 import { onAuthStateChanged } from '@firebase/auth';
-import { getUserInfoFromDb } from './utilities/FirestoreHelpers';
+import {
+  getUserInfoFromDb,
+  addPostToPostCollection,
+} from './utilities/FirestoreHelpers';
 import AddPost from './components/AddPost/AddPost';
+import uniqid from 'uniqid';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -45,6 +55,8 @@ function App(): JSX.Element {
     appContextReducer,
     initialState
   );
+  const { db, auth } = useFirebase();
+  const navigate = useNavigate();
 
   const [showAddPostModal, setShowAddPostModal] = useState(false);
   const addPost = (): void => {
@@ -56,8 +68,19 @@ function App(): JSX.Element {
     setShowAddPostModal(false);
   };
 
-  const { db, auth } = useFirebase();
-  const navigate = useNavigate();
+  const uploadPost = async (file: File): Promise<void> => {
+    const storage = getStorage();
+    const fid = uniqid();
+    const fileRef = ref(storage, fid);
+
+    const p = await uploadBytes(fileRef, file);
+    const downloadUrl = await getDownloadURL(fileRef);
+    addPostToPostCollection(
+      db as Firestore,
+      appContext.userInfo?.userId as string,
+      downloadUrl
+    );
+  };
 
   useEffect(() => {
     appContextDispatch({ type: 'setDb', payload: db });
@@ -85,7 +108,9 @@ function App(): JSX.Element {
   if (db !== null && auth !== null) {
     return (
       <AppContext.Provider value={appContext}>
-        {showAddPostModal ? <AddPost cancelAddPost={cancelAddPost} /> : null}
+        {showAddPostModal ? (
+          <AddPost cancelAddPost={cancelAddPost} uploadPost={uploadPost} />
+        ) : null}
         {appContext.signedIn ? <Header addPost={addPost} /> : null}
         <Routes>
           <Route path='/' element={<Home dispatch={appContextDispatch} />} />

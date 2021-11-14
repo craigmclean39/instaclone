@@ -44,7 +44,11 @@ export const getUserInfoFromDb = async (
   }
 };
 
-export const addPost = async (db: Firestore, uid: string, imgUrl: string) => {
+export const addPostToPostCollection = async (
+  db: Firestore,
+  uid: string,
+  imgUrl: string
+) => {
   const post: PostType = {
     id: uniqid(),
     uid: uid,

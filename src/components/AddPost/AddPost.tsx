@@ -2,32 +2,21 @@ import '../../styles/addpost.css';
 import { ReactComponent as CloseIcon } from '../../media/close.svg';
 import { ReactComponent as DragAndDropIcon } from '../../media/draganddrop.svg';
 import { SyntheticEvent, useContext } from 'react';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import uniqid from 'uniqid';
-import { addPost } from '../../utilities/FirestoreHelpers';
 import { AppContext, AppContextType } from '../../Context/AppContext';
-import { getDownloadURL } from '@firebase/storage';
-import { Firestore } from '@firebase/firestore';
 
 export interface AddPostProps {
   cancelAddPost(): void;
+  uploadPost(file: File): void;
 }
 
-const AddPost: React.FC<AddPostProps> = ({ cancelAddPost }) => {
+const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
   const { db, userInfo } = useContext(AppContext) as AppContextType;
 
   const handleChange = async (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
 
     if (target.files) {
-      const file = target.files[0];
-      const storage = getStorage();
-      const fid = uniqid();
-      const fileRef = ref(storage, fid);
-
-      const p = await uploadBytes(fileRef, file);
-      const downloadUrl = await getDownloadURL(fileRef);
-      addPost(db as Firestore, userInfo?.userId as string, downloadUrl);
+      await uploadPost(target.files[0]);
     }
   };
 
@@ -67,6 +56,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost }) => {
               <input
                 id='select-from-computer'
                 type='file'
+                accept='image/*'
                 onChange={handleChange}></input>
             </div>
           </div>
