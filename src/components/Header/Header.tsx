@@ -14,7 +14,11 @@ import { Page } from '../../Context/AppContext';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const Header = (): JSX.Element => {
+export interface HeaderProps {
+  addPost(): void;
+}
+
+const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
   const { currentPage, userInfo } = useContext(AppContext) as AppContextType;
 
   const isSmall = useMediaQuery('(max-width: 720px)');
@@ -43,7 +47,11 @@ const Header = (): JSX.Element => {
               <DirectIcon />
             </li>
             <li className='header__icon'>
-              <PostIcon />
+              <PostIcon
+                onClick={() => {
+                  addPost();
+                }}
+              />
             </li>
 
             <li className='header__icon'>

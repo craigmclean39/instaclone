@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header/Header';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
@@ -15,6 +15,7 @@ import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
 import { onAuthStateChanged } from '@firebase/auth';
 import { getUserInfoFromDb } from './utilities/FirestoreHelpers';
+import AddPost from './components/AddPost/AddPost';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -45,6 +46,16 @@ function App(): JSX.Element {
     initialState
   );
 
+  const [showAddPostModal, setShowAddPostModal] = useState(false);
+  const addPost = (): void => {
+    console.log('add post');
+    setShowAddPostModal(true);
+  };
+
+  const cancelAddPost = (): void => {
+    setShowAddPostModal(false);
+  };
+
   const { db, auth } = useFirebase();
   const navigate = useNavigate();
 
@@ -74,7 +85,8 @@ function App(): JSX.Element {
   if (db !== null && auth !== null) {
     return (
       <AppContext.Provider value={appContext}>
-        {appContext.signedIn ? <Header /> : null}
+        {showAddPostModal ? <AddPost cancelAddPost={cancelAddPost} /> : null}
+        {appContext.signedIn ? <Header addPost={addPost} /> : null}
         <Routes>
           <Route path='/' element={<Home dispatch={appContextDispatch} />} />
           <Route

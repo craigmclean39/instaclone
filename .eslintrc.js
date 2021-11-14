@@ -23,20 +23,14 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'jsx-a11y'],
   root: true, // For configuration cascading.
-  rules: {},
+  rules: {
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+  },
   settings: {
     react: {
       version: 'detect', // Detect react version
     },
   },
 };
-
-/* "eslintConfig": {
-  "extends": [
-    "react-app",
-    "react-app/jest",
-    "plugin:jsx-a11y/recommended"
-  ],
-  "plugins": [
-    "jsx-a11y"
-  ] */

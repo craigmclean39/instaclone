@@ -1,3 +1,5 @@
+import { FieldValue } from '@firebase/firestore';
+
 export default interface UserInfoType {
   userId: string;
   userName: string;
@@ -6,4 +8,22 @@ export default interface UserInfoType {
   following: string[];
   followers: string[];
   description: string;
+}
+
+export interface CommentType {
+  content: string;
+  uid: string;
+}
+
+export interface Like {
+  uid: string;
+}
+
+export interface PostType {
+  id: string;
+  uid: string;
+  imgUrl: string;
+  comments: CommentType[];
+  likes: Like[];
+  timestamp: FieldValue;
 }
