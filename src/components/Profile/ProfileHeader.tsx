@@ -7,7 +7,11 @@ import ProfileHeaderPicture from './ProfileHeaderPicture';
 import ProfileHeaderStats from './ProfileHeaderStats';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const ProfileHeader: React.FC = () => {
+interface ProfileHeaderProps {
+  numPosts: number;
+}
+
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ numPosts }) => {
   const { userInfo } = useContext(AppContext) as AppContextType;
 
   const countUsers = (prev: any, current: any) => {
@@ -34,6 +38,7 @@ const ProfileHeader: React.FC = () => {
             <ProfileHeaderStats
               numFollowing={numFollowing ? numFollowing : 0}
               numFollowers={numFollowers ? numFollowers : 0}
+              numPosts={numPosts}
               isSmall={isSmall}
             />
             <ProfileHeaderDescription
@@ -58,6 +63,7 @@ const ProfileHeader: React.FC = () => {
             <ProfileHeaderStats
               numFollowing={numFollowing ? numFollowing : 0}
               numFollowers={numFollowers ? numFollowers : 0}
+              numPosts={numPosts}
               isSmall={isSmall}
             />
           </div>

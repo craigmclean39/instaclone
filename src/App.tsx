@@ -35,21 +35,6 @@ const initialState: AppContextType = {
   auth: null,
 };
 
-/* const test2 = async (firestoreDb: Firestore) => {
-  const ref1 = collection(firestoreDb, 'posts');
-  const q = query(ref1, where('userid', '==', '1234'));
-  const querySnapshot = await getDocs(q);
-
-  const storage = getStorage();
-
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data());
-    const imageRef = ref(storage, `${doc.data().id}.jpg`);
-    const dlUrl = getDownloadURL(imageRef);
-    console.log({ dlUrl });
-  });
-}; */
-
 function App(): JSX.Element {
   const [appContext, appContextDispatch] = useReducer(
     appContextReducer,

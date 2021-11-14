@@ -1,8 +1,7 @@
 import '../../styles/addpost.css';
 import { ReactComponent as CloseIcon } from '../../media/close.svg';
 import { ReactComponent as DragAndDropIcon } from '../../media/draganddrop.svg';
-import { SyntheticEvent, useContext } from 'react';
-import { AppContext, AppContextType } from '../../Context/AppContext';
+import { SyntheticEvent } from 'react';
 
 export interface AddPostProps {
   cancelAddPost(): void;
@@ -10,8 +9,6 @@ export interface AddPostProps {
 }
 
 const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
-  const { db, userInfo } = useContext(AppContext) as AppContextType;
-
   const handleChange = async (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
 
