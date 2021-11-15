@@ -8,6 +8,9 @@ import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { createNewUser } from '../../utilities/FirestoreHelpers';
+import '../../styles/login.css';
+import LoginLogo from '../../media/instagram-header1.png';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 export interface SignUpProps {
   dispatch(o: AppContextActionType): void;
@@ -23,6 +26,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
     dispatch({ type: 'changePage', payload: Page.SignUpPage });
   }, [dispatch]);
 
+  const isSmall = useMediaQuery('(max-width: 438px)');
   const { db, auth } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
@@ -78,9 +82,14 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
   return (
     <div className='login-wrapper'>
       <div className='login-container'>
-        <div className='login__form-container'>
+        <div
+          className={
+            isSmall ? 'login__form-container small' : 'login__form-container'
+          }>
+          <img className='login__logo' src={LoginLogo} alt=''></img>
           <form className='login__form' onSubmit={handleSubmit}>
             <input
+              className='login__form-input'
               type='email'
               aria-required='true'
               required
@@ -88,6 +97,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
               onChange={handleChange('email')}
               value={email}></input>
             <input
+              className='login__form-input'
               type='text'
               aria-required='true'
               required
@@ -96,6 +106,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
               value={fullName}></input>
 
             <input
+              className='login__form-input'
               type='text'
               aria-required='true'
               required
@@ -103,6 +114,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
               onChange={handleChange('username')}
               value={username}></input>
             <input
+              className='login__form-input'
               type='password'
               aria-required='true'
               required
@@ -110,14 +122,18 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
               placeholder='Password'
               onChange={handleChange('password')}
               value={password}></input>
-            <button type='submit'>Sign up</button>
+            <button className='instagram-button login__button' type='submit'>
+              Sign up
+            </button>
           </form>
         </div>
 
-        <div className='login__signup'>
+        <div className={isSmall ? 'login__signup small' : 'login__signup'}>
           <span>Have an account?</span>
           <span>
-            <Link to='/login'>Log In</Link>
+            <Link className='login__signup-link' to='/login'>
+              Log In
+            </Link>
           </span>
         </div>
       </div>

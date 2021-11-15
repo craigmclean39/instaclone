@@ -9,6 +9,7 @@ import '../../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import LoginLogo from '../../media/instagram-header1.png';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 export interface LogInProps {
   dispatch(o: AppContextActionType): void;
@@ -22,6 +23,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
     dispatch({ type: 'changePage', payload: Page.LogInPage });
   }, [dispatch]);
 
+  const isSmall = useMediaQuery('(max-width: 438px)');
   const { auth } = useContext(AppContext) as AppContextType;
   const navigate = useNavigate();
 
@@ -63,7 +65,10 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
   return (
     <div className='login-wrapper'>
       <div className='login-container'>
-        <div className='login__form-container'>
+        <div
+          className={
+            isSmall ? 'login__form-container small' : 'login__form-container'
+          }>
           <img className='login__logo' src={LoginLogo} alt=''></img>
           <form className='login__form' onSubmit={handleSubmit}>
             <input
@@ -88,7 +93,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
           </form>
         </div>
 
-        <div className='login__signup'>
+        <div className={isSmall ? 'login__signup small' : 'login__signup'}>
           <span>{"Don't have an account? "}</span>
           <span>
             <Link to='/signup' className='login__signup-link'>
