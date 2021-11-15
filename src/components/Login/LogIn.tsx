@@ -8,22 +8,11 @@ import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import '../../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import LoginLogo from '../../media/instagram-header1.png';
 
 export interface LogInProps {
   dispatch(o: AppContextActionType): void;
 }
-
-/* const auth = getAuth();
-signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  }); */
 
 const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
   const [email, setEmail] = useState('');
@@ -62,7 +51,6 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
           email,
           password
         );
-        console.log(userCred);
 
         dispatch({ type: 'signIn', payload: true });
         navigate('/', { replace: true });
@@ -76,8 +64,10 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
     <div className='login-wrapper'>
       <div className='login-container'>
         <div className='login__form-container'>
+          <img className='login__logo' src={LoginLogo} alt=''></img>
           <form className='login__form' onSubmit={handleSubmit}>
             <input
+              className='login__form-input'
               type='text'
               aria-required='true'
               required
@@ -85,20 +75,25 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
               onChange={handleChange('email')}
               value={email}></input>
             <input
+              className='login__form-input'
               type='password'
               aria-required='true'
               required
               placeholder='Password'
               onChange={handleChange('password')}
               value={password}></input>
-            <button type='submit'>Log In</button>
+            <button className='instagram-button login__button' type='submit'>
+              Log In
+            </button>
           </form>
         </div>
 
         <div className='login__signup'>
-          <span>Don't have an account?</span>
+          <span>{"Don't have an account? "}</span>
           <span>
-            <Link to='/signup'>Sign up</Link>
+            <Link to='/signup' className='login__signup-link'>
+              Sign up
+            </Link>
           </span>
         </div>
       </div>

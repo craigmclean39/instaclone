@@ -15,7 +15,6 @@ import {
   where,
   Firestore,
 } from '@firebase/firestore';
-import { async } from '@firebase/util';
 import { PostType } from '../types/userInfoType';
 
 export interface ProfileProps {
@@ -33,23 +32,25 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
 
   useEffect(() => {
     async function fetchPosts() {
-      const ref = collection(db as Firestore, 'posts');
-      const q = query(ref, where('uid', '==', userInfo?.userId));
-      const querySnapshot = await getDocs(q);
-      console.log(querySnapshot.docs);
+      if (db != null && userInfo != null) {
+        const ref = collection(db as Firestore, 'posts');
+        const q = query(ref, where('uid', '==', userInfo.userId));
+        const querySnapshot = await getDocs(q);
+        console.log(querySnapshot.docs);
 
-      const userPosts: PostType[] = [];
-      querySnapshot.forEach((doc) => {
-        userPosts.push(doc.data() as PostType);
-      });
+        const userPosts: PostType[] = [];
+        querySnapshot.forEach((doc) => {
+          userPosts.push(doc.data() as PostType);
+        });
 
-      setPosts(userPosts);
+        setPosts(userPosts);
 
-      console.log(userPosts);
+        console.log(userPosts);
+      }
     }
 
     fetchPosts();
-  }, [userInfo]);
+  }, [userInfo, db]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 
