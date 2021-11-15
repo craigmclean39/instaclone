@@ -42,6 +42,27 @@
   font-weight: 600;
 }
 
+.crop,
+.share {
+  justify-content: space-between;
+}
+
+.modal__header-button {
+  border: none;
+  outline: none;
+  color: rgb(0, 149, 246);
+  background-color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.modal__header-svg-button {
+  padding: 16px;
+  cursor: pointer;
+}
+
 .modal__content {
   display: flex;
   flex-direction: column;
@@ -75,9 +96,14 @@
   font-weight: 600;
 }
 
-.select-from-computer-button:hover {
-}
-
 #select-from-computer {
   display: none;
+}
+
+.crop-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
