@@ -13,6 +13,7 @@ import { Firestore } from '@firebase/firestore';
 import {
   getStorage,
   ref,
+  uploadString,
   uploadBytes,
   getDownloadURL,
 } from '@firebase/storage';
@@ -50,15 +51,18 @@ function App(): JSX.Element {
   };
 
   const cancelAddPost = (): void => {
+    console.log('Close Add Post Modal');
     setShowAddPostModal(false);
   };
 
-  const uploadPost = async (file: File): Promise<void> => {
+  const uploadPost = async (file: string): Promise<void> => {
     const storage = getStorage();
     const fid = uniqid();
     const fileRef = ref(storage, fid);
 
-    const p = await uploadBytes(fileRef, file);
+    console.log(file);
+
+    await uploadString(fileRef, file, 'data_url');
     const downloadUrl = await getDownloadURL(fileRef);
     addPostToPostCollection(
       db as Firestore,
@@ -122,5 +126,4 @@ function App(): JSX.Element {
     return <></>;
   }
 }
-
 export default App;

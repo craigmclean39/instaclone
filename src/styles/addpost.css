@@ -26,9 +26,10 @@
   cursor: pointer;
 }
 
+/*If these width/heights are changed update Crop.tsx*/
 .add-post__modal {
   width: clamp(348px, 70vw, 855px);
-  height: clamp(391px, 70vw, 898px);
+  height: calc(clamp(348px, 70vw, 855px) + 42px);
   border-radius: 11px;
   background-color: white;
 }
@@ -100,10 +101,6 @@
   display: none;
 }
 
-.crop-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.crop-relative {
+  position: relative;
 }
