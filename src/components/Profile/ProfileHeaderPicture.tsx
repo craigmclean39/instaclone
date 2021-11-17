@@ -1,7 +1,7 @@
 import '../../styles/profile.css';
 import { useContext, useState, useEffect } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
-import ProfilePhotoFallback from '../../media/profilepic-fallback.jpg';
+import Avatar, { AvatarSize } from '../Avatar';
 
 interface ProfileHeaderPictureProps {
   isSmall: boolean;
@@ -20,41 +20,17 @@ const ProfileHeaderPicture: React.FC<ProfileHeaderPictureProps> = ({
   }, [userInfo]);
 
   return (
-    <div className='profile-header__profile-pic-container'>
-      {userProfilePicLoaded ? (
-        <img
-          className={
-            !isSmall
-              ? 'profile-header__profile-pic'
-              : 'profile-header__profile-pic--small'
-          }
-          src={`${
-            userInfo?.userProfilePic == '' || userInfo == null
-              ? ProfilePhotoFallback
-              : userInfo?.userProfilePic
-          }`}
-          alt='Change Profile Pic'></img>
-      ) : (
-        <div
-          className={
-            !isSmall
-              ? 'profile-header__no-profile-pic'
-              : 'profile-header__no-profile-pic--small'
-          }>
-          <img
-            className={
-              !isSmall
-                ? 'profile-header__profile-pic'
-                : 'profile-header__profile-pic--small'
-            }
-            alt='profile pic'
-            src={`${
-              userInfo?.userProfilePic == '' || userInfo == null
-                ? ProfilePhotoFallback
-                : userInfo?.userProfilePic
-            }`}></img>
-        </div>
-      )}
+    <div
+      className={
+        isSmall
+          ? 'profile-header__profile-pic-container--small'
+          : 'profile-header__profile-pic-container'
+      }>
+      <Avatar
+        size={isSmall ? AvatarSize.Medium : AvatarSize.Large}
+        alt='Change profile picture'
+        profilePicSrc={userInfo?.userProfilePic ?? ''}
+      />
     </div>
   );
 };

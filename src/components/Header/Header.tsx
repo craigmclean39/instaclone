@@ -13,6 +13,7 @@ import { useContext } from 'react';
 import { Page } from '../../Context/AppContext';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import Avatar, { AvatarSize } from '../Avatar';
 
 export interface HeaderProps {
   addPost(): void;
@@ -71,25 +72,19 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
               <Link to='profile'>
                 {currentPage === Page.ProfilePage ? (
                   <div className='profile-pic__circle'>
-                    <img
-                      className='profile-pic__image'
-                      alt='profile pic'
-                      src={`${
-                        userInfo?.userProfilePic == '' || userInfo == null
-                          ? ProfilePhotoFallback
-                          : userInfo?.userProfilePic
-                      }`}></img>
+                    <Avatar
+                      size={AvatarSize.Small}
+                      alt='Profile pic'
+                      profilePicSrc={userInfo?.userProfilePic ?? ''}
+                    />
                   </div>
                 ) : (
                   <div className='profile-pic__no-circle'>
-                    <img
-                      className='profile-pic__image'
-                      alt='profile pic'
-                      src={`${
-                        userInfo?.userProfilePic == '' || userInfo == null
-                          ? ProfilePhotoFallback
-                          : userInfo?.userProfilePic
-                      }`}></img>
+                    <Avatar
+                      size={AvatarSize.Small}
+                      alt='Profile pic'
+                      profilePicSrc={userInfo?.userProfilePic ?? ''}
+                    />
                   </div>
                 )}
               </Link>
