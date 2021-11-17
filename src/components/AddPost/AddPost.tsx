@@ -189,7 +189,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
     <div
       role='presentation'
       className='add-post-wrapper'
-      onClick={() => {
+      onMouseDown={(e) => {
         cancelAddPost();
       }}>
       <div className='add-post-wrapper__top-flex'>
@@ -204,7 +204,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
               : 'add-post__modal large'
           }
           role='dialog'
-          onClick={(e) => handleClick(e)}>
+          onMouseDown={(e) => handleClick(e)}>
           {header}
           {content}
         </form>
