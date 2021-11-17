@@ -5,6 +5,7 @@ import { ReactComponent as BackIcon } from '../../media/back.svg';
 import { SyntheticEvent, useEffect, useState, useCallback } from 'react';
 import Crop from './Crop';
 import getCroppedImg from './GetCroppedImage';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 export interface AddPostProps {
   cancelAddPost(): void;
@@ -25,6 +26,8 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
   const [coverMode, setCoverMode] = useState('contain');
   const [croppedArea, setCroppedArea] = useState();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState();
+
+  const isSmall = useMediaQuery('(max-width: 698px)');
 
   useEffect(() => {
     switch (postStage) {
@@ -107,22 +110,39 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
             </button>
           </header>
         );
-        setContent(
-          <div
-            className='modal__content-flex'
-            style={{ height: 'calc(clamp(695px, 100vw, 1195px) - 340px)' }}>
-            <Crop
-              image={imageSrc}
-              coverMode={coverMode}
-              onCropComplete={onCropComplete}
-              size={'calc(clamp(695px, 100vw, 1195px) - 340px)'}
-            />
-            <div className='modal__content-share'>Test</div>
-          </div>
-        );
+
+        if (!isSmall) {
+          setContent(
+            <div
+              className='modal__content-flex'
+              style={{ height: 'calc(clamp(695px, 100vw, 1195px) - 340px)' }}>
+              <Crop
+                image={imageSrc}
+                coverMode={coverMode}
+                onCropComplete={onCropComplete}
+                size={'calc(clamp(695px, 100vw, 1195px) - 340px)'}
+              />
+              <div className='modal__content-share'>Test</div>
+            </div>
+          );
+        } else {
+          setContent(
+            <div
+              className='modal__content-flex'
+              style={{ height: 'clamp(348px, 70vw, 855px)' }}>
+              <Crop
+                image={imageSrc}
+                coverMode={coverMode}
+                onCropComplete={onCropComplete}
+                size={'clamp(348px, 70vw, 855px)'}
+              />
+              <div className='modal__content-share-small'>Test</div>
+            </div>
+          );
+        }
       }
     }
-  }, [postStage]);
+  }, [postStage, isSmall]);
 
   const uploadCroppedImage = async () => {
     const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
@@ -201,7 +221,9 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
           className={
             postStage != PostStage.ShareImage
               ? 'add-post__modal'
-              : 'add-post__modal large'
+              : !isSmall
+              ? 'add-post__modal large'
+              : 'add-post__modal'
           }
           role='dialog'
           onMouseDown={(e) => handleClick(e)}>

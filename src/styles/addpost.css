@@ -121,3 +121,12 @@
   border: solid 1px red;
   width: 340px;
 }
+
+.modal__content-share-small {
+  position: relative;
+  top: 100%;
+  background-color: white;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  padding-bottom: 8px;
+}
