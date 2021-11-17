@@ -35,7 +35,9 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
           </header>
         );
         setContent(
-          <div className='modal__content'>
+          <div
+            className='modal__content'
+            style={{ height: 'clamp(348px, 70vw, 855px)' }}>
             <div className='modal__content-inner'>
               <DragAndDropIcon />
               <h2>Drag photos here</h2>
@@ -58,7 +60,10 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
       case PostStage.CropImage: {
         setHeader(
           <header className='modal__header crop'>
-            <BackIcon className='modal__header-svg-button' />
+            <BackIcon
+              className='modal__header-svg-button'
+              onClick={handleBack}
+            />
             <h1>Crop</h1>
             <button
               className='modal__header-button'
@@ -72,18 +77,24 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
         );
 
         setContent(
-          <Crop
-            image={imageSrc}
-            coverMode={coverMode}
-            onCropComplete={onCropComplete}
-          />
+          <div style={{ height: 'clamp(348px, 70vw, 855px)' }}>
+            <Crop
+              image={imageSrc}
+              coverMode={coverMode}
+              onCropComplete={onCropComplete}
+              size={'clamp(348px, 70vw, 855px)'}
+            />
+          </div>
         );
         break;
       }
       case PostStage.ShareImage: {
         setHeader(
-          <header className='modal__header crop'>
-            <BackIcon className='modal__header-svg-button' />
+          <header className='modal__header share'>
+            <BackIcon
+              className='modal__header-svg-button'
+              onClick={handleBack}
+            />
             <h1>Create new post</h1>
             <button
               className='modal__header-button'
@@ -95,6 +106,19 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
               Share
             </button>
           </header>
+        );
+        setContent(
+          <div
+            className='modal__content-flex'
+            style={{ height: 'calc(clamp(695px, 100vw, 1195px) - 340px)' }}>
+            <Crop
+              image={imageSrc}
+              coverMode={coverMode}
+              onCropComplete={onCropComplete}
+              size={'calc(clamp(695px, 100vw, 1195px) - 340px)'}
+            />
+            <div className='modal__content-share'>Test</div>
+          </div>
         );
       }
     }
@@ -143,6 +167,19 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
     e.stopPropagation();
   };
 
+  const handleBack = () => {
+    switch (postStage) {
+      case PostStage.ShareImage: {
+        setPostStage(PostStage.CropImage);
+        break;
+      }
+      case PostStage.CropImage: {
+        setPostStage(PostStage.SelectFile);
+        break;
+      }
+    }
+  };
+
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedArea(croppedArea);
     setCroppedAreaPixels(croppedAreaPixels);
@@ -161,7 +198,11 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
       </div>
       <div className='add-post-wrapper__bottom-flex'>
         <form
-          className='add-post__modal'
+          className={
+            postStage != PostStage.ShareImage
+              ? 'add-post__modal'
+              : 'add-post__modal large'
+          }
           role='dialog'
           onClick={(e) => handleClick(e)}>
           {header}
