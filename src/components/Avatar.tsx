@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ProfilePhotoFallback from '../media/profilepic-fallback.jpg';
 import '../styles/avatar.css';
 export enum AvatarSize {
