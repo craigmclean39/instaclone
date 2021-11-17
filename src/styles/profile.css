@@ -57,6 +57,9 @@
   width: 150px;
   height: 150px;
   border-radius: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-header__no-profile-pic,

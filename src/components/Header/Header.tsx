@@ -75,9 +75,9 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
                       className='profile-pic__image'
                       alt='profile pic'
                       src={`${
-                        userInfo?.userProfilePic !== ''
-                          ? userInfo?.userProfilePic
-                          : ProfilePhotoFallback
+                        userInfo?.userProfilePic == '' || userInfo == null
+                          ? ProfilePhotoFallback
+                          : userInfo?.userProfilePic
                       }`}></img>
                   </div>
                 ) : (
@@ -86,9 +86,9 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
                       className='profile-pic__image'
                       alt='profile pic'
                       src={`${
-                        userInfo?.userProfilePic !== ''
-                          ? userInfo?.userProfilePic
-                          : ProfilePhotoFallback
+                        userInfo?.userProfilePic == '' || userInfo == null
+                          ? ProfilePhotoFallback
+                          : userInfo?.userProfilePic
                       }`}></img>
                   </div>
                 )}
