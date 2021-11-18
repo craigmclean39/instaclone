@@ -16,6 +16,7 @@ import {
   Firestore,
 } from '@firebase/firestore';
 import { PostType } from '../types/userInfoType';
+import ProfilePosts from '../components/Profile/ProfilePosts';
 
 export interface ProfileProps {
   dispatch(o: AppContextActionType): void;
@@ -54,24 +55,14 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 
-  const pi = posts.map((post) => {
-    return (
-      <img
-        className='profile__post'
-        src={post.imgUrl}
-        alt=''
-        key={post.id}></img>
-    );
-  });
-
   return (
     <div className='profile-container'>
       <div className='profile-wrapper'>
         <div className={isSmall ? 'profile--small' : 'profile'}>
           <ProfileHeader numPosts={posts.length} />
           {isSmall ? null : <div className='profile__decorative-line'></div>}
+          <ProfilePosts posts={posts} isSmall={isSmall} />
         </div>
-        {pi}
       </div>
     </div>
   );

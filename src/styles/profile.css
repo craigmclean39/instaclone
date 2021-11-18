@@ -153,9 +153,29 @@
   border-top: solid 1px var(--border-color);
   height: 1px;
   width: 100%;
+  margin-bottom: 44px;
 }
 
 .profile__post {
-  width: 300px;
-  height: 300px;
+  max-width: 293px;
+  max-height: 293px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.profile-posts-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+.profile-posts-row {
+  display: flex;
+  width: 100%;
+  gap: 28px;
+}
+
+.small-gap {
+  gap: 3px;
 }
