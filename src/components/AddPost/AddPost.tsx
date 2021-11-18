@@ -10,7 +10,7 @@ import AddCaption from './AddCaption';
 
 export interface AddPostProps {
   cancelAddPost(): void;
-  uploadPost(file: string): void;
+  uploadPost(file: string, description: string): void;
 }
 
 enum PostStage {
@@ -27,6 +27,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
   const [coverMode, setCoverMode] = useState('contain');
   const [croppedArea, setCroppedArea] = useState();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState();
+  const [postDescription, setPostDescription] = useState('');
 
   const isSmall = useMediaQuery('(max-width: 698px)');
 
@@ -104,7 +105,6 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
               className='modal__header-button'
               onClick={(e) => {
                 e.preventDefault();
-                console.log('SHARE');
                 uploadCroppedImage();
               }}>
               Share
@@ -124,7 +124,10 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
                 size={'calc(clamp(695px, 100vw, 1195px) - 340px)'}
               />
               <div className='modal__content-share'>
-                <AddCaption />
+                <AddCaption
+                  descriptionValue={postDescription}
+                  handleChange={handleDescriptionChange}
+                />
               </div>
             </div>
           );
@@ -140,19 +143,21 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
                 size={'clamp(348px, 70vw, 855px)'}
               />
               <div className='modal__content-share-small'>
-                <AddCaption />
+                <AddCaption
+                  descriptionValue={postDescription}
+                  handleChange={handleDescriptionChange}
+                />
               </div>
             </div>
           );
         }
       }
     }
-  }, [postStage, isSmall]);
+  }, [postStage, isSmall, postDescription]);
 
   const uploadCroppedImage = async () => {
     const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
-    console.log(croppedImage);
-    uploadPost(croppedImage);
+    uploadPost(croppedImage, postDescription);
     cancelAddPost();
   };
 
@@ -166,9 +171,6 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
         //load the image so we can get width and height and adjust the coverMode of the cropper appropriately
         const img = new Image();
         img.onload = function () {
-          console.log(img.width);
-          console.log(img.height);
-
           if (img.width > img.height) {
             setCoverMode('vertical-cover');
           } else if (img.width < img.height) {
@@ -209,6 +211,11 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
     setCroppedArea(croppedArea);
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
+
+  const handleDescriptionChange = (e: SyntheticEvent) => {
+    const target = e.target as HTMLTextAreaElement;
+    setPostDescription(target.value);
+  };
 
   return (
     <div

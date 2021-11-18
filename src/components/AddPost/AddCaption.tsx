@@ -1,7 +1,16 @@
-import { useContext } from 'react';
+import { SyntheticEvent, useContext } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
 import Avatar, { AvatarSize } from '../Avatar';
-const AddCaption = () => {
+
+interface AddCaptionProps {
+  handleChange(e: SyntheticEvent): void;
+  descriptionValue: string;
+}
+
+const AddCaption: React.FC<AddCaptionProps> = ({
+  handleChange,
+  descriptionValue,
+}) => {
   const { userInfo } = useContext(AppContext) as AppContextType;
 
   return (
@@ -19,7 +28,9 @@ const AddCaption = () => {
       <textarea
         className='caption__input'
         placeholder='Write a caption...'
-        maxLength={500}></textarea>
+        maxLength={500}
+        value={descriptionValue}
+        onChange={handleChange}></textarea>
     </>
   );
 };

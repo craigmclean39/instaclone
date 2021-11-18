@@ -46,28 +46,32 @@ function App(): JSX.Element {
 
   const [showAddPostModal, setShowAddPostModal] = useState(false);
   const addPost = (): void => {
-    console.log('add post');
+    // console.log('add post');
     setShowAddPostModal(true);
   };
 
   const cancelAddPost = (): void => {
-    console.log('Close Add Post Modal');
+    // console.log('Close Add Post Modal');
     setShowAddPostModal(false);
   };
 
-  const uploadPost = async (file: string): Promise<void> => {
+  const uploadPost = async (
+    file: string,
+    description: string
+  ): Promise<void> => {
     const storage = getStorage();
     const fid = uniqid();
     const fileRef = ref(storage, fid);
 
-    console.log(file);
+    // console.log(file);
 
     await uploadString(fileRef, file, 'data_url');
     const downloadUrl = await getDownloadURL(fileRef);
     addPostToPostCollection(
       db as Firestore,
       appContext.userInfo?.userId as string,
-      downloadUrl
+      downloadUrl,
+      description
     );
   };
 

@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 import { AppContextActionType } from '../Context/AppContext';
 import { Dispatch } from 'react';
-import UserInfoType from '../types/userInfoType';
+import UserInfoType, { CommentType } from '../types/userInfoType';
 import { PostType } from '../types/userInfoType';
 import uniqid from 'uniqid';
 
@@ -37,7 +37,7 @@ export const getUserInfoFromDb = async (
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log('Document data:', docSnap.data());
+    // console.log('Document data:', docSnap.data());
     const userData = docSnap.data();
     const userInfo = userData as UserInfoType;
     dispatch({ type: 'updateUserInfo', payload: userInfo });
@@ -47,12 +47,21 @@ export const getUserInfoFromDb = async (
 export const addPostToPostCollection = async (
   db: Firestore,
   uid: string,
-  imgUrl: string
+  imgUrl: string,
+  description: string
 ) => {
   const post: PostType = {
     id: uniqid(),
     uid: uid,
-    comments: [],
+    comments:
+      description != ''
+        ? [
+            {
+              content: description,
+              uid: uid,
+            },
+          ]
+        : [],
     likes: [],
     imgUrl: imgUrl,
     timestamp: serverTimestamp(),
