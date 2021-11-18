@@ -14,7 +14,7 @@ const AddCaption: React.FC<AddCaptionProps> = ({
   const { userInfo } = useContext(AppContext) as AppContextType;
 
   return (
-    <>
+    <div className='add-caption'>
       <div className='caption-header'>
         <div className='avatar-wrapper'>
           <Avatar
@@ -31,7 +31,7 @@ const AddCaption: React.FC<AddCaptionProps> = ({
         maxLength={500}
         value={descriptionValue}
         onChange={handleChange}></textarea>
-    </>
+    </div>
   );
 };
 

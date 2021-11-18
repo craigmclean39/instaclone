@@ -156,3 +156,20 @@
   resize: none;
   border-bottom: 1px solid var(--border-color);
 }
+
+.add-caption {
+  opacity: 0;
+  animation: fadeInAnimation ease 0.15s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.25s;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
