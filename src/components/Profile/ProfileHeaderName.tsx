@@ -18,7 +18,9 @@ const ProfileHeaderName: React.FC<ProfileHeaderNameProps> = ({
     <>
       <div className='profile-header__name-container'>
         <h2 className='profile-header__name'>{nickname ? nickname : ''}</h2>
-        <button onClick={handleClick}>Sign Out</button>
+        <button className='instagram-button' onClick={handleClick}>
+          Sign Out
+        </button>
       </div>
     </>
   );

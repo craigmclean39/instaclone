@@ -5,16 +5,22 @@ const AddCaption = () => {
   const { userInfo } = useContext(AppContext) as AppContextType;
 
   return (
-    <div className='caption-header'>
-      <div className='avatar-wrapper'>
-        <Avatar
-          size={AvatarSize.Small}
-          profilePicSrc={userInfo?.userProfilePic ?? ''}
-          alt={`${userInfo?.userNickname}'s profile pic'`}
-        />
+    <>
+      <div className='caption-header'>
+        <div className='avatar-wrapper'>
+          <Avatar
+            size={AvatarSize.Small}
+            profilePicSrc={userInfo?.userProfilePic ?? ''}
+            alt={`${userInfo?.userNickname}'s profile pic'`}
+          />
+        </div>
+        <div className='caption-header__username'>{`${userInfo?.userNickname}`}</div>
       </div>
-      <div className='caption-header__username'>{`${userInfo?.userNickname}`}</div>
-    </div>
+      <textarea
+        className='caption__input'
+        placeholder='Write a caption...'
+        maxLength={500}></textarea>
+    </>
   );
 };
 
