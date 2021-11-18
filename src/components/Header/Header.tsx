@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
                 {currentPage === Page.ProfilePage ? (
                   <div className='profile-pic__circle'>
                     <Avatar
-                      size={AvatarSize.Small}
+                      size={AvatarSize.ExtraSmall}
                       alt='Profile pic'
                       profilePicSrc={userInfo?.userProfilePic ?? ''}
                     />
@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
                 ) : (
                   <div className='profile-pic__no-circle'>
                     <Avatar
-                      size={AvatarSize.Small}
+                      size={AvatarSize.ExtraSmall}
                       alt='Profile pic'
                       profilePicSrc={userInfo?.userProfilePic ?? ''}
                     />

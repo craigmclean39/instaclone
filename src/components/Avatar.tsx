@@ -1,6 +1,7 @@
 import ProfilePhotoFallback from '../media/profilepic-fallback.jpg';
 import '../styles/avatar.css';
 export enum AvatarSize {
+  ExtraSmall = 'extra-small',
   Small = 'small',
   Medium = 'medium',
   Large = 'large',

@@ -1,17 +1,23 @@
-.avatar--small {
+.avatar--extra-small {
   height: 22px;
   width: 22px;
   border-radius: 11px;
 }
 
-.avatar--large {
-  width: 150px;
-  height: 150px;
-  border-radius: 75px;
+.avatar--small {
+  height: 28px;
+  width: 28px;
+  border-radius: 14px;
 }
 
 .avatar--medium {
   width: 77px;
   height: 77px;
   border-radius: 38.5px;
+}
+
+.avatar--large {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
 }

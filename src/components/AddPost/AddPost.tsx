@@ -6,6 +6,7 @@ import { SyntheticEvent, useEffect, useState, useCallback } from 'react';
 import Crop from './Crop';
 import getCroppedImg from './GetCroppedImage';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import AddCaption from './AddCaption';
 
 export interface AddPostProps {
   cancelAddPost(): void;
@@ -122,7 +123,9 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
                 onCropComplete={onCropComplete}
                 size={'calc(clamp(695px, 100vw, 1195px) - 340px)'}
               />
-              <div className='modal__content-share'>Test</div>
+              <div className='modal__content-share'>
+                <AddCaption />
+              </div>
             </div>
           );
         } else {
@@ -136,7 +139,9 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
                 onCropComplete={onCropComplete}
                 size={'clamp(348px, 70vw, 855px)'}
               />
-              <div className='modal__content-share-small'>Test</div>
+              <div className='modal__content-share-small'>
+                <AddCaption />
+              </div>
             </div>
           );
         }

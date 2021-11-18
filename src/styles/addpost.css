@@ -130,3 +130,17 @@
   border-bottom-right-radius: 11px;
   padding-bottom: 8px;
 }
+
+.caption-header {
+  padding: 18px 16px 14px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.avatar-wrapper {
+  padding-right: 12px;
+}
+
+.caption-header__username {
+  font-weight: 600;
+}
