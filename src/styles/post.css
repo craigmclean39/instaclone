@@ -19,9 +19,9 @@
 .post-header {
   width: clamp(100px, 100vw, 614px);
   height: 64px;
-  border-top: solid 1px rgb(239, 239, 239);
-  border-left: solid 1px rgb(239, 239, 239);
-  border-right: solid 1px rgb(239, 239, 239);
+  border-top: solid 1px var(--post-border-color);
+  border-left: solid 1px var(--post-border-color);
+  border-right: solid 1px var(--post-border-color);
   background-color: white;
 }
 

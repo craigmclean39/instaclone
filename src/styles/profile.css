@@ -69,7 +69,7 @@
 
 .profile-header__no-profile-pic,
 .profile-header__no-profile-pic--small {
-  border: solid 1px #383838;
+  border: solid 1px var(--avatar-border-color);
 }
 
 .profile-header__profile-pic--small,
@@ -100,8 +100,8 @@
   justify-content: space-around;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-top: solid 1px rgb(219, 219, 219);
-  border-bottom: solid 1px rgb(219, 219, 219);
+  border-top: solid 1px var(--border-color);
+  border-bottom: solid 1px var(--border-color);
   margin-top: 20px;
 }
 
@@ -150,7 +150,7 @@
 }
 
 .profile__decorative-line {
-  border-top: solid 1px rgb(219, 219, 219);
+  border-top: solid 1px var(--border-color);
   height: 1px;
   width: 100%;
 }
