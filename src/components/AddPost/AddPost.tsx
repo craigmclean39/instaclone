@@ -28,6 +28,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
   const [croppedArea, setCroppedArea] = useState();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState();
   const [postDescription, setPostDescription] = useState('');
+  const [dragIconClassName, setDragIconClassName] = useState('');
 
   const isSmall = useMediaQuery('(max-width: 698px)');
 
@@ -42,8 +43,10 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
         setContent(
           <div
             className='modal__content'
-            style={{ height: 'clamp(348px, 70vw, 855px)' }}>
-            <div className='modal__content-inner'>
+            style={{ height: 'clamp(348px, 70vw, 855px)' }}
+            onDrop={dropHandler}
+            onDragOver={dragOverHandler}>
+            <div className={`modal__content-inner ${dragIconClassName}`}>
               <DragAndDropIcon />
               <h2>Drag photos here</h2>
 
@@ -153,7 +156,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
         }
       }
     }
-  }, [postStage, isSmall, postDescription]);
+  }, [postStage, isSmall, postDescription, dragIconClassName]);
 
   const uploadCroppedImage = async () => {
     const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
@@ -161,32 +164,38 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
     cancelAddPost();
   };
 
+  const readFile = (file: File) => {
+    console.log('Read File');
+    console.log(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      //load the image so we can get width and height and adjust the coverMode of the cropper appropriately
+      const img = new Image();
+      img.onload = function () {
+        if (img.width > img.height) {
+          setCoverMode('vertical-cover');
+        } else if (img.width < img.height) {
+          setCoverMode('horizontal-cover');
+        } else {
+          setCoverMode('contain');
+        }
+
+        setImageSrc(ev.target?.result as string);
+        setPostStage(PostStage.CropImage);
+      };
+      img.src = ev.target?.result as string;
+    };
+
+    //Read the file and wait for it to trigger the onload callback
+    reader.readAsDataURL(file);
+  };
+
   const handleChange = async (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
 
     if (target.files && target.files.length > 0) {
       const file = target.files[0];
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        //load the image so we can get width and height and adjust the coverMode of the cropper appropriately
-        const img = new Image();
-        img.onload = function () {
-          if (img.width > img.height) {
-            setCoverMode('vertical-cover');
-          } else if (img.width < img.height) {
-            setCoverMode('horizontal-cover');
-          } else {
-            setCoverMode('contain');
-          }
-
-          setImageSrc(ev.target?.result as string);
-          setPostStage(PostStage.CropImage);
-        };
-        img.src = ev.target?.result as string;
-      };
-
-      //Read the file and wait for it to trigger the onload callback
-      reader.readAsDataURL(file);
+      readFile(file);
     }
   };
 
@@ -215,6 +224,25 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
   const handleDescriptionChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLTextAreaElement;
     setPostDescription(target.value);
+  };
+
+  const dropHandler = (e: SyntheticEvent) => {
+    e.preventDefault();
+    setDragIconClassName('');
+    const ev = e as any;
+    if (ev.dataTransfer.items && ev.dataTransfer.length > 0) {
+      const file = ev.dataTransfer.items[0].getAsFile();
+      readFile(file);
+    } else {
+      if (ev.dataTransfer.files && ev.dataTransfer.files.length > 0) {
+        readFile(ev.dataTransfer.files[0]);
+      }
+    }
+  };
+
+  const dragOverHandler = (e: SyntheticEvent) => {
+    e.preventDefault();
+    setDragIconClassName('drag-icon--colored');
   };
 
   return (

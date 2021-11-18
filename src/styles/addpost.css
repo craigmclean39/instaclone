@@ -173,3 +173,7 @@
     opacity: 1;
   }
 }
+
+.drag-icon--colored svg {
+  fill: var(--button-color) !important;
+}
