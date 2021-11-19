@@ -4,6 +4,7 @@ import UserInfoType, { PostType } from '../../types/userInfoType';
 import { getUserInfo } from '../../utilities/FirestoreHelpers';
 import PostHeader from './PostHeader';
 import PostImage from './PostImage';
+import PostLikeBar from './PostLikeBar';
 
 interface PostProps {
   post: PostType;
@@ -32,6 +33,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         profilePicUrl={userInfo?.userProfilePic ?? ''}
       />
       <PostImage imgUrl={post.imgUrl} />
+      <PostLikeBar />
     </article>
   );
 };

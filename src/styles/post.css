@@ -43,3 +43,25 @@
   height: clamp(100px, 100vw, 614px);
   background-color: black;
 }
+
+.post__like-bar {
+  display: flex;
+  padding: 6px 16px 8px 16px;
+  background-color: var(--bg-color);
+  border-left: solid 1px var(--post-border-color);
+  border-right: solid 1px var(--post-border-color);
+}
+
+.post__like-bar > svg {
+  padding: 8px 8px 8px 8px;
+  fill: var(--icon-color);
+  cursor: pointer;
+}
+
+.post__like-bar > svg:hover {
+  fill: var(--icon-color-hover);
+}
+
+.post__like-bar > svg:first-child {
+  padding-left: 0px;
+}

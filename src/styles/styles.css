@@ -8,6 +8,7 @@
   --light-overlay-color: rgba(0, 0, 0, 0.5);
 
   --icon-color: #383838;
+  --icon-color-hover: rgb(142, 142, 142);
   --icon-color-light: white;
   --avatar-border-color: #383838;
   --input-placeholder-color: rgb(142, 142, 142);
