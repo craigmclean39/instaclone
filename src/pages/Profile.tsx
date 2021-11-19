@@ -17,6 +17,7 @@ import {
 } from '@firebase/firestore';
 import { PostType } from '../types/userInfoType';
 import ProfilePosts from '../components/Profile/ProfilePosts';
+import { getUsersPosts } from '../utilities/FirestoreHelpers';
 
 export interface ProfileProps {
   dispatch(o: AppContextActionType): void;
@@ -33,20 +34,13 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
 
   useEffect(() => {
     async function fetchPosts() {
-      if (db != null && userInfo != null) {
-        const ref = collection(db as Firestore, 'posts');
-        const q = query(ref, where('uid', '==', userInfo.userId));
-        const querySnapshot = await getDocs(q);
-        console.log(querySnapshot.docs);
-
-        const userPosts: PostType[] = [];
-        querySnapshot.forEach((doc) => {
-          userPosts.push(doc.data() as PostType);
-        });
+      if (userInfo != null && db != null) {
+        const userPosts = await getUsersPosts(
+          db as Firestore,
+          userInfo?.userId as string
+        );
 
         setPosts(userPosts);
-
-        console.log(userPosts);
       }
     }
 

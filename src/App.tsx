@@ -22,7 +22,7 @@ import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
 import { onAuthStateChanged } from '@firebase/auth';
 import {
-  getUserInfoFromDb,
+  getUsersInfoFromDb,
   addPostToPostCollection,
 } from './utilities/FirestoreHelpers';
 import AddPost from './components/AddPost/AddPost';
@@ -89,7 +89,7 @@ function App(): JSX.Element {
         } else {
           console.log('signing in');
 
-          getUserInfoFromDb(user.uid, db as Firestore, appContextDispatch);
+          getUsersInfoFromDb(user.uid, db as Firestore, appContextDispatch);
 
           appContextDispatch({ type: 'signIn', payload: true });
           navigate('/', { replace: true });

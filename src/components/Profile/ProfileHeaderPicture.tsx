@@ -27,7 +27,7 @@ const ProfileHeaderPicture: React.FC<ProfileHeaderPictureProps> = ({
           : 'profile-header__profile-pic-container'
       }>
       <Avatar
-        size={isSmall ? AvatarSize.Medium : AvatarSize.Large}
+        size={isSmall ? AvatarSize.Large : AvatarSize.ExtraLarge}
         alt='Change profile picture'
         profilePicSrc={userInfo?.userProfilePic ?? ''}
       />

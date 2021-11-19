@@ -11,12 +11,18 @@
 }
 
 .avatar--medium {
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+}
+
+.avatar--large {
   width: 77px;
   height: 77px;
   border-radius: 38.5px;
 }
 
-.avatar--large {
+.avatar--extra-large {
   width: 150px;
   height: 150px;
   border-radius: 75px;

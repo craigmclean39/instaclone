@@ -13,10 +13,11 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts, isSmall }) => {
 
   useEffect(() => {
     const groupSize = 3;
+    let rowKey = 0;
     const rows = posts
       .map(function (post) {
         // map content to html elements
-        return <ProfilePost post={post} />;
+        return <ProfilePost key={post.id} post={post} />;
       })
       .reduce(function (r: any, element, index) {
         // create element groups with size 3, result looks like:
@@ -27,8 +28,11 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts, isSmall }) => {
       }, [])
       .map(function (rowContent: any) {
         // surround every group with 'row'
+        rowKey = rowKey + 1;
         return (
-          <div className={`profile-posts-row ${isSmall ? 'small-gap' : ''}`}>
+          <div
+            className={`profile-posts-row ${isSmall ? 'small-gap' : ''}`}
+            key={rowKey}>
             {rowContent}
           </div>
         );
