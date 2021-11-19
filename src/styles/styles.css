@@ -4,10 +4,14 @@
   --border-color: rgb(219, 219, 219);
   --post-border-color: rgb(239, 239, 239);
   --button-color: rgb(0, 149, 246);
-  --modal-overlay-color: rgba(0, 0, 0, 0.75);
+  --dark-overlay-color: rgba(0, 0, 0, 0.75);
+  --light-overlay-color: rgba(0, 0, 0, 0.5);
+
   --icon-color: #383838;
+  --icon-color-light: white;
   --avatar-border-color: #383838;
   --input-placeholder-color: rgb(142, 142, 142);
+  --font-color-light: white;
 
   --font: Arial, Helvetica, sans-serif;
 }
@@ -24,7 +28,7 @@ body {
   box-sizing: border-box;
   border: none;
   background-color: var(--button-color);
-  color: white;
+  color: var(--font-color-light);
   padding: 5px 9px 5px 9px;
   border-radius: 4px;
   font-size: 14px;

@@ -1,6 +1,7 @@
 import { PostType } from '../../types/userInfoType';
 import '../../styles/profile.css';
 import { useEffect, useState } from 'react';
+import ProfilePost from './ProfilePost';
 
 interface ProfilePostsProps {
   posts: PostType[];
@@ -15,13 +16,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts, isSmall }) => {
     const rows = posts
       .map(function (post) {
         // map content to html elements
-        return (
-          <img
-            className='profile__post'
-            src={post.imgUrl}
-            alt=''
-            key={post.id}></img>
-        );
+        return <ProfilePost post={post} />;
       })
       .reduce(function (r: any, element, index) {
         // create element groups with size 3, result looks like:

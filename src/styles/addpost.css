@@ -4,7 +4,8 @@
   left: 0;
   min-width: 100vw;
   height: 100vh;
-  background-color: var(--modal-overlay-color);
+  background-color: var(--dark-overlay-color);
+  z-index: 99;
 }
 .add-post-wrapper__top-flex {
   width: 100%;
@@ -20,7 +21,7 @@
 }
 
 .close-icon {
-  fill: white;
+  fill: var(--icon-color-light);
   margin: 16px;
   cursor: pointer;
 }
@@ -32,6 +33,7 @@
   border-radius: 11px;
   background-color: var(--bg-color);
   transition: width 0.25s ease-out 0s;
+  z-index: 100;
 }
 
 .modal__header {
