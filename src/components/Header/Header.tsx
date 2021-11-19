@@ -12,7 +12,7 @@ import { useContext } from 'react';
 import { Page } from '../../Context/AppContext';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import Avatar, { AvatarSize } from '../Avatar';
+import Avatar, { AvatarSize } from '../Avatar/Avatar';
 
 export interface HeaderProps {
   addPost(): void;

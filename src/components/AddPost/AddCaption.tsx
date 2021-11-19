@@ -1,6 +1,6 @@
 import { SyntheticEvent, useContext } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
-import Avatar, { AvatarSize } from '../Avatar';
+import Avatar, { AvatarSize } from '../Avatar/Avatar';
 
 interface AddCaptionProps {
   handleChange(e: SyntheticEvent): void;

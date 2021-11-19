@@ -1,5 +1,5 @@
 import '../../styles/post.css';
-import Avatar, { AvatarSize } from '../Avatar';
+import Avatar, { AvatarSize } from '../Avatar/Avatar';
 
 interface PostHeaderProps {
   profilePicUrl: string;
