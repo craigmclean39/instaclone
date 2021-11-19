@@ -14,7 +14,9 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts, isSmall }) => {
   useEffect(() => {
     const groupSize = 3;
     let rowKey = 0;
-    const rows = posts
+    const revPosts = [...posts];
+    revPosts.reverse();
+    const rows = revPosts
       .map(function (post) {
         // map content to html elements
         return <ProfilePost key={post.id} post={post} />;
