@@ -5,11 +5,17 @@
   align-items: center;
 }
 
+.center-align {
+  align-items: center !important;
+}
+
 .post-container {
   width: clamp(200px, 100vw, 935px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-left: 28px;
+  padding-right: 28px;
 }
 
 .post {

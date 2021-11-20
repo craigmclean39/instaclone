@@ -9,6 +9,7 @@ import Post from '../components/Post/Post';
 import { getRecentPostsFromFollowing } from '../utilities/FirestoreHelpers';
 import { Firestore } from '@firebase/firestore';
 import { PostType } from '../types/userInfoType';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 export interface HomeProps {
   dispatch(o: AppContextActionType): void;
@@ -18,6 +19,8 @@ const Home: React.FC<HomeProps> = ({ dispatch }): JSX.Element => {
   const { userInfo, db } = useContext(AppContext) as AppContextType;
   const [posts, setPosts] = useState<PostType[]>([]);
   const [mappedPosts, setMappedPosts] = useState<JSX.Element[]>([]);
+
+  const movePostsToCenter = useMediaQuery('(max-width: 924px)');
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.HomePage });
@@ -48,7 +51,10 @@ const Home: React.FC<HomeProps> = ({ dispatch }): JSX.Element => {
 
   return (
     <div className='post-wrapper'>
-      <div className='post-container'>{mappedPosts}</div>
+      <div
+        className={`post-container ${movePostsToCenter ? 'center-align' : ''}`}>
+        {mappedPosts}
+      </div>
     </div>
   );
 };
