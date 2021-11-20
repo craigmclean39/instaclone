@@ -10,6 +10,9 @@ import {
   getDocs,
   orderBy,
   limit,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 import { AppContextActionType } from '../Context/AppContext';
 import { Dispatch } from 'react';
@@ -93,7 +96,7 @@ export const getUsersPosts = async (db: Firestore, uid: string) => {
   const ref = collection(db as Firestore, 'posts');
   const q = query(ref, where('uid', '==', uid));
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot.docs);
+  // console.log(querySnapshot.docs);
 
   const userPosts: PostType[] = [];
   querySnapshot.forEach((doc) => {
@@ -120,11 +123,51 @@ export const getRecentPostsFromFollowing = async (
   );
 
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot.docs);
+  // console.log(querySnapshot.docs);
   const posts: PostType[] = [];
   querySnapshot.forEach((doc) => {
     posts.push(doc.data() as PostType);
   });
 
   return posts;
+};
+
+export const toggleLikePost = async (
+  db: Firestore,
+  postId: string,
+  uid: string,
+  like: boolean
+) => {
+  const postRef = doc(db, 'posts', postId);
+
+  if (like) {
+    await updateDoc(postRef, {
+      likes: arrayUnion(uid),
+    });
+  } else {
+    await updateDoc(postRef, {
+      likes: arrayRemove(uid),
+    });
+  }
+};
+
+export const doILikePost = async (
+  db: Firestore,
+  postId: string,
+  uid: string
+) => {
+  const postRef = doc(db, 'posts', postId);
+
+  const docSnap = await getDoc(postRef);
+
+  if (docSnap.exists()) {
+    console.log('Document data:', docSnap.data());
+
+    const postData = docSnap.data() as PostType;
+    if (postData.likes.includes(uid)) {
+      return true;
+    }
+  }
+
+  return false;
 };

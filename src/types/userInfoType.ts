@@ -15,15 +15,11 @@ export interface CommentType {
   uid: string;
 }
 
-export interface Like {
-  uid: string;
-}
-
 export interface PostType {
   id: string;
   uid: string;
   imgUrl: string;
   comments: CommentType[];
-  likes: Like[];
+  likes: string[];
   timestamp: FieldValue;
 }

@@ -71,3 +71,7 @@
 .post__like-bar > svg:first-child {
   padding-left: 0px;
 }
+
+.post__like-bar--liked > svg:first-child {
+  fill: var(--like-color) !important;
+}
