@@ -23,7 +23,7 @@ export const AppContext = React.createContext<AppContextType | null>(null);
 
 export type AppContextActionType =
   | { type: 'changePage'; payload: Page }
-  | { type: 'updateUserInfo'; payload: UserInfoType }
+  | { type: 'updateUserInfo'; payload: UserInfoType | null }
   | { type: 'signIn'; payload: boolean }
   | { type: 'setDb'; payload: Firestore | null }
   | { type: 'setAuth'; payload: Auth | null };

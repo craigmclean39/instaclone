@@ -85,6 +85,7 @@ function App(): JSX.Element {
         if (!user) {
           console.log('Signing Out');
           appContextDispatch({ type: 'signIn', payload: false });
+          appContextDispatch({ type: 'updateUserInfo', payload: null });
           navigate('/login', { replace: true });
         } else {
           console.log('signing in');
