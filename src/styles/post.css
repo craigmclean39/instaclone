@@ -20,6 +20,7 @@
 
 .post {
   margin-bottom: 20px;
+  width: clamp(100px, 100vw, 614px);
 }
 
 .post-header {
@@ -77,6 +78,25 @@
   animation: like-animation 1s ease-in-out 0s 1;
 }
 
+.post__comments {
+  background-color: var(--bg-color);
+  border-left: solid 1px var(--post-border-color);
+  border-right: solid 1px var(--post-border-color);
+  border-bottom: solid 1px var(--post-border-color);
+  padding: 8px 16px 24px 16px;
+}
+
+.post__comment-user-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.post__comment-content {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Modified from https://codepen.io/TheCodeCrumbs/pen/OJVPOob */
 @keyframes like-animation {
   0% {
     transform: scale(0);

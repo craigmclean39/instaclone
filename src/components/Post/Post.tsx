@@ -9,6 +9,7 @@ import {
 import PostHeader from './PostHeader';
 import PostImage from './PostImage';
 import PostLikeBar from './PostLikeBar';
+import PostComments from './PostComments';
 
 interface PostProps {
   post: PostType;
@@ -58,6 +59,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
       />
       <PostImage imgUrl={post.imgUrl} />
       <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
+      <PostComments comments={post.comments} />
     </article>
   );
 };
