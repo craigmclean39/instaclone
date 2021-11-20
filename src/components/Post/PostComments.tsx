@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
 import { CommentType } from '../../types/userInfoType';
-import { getUserName } from '../../utilities/FirestoreHelpers';
+import { getUserNickname } from '../../utilities/FirestoreHelpers';
 
 interface PostCommentsProps {
   comments: CommentType[];
@@ -15,7 +15,7 @@ const PostComments: React.FC<PostCommentsProps> = ({ comments }) => {
     async function getName() {
       if (db != null) {
         if (db != null && comments.length > 0) {
-          const uName = await getUserName(db, comments[0].uid);
+          const uName = await getUserNickname(db, comments[0].uid);
           setFirstCommentName(uName ?? '');
         }
       }

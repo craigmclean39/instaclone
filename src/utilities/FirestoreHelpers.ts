@@ -172,7 +172,7 @@ export const doILikePost = async (
   return false;
 };
 
-export const getUserName = async (db: Firestore, uid: string) => {
+export const getUserNickname = async (db: Firestore, uid: string) => {
   const userInfo = await getUserInfo(uid, db);
-  return userInfo?.userName;
+  return userInfo?.userNickname;
 };
