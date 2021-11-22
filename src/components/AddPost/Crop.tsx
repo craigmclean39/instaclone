@@ -7,6 +7,7 @@ export interface CropProps {
   coverMode: string;
   onCropComplete(croppedArea: any, croppedAreaPixels: any): void;
   size: string;
+  locked: boolean;
 }
 
 const Crop: React.FC<CropProps> = ({
@@ -14,6 +15,7 @@ const Crop: React.FC<CropProps> = ({
   coverMode,
   onCropComplete,
   size,
+  locked,
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -25,10 +27,29 @@ const Crop: React.FC<CropProps> = ({
         crop={crop}
         zoom={zoom}
         aspect={1 / 1}
-        onCropChange={setCrop}
-        onCropComplete={onCropComplete}
-        onZoomChange={setZoom}
+        onCropChange={
+          locked
+            ? () => {
+                /**/
+              }
+            : setCrop
+        }
+        onCropComplete={
+          locked
+            ? () => {
+                /**/
+              }
+            : onCropComplete
+        }
+        onZoomChange={
+          locked
+            ? () => {
+                /**/
+              }
+            : setZoom
+        }
         objectFit={coverMode as any}
+        showGrid={locked ? false : true}
         style={{
           containerStyle: {
             width: size,

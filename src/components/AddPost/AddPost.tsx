@@ -91,6 +91,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
               coverMode={coverMode}
               onCropComplete={onCropComplete}
               size={'clamp(348px, 70vw, 855px)'}
+              locked={false}
             />
           </div>
         );
@@ -125,6 +126,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
                 coverMode={coverMode}
                 onCropComplete={onCropComplete}
                 size={'calc(clamp(695px, 100vw, 1195px) - 340px)'}
+                locked={true}
               />
               <div className='modal__content-share'>
                 <AddCaption
@@ -144,6 +146,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
                 coverMode={coverMode}
                 onCropComplete={onCropComplete}
                 size={'clamp(348px, 70vw, 855px)'}
+                locked={true}
               />
               <div className='modal__content-share-small'>
                 <AddCaption

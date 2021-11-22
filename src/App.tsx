@@ -116,6 +116,7 @@ function App(): JSX.Element {
     }
   }, [db, auth]);
 
+  // Check if a reloadUserInfo flag has been updated and reload info as required
   useEffect(() => {
     async function fetchUserInfo(uid: string) {
       const uInfo = await getUsersInfoFromDb(uid, db as Firestore);
