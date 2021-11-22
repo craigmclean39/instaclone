@@ -4,9 +4,16 @@ import Avatar, { AvatarSize } from '../Avatar/Avatar';
 interface PostHeaderProps {
   profilePicUrl: string;
   userName: string;
+  userFollowed: boolean;
+  followTheUser(follow: boolean): void;
 }
 
-const PostHeader: React.FC<PostHeaderProps> = ({ profilePicUrl, userName }) => {
+const PostHeader: React.FC<PostHeaderProps> = ({
+  profilePicUrl,
+  userName,
+  userFollowed,
+  followTheUser,
+}) => {
   return (
     <>
       <header className='post-header'>
@@ -17,6 +24,26 @@ const PostHeader: React.FC<PostHeaderProps> = ({ profilePicUrl, userName }) => {
             alt=''
           />
           <h3>{userName}</h3>
+          <div className='post__follow'>
+            <span>•</span>
+            {userFollowed ? (
+              <button
+                className='post__unfollow-button'
+                onClick={() => {
+                  followTheUser(false);
+                }}>
+                Unfollow
+              </button>
+            ) : (
+              <button
+                className='post__follow-button'
+                onClick={() => {
+                  followTheUser(true);
+                }}>
+                Follow
+              </button>
+            )}
+          </div>
         </div>
       </header>
     </>

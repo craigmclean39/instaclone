@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
               />
             </li>
 
-            {/* <li className='header__icon'>
+            <li className='header__icon'>
               <Link to='explore'>
                 {currentPage === Page.ExplorePage ? (
                   <ExploreIconFilled />
@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
                   <ExploreIcon />
                 )}
               </Link>
-            </li> */}
+            </li>
 
             {/* <li className='header__icon'>
               <FeedIcon />

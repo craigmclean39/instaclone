@@ -14,12 +14,10 @@ import {
   arrayUnion,
   arrayRemove,
 } from 'firebase/firestore';
-import { AppContextActionType } from '../Context/AppContext';
-import { Dispatch } from 'react';
-import UserInfoType, { CommentType } from '../types/userInfoType';
+
+import UserInfoType from '../types/userInfoType';
 import { PostType } from '../types/userInfoType';
 import uniqid from 'uniqid';
-import { async } from '@firebase/util';
 
 export const createNewUser = async (
   db: Firestore,
@@ -40,9 +38,8 @@ export const createNewUser = async (
 
 export const getUsersInfoFromDb = async (
   uid: string,
-  db: Firestore,
-  dispatch: Dispatch<AppContextActionType>
-): Promise<void> => {
+  db: Firestore
+): Promise<UserInfoType | null> => {
   const docRef = doc(db, 'users', uid);
   const docSnap = await getDoc(docRef);
 
@@ -50,8 +47,9 @@ export const getUsersInfoFromDb = async (
     // console.log('Document data:', docSnap.data());
     const userData = docSnap.data();
     const userInfo = userData as UserInfoType;
-    dispatch({ type: 'updateUserInfo', payload: userInfo });
+    return userInfo;
   }
+  return null;
 };
 
 export const getUserInfo = async (uid: string, db: Firestore) => {
@@ -132,6 +130,24 @@ export const getRecentPostsFromFollowing = async (
   return posts;
 };
 
+export const getRecentPostsFromAll = async (db: Firestore, uid: string) => {
+  const ref = collection(db, 'posts');
+  const q = query(ref, orderBy('timestamp', 'desc'), limit(10));
+
+  const querySnapshot = await getDocs(q);
+  // console.log(querySnapshot.docs);
+  const posts: PostType[] = [];
+  querySnapshot.forEach((doc) => {
+    const post = doc.data() as PostType;
+
+    if (post.uid !== uid) {
+      posts.push(post);
+    }
+  });
+
+  return posts;
+};
+
 export const toggleLikePost = async (
   db: Firestore,
   postId: string,
@@ -175,4 +191,35 @@ export const doILikePost = async (
 export const getUserNickname = async (db: Firestore, uid: string) => {
   const userInfo = await getUserInfo(uid, db);
   return userInfo?.userNickname;
+};
+
+export const followUser = async (
+  db: Firestore,
+  postUid: string,
+  uid: string,
+  follow: boolean
+) => {
+  //Get references to the users document, and the author of the posts user document
+  const userRef = doc(db, 'users', uid);
+  const postUserRef = doc(db, 'users', postUid);
+
+  if (follow) {
+    await updateDoc(userRef, {
+      //Add the post author to your following list
+      following: arrayUnion(postUid),
+    });
+    await updateDoc(postUserRef, {
+      //add yourself to their followers
+      followers: arrayUnion(uid),
+    });
+  } else {
+    await updateDoc(userRef, {
+      //remove them from your following array
+      following: arrayRemove(postUid),
+    });
+    await updateDoc(postUserRef, {
+      //add yourself to their followers array
+      followers: arrayUnion(uid),
+    });
+  }
 };

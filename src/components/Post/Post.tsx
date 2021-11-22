@@ -5,6 +5,7 @@ import {
   getUserInfo,
   toggleLikePost,
   doILikePost,
+  followUser,
 } from '../../utilities/FirestoreHelpers';
 import PostHeader from './PostHeader';
 import PostImage from './PostImage';
@@ -17,8 +18,9 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const [postUserInfo, setPostUserInfo] = useState<UserInfoType>();
-  const { db, userInfo } = useContext(AppContext) as AppContextType;
+  const { db, userInfo, dispatch } = useContext(AppContext) as AppContextType;
   const [postLiked, setPostLiked] = useState(false);
+  const [userFollowed, setUserFollowed] = useState(false);
 
   useEffect(() => {
     async function fetchUserInfo() {
@@ -44,10 +46,26 @@ const Post: React.FC<PostProps> = ({ post }) => {
     isPostLiked();
   }, [db]);
 
+  useEffect(() => {
+    if (userInfo?.following.includes(post.uid)) {
+      setUserFollowed(true);
+    } else {
+      setUserFollowed(false);
+    }
+  }, [userInfo]);
+
   const likeThePost = (like: boolean) => {
     if (db != null && userInfo != null) {
       toggleLikePost(db, post.id, userInfo?.userId, like);
       setPostLiked(like);
+    }
+  };
+
+  const followTheUser = (follow: boolean) => {
+    if (db != null && userInfo != null) {
+      followUser(db, post.uid, userInfo?.userId, follow);
+      setUserFollowed(follow);
+      dispatch({ type: 'reloadUserInfo', payload: true });
     }
   };
 
@@ -56,6 +74,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <PostHeader
         userName={postUserInfo?.userNickname ?? ''}
         profilePicUrl={postUserInfo?.userProfilePic ?? ''}
+        userFollowed={userFollowed}
+        followTheUser={followTheUser}
       />
       <PostImage imgUrl={post.imgUrl} />
       <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
