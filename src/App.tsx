@@ -4,12 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
-import {
-  AppContext,
-  AppContextType,
-  Page,
-  AppContextActionType,
-} from './Context/AppContext';
+import { AppContext, AppContextType, Page } from './Context/AppContext';
 import { useReducer } from 'react';
 import { appContextReducer } from './Context/AppContext';
 import { useFirebase } from './hooks/useFirebase';
@@ -19,7 +14,6 @@ import {
   getStorage,
   ref,
   uploadString,
-  uploadBytes,
   getDownloadURL,
 } from '@firebase/storage';
 
@@ -130,7 +124,7 @@ function App(): JSX.Element {
       fetchUserInfo(appContext.userInfo?.userId as string);
       appContextDispatch({ type: 'reloadUserInfo', payload: false });
     }
-  }, [appContext]);
+  }, [appContext, db]);
 
   if (db !== null && auth !== null) {
     return (

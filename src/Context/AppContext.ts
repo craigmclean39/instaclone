@@ -1,6 +1,6 @@
 import { Firestore } from '@firebase/firestore';
 import { Auth } from '@firebase/auth';
-import React, { Dispatch } from 'react';
+import React from 'react';
 import UserInfoType from '../types/userInfoType';
 
 export enum Page {

@@ -32,6 +32,67 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
 
   const isSmall = useMediaQuery('(max-width: 698px)');
 
+  const handleChange = useCallback(async (e: SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      readFile(file);
+    }
+  }, []);
+
+  const handleClick = useCallback((e: SyntheticEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const handleBack = useCallback(() => {
+    switch (postStage) {
+      case PostStage.ShareImage: {
+        setPostStage(PostStage.CropImage);
+        break;
+      }
+      case PostStage.CropImage: {
+        setPostStage(PostStage.SelectFile);
+        break;
+      }
+    }
+  }, [postStage]);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedArea(croppedArea);
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const handleDescriptionChange = useCallback((e: SyntheticEvent) => {
+    const target = e.target as HTMLTextAreaElement;
+    setPostDescription(target.value);
+  }, []);
+
+  const dropHandler = useCallback((e: SyntheticEvent) => {
+    e.preventDefault();
+    setDragIconClassName('');
+    const ev = e as any;
+    if (ev.dataTransfer.items && ev.dataTransfer.length > 0) {
+      const file = ev.dataTransfer.items[0].getAsFile();
+      readFile(file);
+    } else {
+      if (ev.dataTransfer.files && ev.dataTransfer.files.length > 0) {
+        readFile(ev.dataTransfer.files[0]);
+      }
+    }
+  }, []);
+
+  const dragOverHandler = useCallback((e: SyntheticEvent) => {
+    e.preventDefault();
+    setDragIconClassName('drag-icon--colored');
+  }, []);
+
+  const uploadCroppedImage = useCallback(async () => {
+    const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+    uploadPost(croppedImage, postDescription);
+    cancelAddPost();
+  }, [imageSrc, croppedAreaPixels, postDescription, uploadPost, cancelAddPost]);
+
   useEffect(() => {
     switch (postStage) {
       case PostStage.SelectFile: {
@@ -159,13 +220,21 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
         }
       }
     }
-  }, [postStage, isSmall, postDescription, dragIconClassName]);
-
-  const uploadCroppedImage = async () => {
-    const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
-    uploadPost(croppedImage, postDescription);
-    cancelAddPost();
-  };
+  }, [
+    postStage,
+    isSmall,
+    postDescription,
+    dragIconClassName,
+    coverMode,
+    dropHandler,
+    handleBack,
+    handleChange,
+    imageSrc,
+    onCropComplete,
+    uploadCroppedImage,
+    dragOverHandler,
+    handleDescriptionChange,
+  ]);
 
   const readFile = (file: File) => {
     console.log('Read File');
@@ -191,61 +260,6 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
 
     //Read the file and wait for it to trigger the onload callback
     reader.readAsDataURL(file);
-  };
-
-  const handleChange = async (e: SyntheticEvent) => {
-    const target = e.target as HTMLInputElement;
-
-    if (target.files && target.files.length > 0) {
-      const file = target.files[0];
-      readFile(file);
-    }
-  };
-
-  const handleClick = (e: SyntheticEvent) => {
-    e.stopPropagation();
-  };
-
-  const handleBack = () => {
-    switch (postStage) {
-      case PostStage.ShareImage: {
-        setPostStage(PostStage.CropImage);
-        break;
-      }
-      case PostStage.CropImage: {
-        setPostStage(PostStage.SelectFile);
-        break;
-      }
-    }
-  };
-
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    setCroppedArea(croppedArea);
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
-
-  const handleDescriptionChange = (e: SyntheticEvent) => {
-    const target = e.target as HTMLTextAreaElement;
-    setPostDescription(target.value);
-  };
-
-  const dropHandler = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setDragIconClassName('');
-    const ev = e as any;
-    if (ev.dataTransfer.items && ev.dataTransfer.length > 0) {
-      const file = ev.dataTransfer.items[0].getAsFile();
-      readFile(file);
-    } else {
-      if (ev.dataTransfer.files && ev.dataTransfer.files.length > 0) {
-        readFile(ev.dataTransfer.files[0]);
-      }
-    }
-  };
-
-  const dragOverHandler = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setDragIconClassName('drag-icon--colored');
   };
 
   return (

@@ -26,8 +26,6 @@ const Feed: React.FC<FeedProps> = ({ db, userInfo, mode }) => {
   const movePostsToCenter = useMediaQuery('(max-width: 924px)');
 
   useEffect(() => {
-    console.log('Feed useEffect, userInfo Dep');
-    console.log(userInfo);
     async function fetchPosts() {
       if (db != null && userInfo != null) {
         const fetchedPosts =
@@ -36,7 +34,7 @@ const Feed: React.FC<FeedProps> = ({ db, userInfo, mode }) => {
                 db as Firestore,
                 userInfo?.following as string[]
               )
-            : await getRecentPostsFromAll(db as Firestore, userInfo.userId);
+            : await getRecentPostsFromAll(db as Firestore, userInfo.userId, 20);
 
         if (fetchedPosts != undefined) {
           setPosts(fetchedPosts);

@@ -130,9 +130,13 @@ export const getRecentPostsFromFollowing = async (
   return posts;
 };
 
-export const getRecentPostsFromAll = async (db: Firestore, uid: string) => {
+export const getRecentPostsFromAll = async (
+  db: Firestore,
+  uid: string,
+  maxNumPosts: number
+) => {
   const ref = collection(db, 'posts');
-  const q = query(ref, orderBy('timestamp', 'desc'), limit(20));
+  const q = query(ref, orderBy('timestamp', 'desc'), limit(maxNumPosts));
 
   const querySnapshot = await getDocs(q);
   // console.log(querySnapshot.docs);
