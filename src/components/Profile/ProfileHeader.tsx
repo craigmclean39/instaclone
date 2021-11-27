@@ -23,6 +23,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 }) => {
   const { userInfo, db } = useContext(AppContext) as AppContextType;
   const [postUserInfo, setPostUserInfo] = useState<UserInfoType | null>(null);
+  const [followingUser, setFollowingUser] = useState(false);
 
   const countUsers = (prev: any, current: any) => {
     if (current !== '') {
@@ -59,6 +60,16 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     fetchPostUserInfo();
   });
 
+  useEffect(() => {
+    if (!isUser) {
+      if (userInfo?.following.includes(postUserId)) {
+        setFollowingUser(true);
+      } else {
+        setFollowingUser(false);
+      }
+    }
+  }, [userInfo]);
+
   const isSmall = useMediaQuery('(max-width: 720px)');
   return (
     <>
@@ -73,6 +84,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 isUser ? userInfo?.userNickname : postUserInfo?.userNickname
               }
               isUser={isUser}
+              followingUser={followingUser}
+              postUserId={postUserInfo?.userId ?? ''}
             />
             <ProfileHeaderStats
               numFollowing={numFollowing ? numFollowing : 0}
@@ -98,6 +111,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 isUser ? userInfo?.userNickname : postUserInfo?.userNickname
               }
               isUser={isUser}
+              followingUser={followingUser}
+              postUserId={postUserInfo?.userId ?? ''}
             />
           </div>
           <div className='profile-header__bottom'>

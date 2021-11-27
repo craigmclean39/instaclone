@@ -3,7 +3,7 @@ import UserInfoType from '../../types/userInfoType';
 import { useContext, useEffect, useState } from 'react';
 import { getRecentPostsFromAll } from '../../utilities/FirestoreHelpers';
 import PostImage from '../Post/PostImage';
-import { followUser } from '../../utilities/FirestoreHelpers';
+import { Link } from 'react-router-dom';
 import { AppContext, AppContextType } from '../../Context/AppContext';
 
 interface ExploreGridProps {
@@ -42,15 +42,9 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
       postMap.forEach((valueArr) => {
         onePostPerUser.push(
           <div key={valueArr[0].postId}>
-            <button
-              className='instagram-button'
-              onClick={async () => {
-                await followUser(db, valueArr[0].uid, userInfo.userId, true);
-                dispatch({ type: 'reloadUserInfo', payload: true });
-              }}>
-              Follow
-            </button>
-            <PostImage imgUrl={valueArr[0].imgUrl} />
+            <Link to={`/users/${valueArr[0].uid}`}>
+              <PostImage imgUrl={valueArr[0].imgUrl} />
+            </Link>
           </div>
         );
       });
