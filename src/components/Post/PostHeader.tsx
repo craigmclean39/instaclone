@@ -31,7 +31,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
               {userName}
             </Link>
           </h3>
-          <div className='post__follow'>
+          {/* <div className='post__follow'>
             <span>•</span>
             {userFollowed ? (
               <button
@@ -50,7 +50,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
                 Follow
               </button>
             )}
-          </div>
+          </div> */}
         </div>
       </header>
     </>
