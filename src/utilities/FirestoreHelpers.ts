@@ -117,7 +117,7 @@ export const getRecentPostsFromFollowing = async (
     ref,
     where('uid', 'in', following),
     orderBy('timestamp', 'desc'),
-    limit(3)
+    limit(10)
   );
 
   const querySnapshot = await getDocs(q);
