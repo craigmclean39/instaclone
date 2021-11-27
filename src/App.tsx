@@ -26,6 +26,7 @@ import {
 } from './utilities/FirestoreHelpers';
 import AddPost from './components/AddPost/AddPost';
 import uniqid from 'uniqid';
+import NonUserProfile from './pages/NonUserProfile';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -151,6 +152,10 @@ function App(): JSX.Element {
             path='/signup'
             element={<SignUp dispatch={appContextDispatch} />}
           />
+
+          <Route path='users' element={<NonUserProfile />}>
+            <Route path=':uid' element={<NonUserProfile />} />
+          </Route>
         </Routes>
       </AppContext.Provider>
     );

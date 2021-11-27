@@ -76,6 +76,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         profilePicUrl={postUserInfo?.userProfilePic ?? ''}
         userFollowed={userFollowed}
         followTheUser={followTheUser}
+        userId={postUserInfo?.userId ?? ''}
       />
       <PostImage imgUrl={post.imgUrl} />
       <PostLikeBar likeThePost={likeThePost} liked={postLiked} />

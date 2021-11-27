@@ -8,28 +8,21 @@ import { Page } from '../Context/AppContext';
 import '../styles/profile.css';
 import ProfileHeader from '../components/Profile/ProfileHeader';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  Firestore,
-} from '@firebase/firestore';
+import { Firestore } from '@firebase/firestore';
 import { PostType } from '../types/userInfoType';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import { getUsersPosts } from '../utilities/FirestoreHelpers';
+import { useParams } from 'react-router-dom';
 
-export interface ProfileProps {
-  dispatch(o: AppContextActionType): void;
-}
-
-const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
-  const { userInfo, db } = useContext(AppContext) as AppContextType;
+const NonUserProfile: React.FC = (): JSX.Element => {
+  const { userInfo, db, dispatch } = useContext(AppContext) as AppContextType;
 
   const [posts, setPosts] = useState<PostType[]>([]);
 
+  const params = useParams();
+
   useEffect(() => {
-    dispatch({ type: 'changePage', payload: Page.ProfilePage });
+    dispatch({ type: 'changePage', payload: Page.NonUserProfilePage });
   }, [dispatch]);
 
   useEffect(() => {
@@ -37,7 +30,7 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
       if (userInfo != null && db != null) {
         const userPosts = await getUsersPosts(
           db as Firestore,
-          userInfo?.userId as string
+          params.uid as string
         );
 
         setPosts(userPosts);
@@ -53,13 +46,17 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
     <div className='profile-container'>
       <div className='profile-wrapper'>
         <div className={isSmall ? 'profile--small' : 'profile'}>
-          <ProfileHeader numPosts={posts.length} isUser={true} postUserId='' />
+          <ProfileHeader
+            numPosts={posts.length}
+            isUser={false}
+            postUserId={params.uid ?? ''}
+          />
           {isSmall ? null : <div className='profile__decorative-line'></div>}
-          <ProfilePosts posts={posts} isSmall={isSmall} isUser={true} />
+          <ProfilePosts posts={posts} isSmall={isSmall} isUser={false} />
         </div>
       </div>
     </div>
   );
 };
 
-export default Profile;
+export default NonUserProfile;

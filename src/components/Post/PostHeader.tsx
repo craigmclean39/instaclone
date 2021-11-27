@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../../styles/post.css';
 import Avatar, { AvatarSize } from '../Avatar/Avatar';
 
@@ -6,6 +7,7 @@ interface PostHeaderProps {
   userName: string;
   userFollowed: boolean;
   followTheUser(follow: boolean): void;
+  userId: string;
 }
 
 const PostHeader: React.FC<PostHeaderProps> = ({
@@ -13,6 +15,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
   userName,
   userFollowed,
   followTheUser,
+  userId,
 }) => {
   return (
     <>
@@ -23,7 +26,11 @@ const PostHeader: React.FC<PostHeaderProps> = ({
             size={AvatarSize.Medium}
             alt=''
           />
-          <h3>{userName}</h3>
+          <h3>
+            <Link className='link' to={`users/${userId}`}>
+              {userName}
+            </Link>
+          </h3>
           <div className='post__follow'>
             <span>•</span>
             {userFollowed ? (

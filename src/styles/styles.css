@@ -36,3 +36,15 @@ body {
   font-size: 14px;
   font-weight: 600;
 }
+
+.link {
+  text-decoration: none;
+}
+
+.link:visited {
+  color: inherit;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -2,13 +2,19 @@ import { PostType } from '../../types/userInfoType';
 import '../../styles/profile.css';
 import { useEffect, useState } from 'react';
 import ProfilePost from './ProfilePost';
+import PostImage from '../Post/PostImage';
 
 interface ProfilePostsProps {
   posts: PostType[];
   isSmall: boolean;
+  isUser: boolean;
 }
 
-const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts, isSmall }) => {
+const ProfilePosts: React.FC<ProfilePostsProps> = ({
+  posts,
+  isSmall,
+  isUser,
+}) => {
   const [postRows, setPostRows] = useState<JSX.Element[]>();
 
   useEffect(() => {
@@ -19,7 +25,10 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts, isSmall }) => {
     const rows = revPosts
       .map(function (post) {
         // map content to html elements
-        return <ProfilePost key={post.id} post={post} />;
+        if (isUser) {
+          return <ProfilePost key={post.id} post={post} />;
+        }
+        return <PostImage key={post.id} imgUrl={post.imgUrl} />;
       })
       .reduce(function (r: any, element, index) {
         // create element groups with size 3, result looks like:
