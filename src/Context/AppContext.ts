@@ -10,6 +10,7 @@ export enum Page {
   SignUpPage,
   LogInPage,
   NonUserProfilePage,
+  PostPage,
 }
 
 export type AppContextType = {

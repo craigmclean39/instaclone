@@ -62,6 +62,8 @@ export const getUserInfo = async (uid: string, db: Firestore) => {
     const userInfo = userData as UserInfoType;
     return userInfo;
   }
+
+  return null;
 };
 
 export const addPostToPostCollection = async (
@@ -226,4 +228,19 @@ export const followUser = async (
       followers: arrayUnion(uid),
     });
   }
+};
+
+export const getPost = async (db: Firestore, postId: string) => {
+  const postRef = doc(db, 'posts', postId);
+
+  const docSnap = await getDoc(postRef);
+
+  if (docSnap.exists()) {
+    console.log('Document data:', docSnap.data());
+
+    const postData = docSnap.data() as PostType;
+    return postData;
+  }
+
+  return null;
 };

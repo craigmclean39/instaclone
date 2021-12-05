@@ -1,9 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import {
-  AppContext,
-  AppContextActionType,
-  AppContextType,
-} from '../Context/AppContext';
+import { AppContext, AppContextType } from '../Context/AppContext';
 import { Page } from '../Context/AppContext';
 import '../styles/profile.css';
 import ProfileHeader from '../components/Profile/ProfileHeader';

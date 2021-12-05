@@ -11,6 +11,7 @@ import PostHeader from './PostHeader';
 import PostImage from './PostImage';
 import PostLikeBar from './PostLikeBar';
 import PostComments from './PostComments';
+import { Link } from 'react-router-dom';
 
 interface PostProps {
   post: PostType;
@@ -39,7 +40,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
       if (db != null) {
         const uInfo = await getUserInfo(post.uid, db);
 
-        setPostUserInfo(uInfo);
+        if (uInfo != null) {
+          setPostUserInfo(uInfo);
+        }
       }
     }
 
@@ -78,7 +81,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
         followTheUser={followTheUser}
         userId={postUserInfo?.userId ?? ''}
       />
-      <PostImage imgUrl={post.imgUrl} />
+      <Link to={`/posts/${post.id}`}>
+        <PostImage imgUrl={post.imgUrl} />
+      </Link>
       <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
       <PostComments comments={post.comments} />
     </article>

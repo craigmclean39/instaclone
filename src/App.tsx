@@ -27,6 +27,7 @@ import {
 import AddPost from './components/AddPost/AddPost';
 import uniqid from 'uniqid';
 import NonUserProfile from './pages/NonUserProfile';
+import PostPage from './pages/PostPage';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -155,6 +156,9 @@ function App(): JSX.Element {
 
           <Route path='users' element={<NonUserProfile />}>
             <Route path=':uid' element={<NonUserProfile />} />
+          </Route>
+          <Route path='posts' element={<PostPage />}>
+            <Route path=':pid' element={<PostPage />} />
           </Route>
         </Routes>
       </AppContext.Provider>
