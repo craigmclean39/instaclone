@@ -28,10 +28,12 @@ const Header: React.FC<HeaderProps> = ({ addPost }): JSX.Element => {
       <header
         className={isSmall ? 'header-container--small' : 'header-container'}>
         <div className='header'>
-          <img
-            className='header__instagram'
-            src={InstagramLogo}
-            alt='Instagram'></img>
+          <Link to='/'>
+            <img
+              className='header__instagram'
+              src={InstagramLogo}
+              alt='Instagram'></img>
+          </Link>
           <ul className='header-icons'>
             <li className='header__icon'>
               <Link to='/'>

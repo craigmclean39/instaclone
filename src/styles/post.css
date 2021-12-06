@@ -22,13 +22,13 @@
   margin-bottom: 20px;
   width: clamp(100px, 100vw, 614px);
   background-color: var(--bg-color);
-  border: solid 1px var(--post-border-color);
+  border: solid 1px var(--border-color);
+  border-radius: 3px;
 }
 
 .post-header {
   width: clamp(100px, 100vw, 614px);
   height: 64px;
-  background-color: white;
 }
 
 .post-header__flex {
