@@ -13,13 +13,9 @@ const PostPageComments: React.FC<PostPageComments> = ({ comments }) => {
   }, [comments]);
 
   const commentElements = comments.map((comment) => {
-    return (
-      <div className='comments'>
-        <PostPageComment comment={comment} />
-      </div>
-    );
+    return <PostPageComment comment={comment} />;
   });
 
-  return <div>{commentElements}</div>;
+  return <div className='comments'>{commentElements}</div>;
 };
 export default PostPageComments;

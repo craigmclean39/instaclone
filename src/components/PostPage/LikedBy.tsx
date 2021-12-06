@@ -27,24 +27,28 @@ const LikedBy: React.FC<LikedByProps> = ({ likes }) => {
     fetchUserInfo();
   }, [likes]);
 
-  return (
-    <div className='liked-by'>
-      <Avatar
-        profilePicSrc={firstLikeUserInfo?.userProfilePic ?? ''}
-        size={AvatarSize.ExtraSmall}
-        alt=''
-      />
-      <span className='liked-by__text'>Liked by</span>&nbsp;
-      <Link
-        className='link liked-by__link'
-        to={`/users/${firstLikeUserInfo?.userId}`}>
-        {' '}
-        {`${firstLikeUserInfo?.userNickname}`}
-      </Link>
-      &nbsp;
-      {`${likes.length > 1 ? ' and others' : ''}`}
-    </div>
-  );
+  if (likes.length > 0) {
+    return (
+      <div className='liked-by'>
+        <Avatar
+          profilePicSrc={firstLikeUserInfo?.userProfilePic ?? ''}
+          size={AvatarSize.ExtraSmall}
+          alt=''
+        />
+        <span className='liked-by__text'>Liked by</span>&nbsp;
+        <Link
+          className='link liked-by__link'
+          to={`/users/${firstLikeUserInfo?.userId}`}>
+          {' '}
+          {`${firstLikeUserInfo?.userNickname}`}
+        </Link>
+        &nbsp;
+        {`${likes.length > 1 ? ' and others' : ''}`}
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default LikedBy;

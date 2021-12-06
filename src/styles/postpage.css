@@ -31,6 +31,7 @@
   border-top: solid 1px var(--post-border-color);
   border-right: solid 1px var(--post-border-color);
   border-bottom: solid 1px var(--post-border-color);
+  justify-content: space-between;
 }
 
 .post-page-post__user-info {
@@ -67,9 +68,12 @@
 }
 
 .comments {
-  border-bottom: solid 1px var(--post-border-color);
   min-height: 206px;
   max-width: 334px;
+}
+
+.side-bar__bottom {
+  border-top: solid 1px var(--post-border-color);
 }
 
 .liked-by {
@@ -85,4 +89,42 @@
 
 .liked-by__link {
   font-weight: 600;
+}
+
+.add-comment {
+  border-top: solid 1px var(--post-border-color);
+}
+
+.add-comment__form {
+  padding: 6px 16px 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.add-comment__input {
+  border: none;
+  margin-left: 16px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  color: var(--font-color);
+}
+
+.add-comment__button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--button-color);
+  font-weight: 600;
+}
+
+.--inactive {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.add-comment__input:focus {
+  border: none;
+  outline: none;
 }

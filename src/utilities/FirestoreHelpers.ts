@@ -16,7 +16,7 @@ import {
 } from 'firebase/firestore';
 
 import UserInfoType from '../types/userInfoType';
-import { PostType } from '../types/userInfoType';
+import { PostType, CommentType } from '../types/userInfoType';
 import uniqid from 'uniqid';
 
 export const createNewUser = async (
@@ -209,6 +209,10 @@ export const followUser = async (
   const userRef = doc(db, 'users', uid);
   const postUserRef = doc(db, 'users', postUid);
 
+  if (postUid === uid) {
+    return;
+  }
+
   if (follow) {
     await updateDoc(userRef, {
       //Add the post author to your following list
@@ -243,4 +247,21 @@ export const getPost = async (db: Firestore, postId: string) => {
   }
 
   return null;
+};
+
+export const addComment = async (
+  db: Firestore,
+  postId: string,
+  content: string,
+  uid: string
+) => {
+  const comment: CommentType = {
+    content: content,
+    uid: uid,
+  };
+  const postRef = doc(db, 'posts', postId);
+
+  await updateDoc(postRef, {
+    comments: arrayUnion(comment),
+  });
 };
