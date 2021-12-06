@@ -5,10 +5,12 @@ import Avatar, { AvatarSize } from '../Avatar/Avatar';
 
 interface ProfileHeaderPictureProps {
   isSmall: boolean;
+  imgUrl: string;
 }
 
 const ProfileHeaderPicture: React.FC<ProfileHeaderPictureProps> = ({
   isSmall,
+  imgUrl,
 }) => {
   const { userInfo } = useContext(AppContext) as AppContextType;
   const [userProfilePicLoaded, setUserProfilePicLoaded] = useState(false);
@@ -29,7 +31,7 @@ const ProfileHeaderPicture: React.FC<ProfileHeaderPictureProps> = ({
       <Avatar
         size={isSmall ? AvatarSize.Large : AvatarSize.ExtraLarge}
         alt='Change profile picture'
-        profilePicSrc={userInfo?.userProfilePic ?? ''}
+        profilePicSrc={imgUrl}
       />
     </div>
   );

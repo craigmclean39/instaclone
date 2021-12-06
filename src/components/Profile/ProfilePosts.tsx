@@ -3,6 +3,7 @@ import '../../styles/profile.css';
 import { useEffect, useState } from 'react';
 import ProfilePost from './ProfilePost';
 import PostImage from '../Post/PostImage';
+import { Link } from 'react-router-dom';
 
 interface ProfilePostsProps {
   posts: PostType[];
@@ -26,9 +27,17 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({
       .map(function (post) {
         // map content to html elements
         if (isUser) {
-          return <ProfilePost key={post.id} post={post} />;
+          return (
+            <Link to={`/posts/${post.id}`}>
+              <ProfilePost key={post.id} post={post} />
+            </Link>
+          );
         }
-        return <PostImage key={post.id} imgUrl={post.imgUrl} />;
+        return (
+          <Link to={`/posts/${post.id}`}>
+            <PostImage key={post.id} imgUrl={post.imgUrl} />
+          </Link>
+        );
       })
       .reduce(function (r: any, element, index) {
         // create element groups with size 3, result looks like:

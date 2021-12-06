@@ -76,7 +76,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       {!isSmall ? (
         <header className='profile-header'>
           <div className='profile-header__left'>
-            <ProfileHeaderPicture isSmall={isSmall} />
+            <ProfileHeaderPicture
+              isSmall={isSmall}
+              imgUrl={
+                isUser
+                  ? userInfo?.userProfilePic ?? ''
+                  : postUserInfo?.userProfilePic ?? ''
+              }
+            />
           </div>
           <div className='profile-header__right'>
             <ProfileHeaderName
@@ -105,7 +112,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       ) : (
         <header className='profile-header profile-header--small'>
           <div className='profile-header__top'>
-            <ProfileHeaderPicture isSmall={isSmall} />
+            <ProfileHeaderPicture
+              isSmall={isSmall}
+              imgUrl={
+                isUser
+                  ? userInfo?.userProfilePic ?? ''
+                  : postUserInfo?.userProfilePic ?? ''
+              }
+            />
             <ProfileHeaderName
               nickname={
                 isUser ? userInfo?.userNickname : postUserInfo?.userNickname

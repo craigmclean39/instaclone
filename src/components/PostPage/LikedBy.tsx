@@ -41,6 +41,7 @@ const LikedBy: React.FC<LikedByProps> = ({ likes }) => {
         {' '}
         {`${firstLikeUserInfo?.userNickname}`}
       </Link>
+      &nbsp;
       {`${likes.length > 1 ? ' and others' : ''}`}
     </div>
   );
