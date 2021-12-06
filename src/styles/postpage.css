@@ -59,8 +59,11 @@
 
 .comment__content {
   padding-left: 16px;
+  padding-right: 24px;
   font-size: 14px;
   padding-top: 7px;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .content__username {
@@ -70,6 +73,30 @@
 .comments {
   min-height: 206px;
   max-width: 334px;
+  max-height: 354px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 4px;
+}
+
+.comments::-webkit-scrollbar {
+  width: 10px;
+}
+.comments::-webkit-scrollbar-track {
+  background: var(--post-border-color);
+  border-radius: 5px;
+}
+.comments::-webkit-scrollbar-track:hover {
+  background: var(--post-border-color);
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background: var(--icon-color-hover);
+  border-radius: 5px;
+}
+
+.comments::-webkit-scrollbar-thumb:hover {
+  background: var(--icon-color-hover);
 }
 
 .side-bar__bottom {

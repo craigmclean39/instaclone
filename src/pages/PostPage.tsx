@@ -27,6 +27,7 @@ const PostPage = () => {
   const [postUserInfo, setPostUserInfo] = useState<UserInfoType | null>(null);
   const [postLiked, setPostLiked] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
+  const [refreshPost, setRefreshPost] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.PostPage });
@@ -39,7 +40,8 @@ const PostPage = () => {
     }
 
     fetchPost();
-  }, [params, db]);
+    setRefreshPost(false);
+  }, [params, db, refreshPost]);
 
   useEffect(() => {
     async function fetchPostUserInfo() {
@@ -87,6 +89,7 @@ const PostPage = () => {
       userInfo?.userId as string
     );
     setComment('');
+    setRefreshPost(true);
   };
 
   return (
