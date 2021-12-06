@@ -48,7 +48,8 @@
 .post-image {
   width: clamp(100px, 100vw, 614px);
   height: clamp(100px, 100vw, 614px);
-  background-color: black;
+  background-color: var(--bg-color-subtle);
+  object-fit: contain;
 }
 
 .post__like-bar {
