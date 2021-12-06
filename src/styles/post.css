@@ -21,14 +21,13 @@
 .post {
   margin-bottom: 20px;
   width: clamp(100px, 100vw, 614px);
+  background-color: var(--bg-color);
+  border: solid 1px var(--post-border-color);
 }
 
 .post-header {
   width: clamp(100px, 100vw, 614px);
   height: 64px;
-  border-top: solid 1px var(--post-border-color);
-  border-left: solid 1px var(--post-border-color);
-  border-right: solid 1px var(--post-border-color);
   background-color: white;
 }
 
@@ -56,8 +55,6 @@
   display: flex;
   padding: 6px 16px 8px 16px;
   background-color: var(--bg-color);
-  border-left: solid 1px var(--post-border-color);
-  border-right: solid 1px var(--post-border-color);
 }
 
 .post__like-bar > svg {
@@ -81,9 +78,6 @@
 
 .post__comments {
   background-color: var(--bg-color);
-  border-left: solid 1px var(--post-border-color);
-  border-right: solid 1px var(--post-border-color);
-  border-bottom: solid 1px var(--post-border-color);
   padding: 8px 16px 24px 16px;
 }
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
 import UserInfoType, { PostType } from '../../types/userInfoType';
 import {
@@ -6,12 +6,15 @@ import {
   toggleLikePost,
   doILikePost,
   followUser,
+  addComment,
 } from '../../utilities/FirestoreHelpers';
 import PostHeader from './PostHeader';
 import PostImage from './PostImage';
 import PostLikeBar from './PostLikeBar';
 import PostComments from './PostComments';
 import { Link } from 'react-router-dom';
+import AddComment from '../PostPage/AddComment';
+import { Firestore } from '@firebase/firestore';
 
 interface PostProps {
   post: PostType;
@@ -22,6 +25,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const { db, userInfo, dispatch } = useContext(AppContext) as AppContextType;
   const [postLiked, setPostLiked] = useState(false);
   const [userFollowed, setUserFollowed] = useState(false);
+  const [comment, setComment] = useState<string>('');
 
   useEffect(() => {
     async function fetchUserInfo() {
@@ -72,6 +76,23 @@ const Post: React.FC<PostProps> = ({ post }) => {
     }
   };
 
+  const handleCommentChange = (e: SyntheticEvent) => {
+    //
+    const target = e.target as HTMLInputElement;
+    setComment(target.value);
+  };
+
+  const submitComment = async (e: SyntheticEvent, content: string) => {
+    e.preventDefault();
+    await addComment(
+      db as Firestore,
+      post?.id as string,
+      comment,
+      userInfo?.userId as string
+    );
+    setComment('');
+  };
+
   return (
     <article className='post'>
       <PostHeader
@@ -86,6 +107,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
       </Link>
       <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
       <PostComments comments={post.comments} />
+      <AddComment
+        value={comment}
+        handleValueChange={handleCommentChange}
+        submitComment={submitComment}
+      />
     </article>
   );
 };

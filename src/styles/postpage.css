@@ -150,6 +150,7 @@
   padding-top: 11px;
   padding-bottom: 11px;
   color: var(--font-color);
+  width: 100%;
 }
 
 .add-comment__button {
