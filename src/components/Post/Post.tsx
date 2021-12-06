@@ -37,7 +37,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     }
 
     fetchUserInfo();
-  }, [db]);
+  }, [db, post.id, userInfo]);
 
   useEffect(() => {
     async function isPostLiked() {
@@ -51,7 +51,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     }
 
     isPostLiked();
-  }, [db]);
+  }, [db, post.uid]);
 
   useEffect(() => {
     if (userInfo?.following.includes(post.uid)) {
@@ -59,7 +59,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     } else {
       setUserFollowed(false);
     }
-  }, [userInfo]);
+  }, [userInfo, post.uid]);
 
   const likeThePost = (like: boolean) => {
     if (db != null && userInfo != null) {

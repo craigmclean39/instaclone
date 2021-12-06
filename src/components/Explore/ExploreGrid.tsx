@@ -1,10 +1,9 @@
 import { Firestore } from '@firebase/firestore';
 import UserInfoType from '../../types/userInfoType';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getRecentPostsFromAll } from '../../utilities/FirestoreHelpers';
 import PostImage from '../Post/PostImage';
 import { Link } from 'react-router-dom';
-import { AppContext, AppContextType } from '../../Context/AppContext';
 
 interface ExploreGridProps {
   db: Firestore;
@@ -14,7 +13,6 @@ interface ExploreGridProps {
 
 const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
   const [posts, setPosts] = useState<JSX.Element[]>([]);
-  const { dispatch } = useContext(AppContext) as AppContextType;
 
   useEffect(() => {
     async function fetchPosts() {
@@ -36,6 +34,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
           postMap.set(post.uid, []);
           postMap.get(post.uid).push(post);
         }
+        return null;
       });
 
       const onePostPerUser: JSX.Element[] = [];

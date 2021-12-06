@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { CommentType } from '../../types/userInfoType';
 import PostPageComment from './PostPageComment';
 
-export interface PostPageComments {
+export interface PostPageCommentsProps {
   comments: CommentType[];
 }
 
-const PostPageComments: React.FC<PostPageComments> = ({ comments }) => {
+const PostPageComments: React.FC<PostPageCommentsProps> = ({ comments }) => {
   const [sortedComments, setSortedComments] = useState<CommentType[]>([]);
 
   useEffect(() => {

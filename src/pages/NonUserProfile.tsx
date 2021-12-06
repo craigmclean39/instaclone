@@ -34,7 +34,7 @@ const NonUserProfile: React.FC = (): JSX.Element => {
     }
 
     fetchPosts();
-  }, [userInfo, db]);
+  }, [userInfo, db, params.uid]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 

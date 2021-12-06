@@ -52,7 +52,10 @@ export const getUsersInfoFromDb = async (
   return null;
 };
 
-export const getUserInfo = async (uid: string, db: Firestore) => {
+export const getUserInfo = async (
+  uid: string,
+  db: Firestore
+): Promise<UserInfoType | null> => {
   const docRef = doc(db, 'users', uid);
   const docSnap = await getDoc(docRef);
 
@@ -71,12 +74,12 @@ export const addPostToPostCollection = async (
   uid: string,
   imgUrl: string,
   description: string
-) => {
+): Promise<void> => {
   const post: PostType = {
     id: uniqid(),
     uid: uid,
     comments:
-      description != ''
+      description !== ''
         ? [
             {
               content: description,
@@ -92,7 +95,10 @@ export const addPostToPostCollection = async (
   await setDoc(doc(db, 'posts', post.id), post);
 };
 
-export const getUsersPosts = async (db: Firestore, uid: string) => {
+export const getUsersPosts = async (
+  db: Firestore,
+  uid: string
+): Promise<PostType[]> => {
   const ref = collection(db as Firestore, 'posts');
   const q = query(ref, where('uid', '==', uid));
   const querySnapshot = await getDocs(q);
@@ -109,9 +115,9 @@ export const getUsersPosts = async (db: Firestore, uid: string) => {
 export const getRecentPostsFromFollowing = async (
   db: Firestore,
   following: string[]
-) => {
+): Promise<PostType[] | null> => {
   if (following.length === 0) {
-    return;
+    return null;
   }
 
   const ref = collection(db, 'posts');
@@ -136,7 +142,7 @@ export const getRecentPostsFromAll = async (
   db: Firestore,
   uid: string,
   maxNumPosts: number
-) => {
+): Promise<PostType[]> => {
   const ref = collection(db, 'posts');
   const q = query(ref, orderBy('timestamp', 'desc'), limit(maxNumPosts));
 
@@ -159,7 +165,7 @@ export const toggleLikePost = async (
   postId: string,
   uid: string,
   like: boolean
-) => {
+): Promise<void> => {
   const postRef = doc(db, 'posts', postId);
 
   if (like) {
@@ -177,7 +183,7 @@ export const doILikePost = async (
   db: Firestore,
   postId: string,
   uid: string
-) => {
+): Promise<boolean> => {
   const postRef = doc(db, 'posts', postId);
 
   const docSnap = await getDoc(postRef);
@@ -194,9 +200,12 @@ export const doILikePost = async (
   return false;
 };
 
-export const getUserNickname = async (db: Firestore, uid: string) => {
+export const getUserNickname = async (
+  db: Firestore,
+  uid: string
+): Promise<string> => {
   const userInfo = await getUserInfo(uid, db);
-  return userInfo?.userNickname;
+  return userInfo?.userNickname ?? '';
 };
 
 export const followUser = async (
@@ -204,7 +213,7 @@ export const followUser = async (
   postUid: string,
   uid: string,
   follow: boolean
-) => {
+): Promise<void> => {
   //Get references to the users document, and the author of the posts user document
   const userRef = doc(db, 'users', uid);
   const postUserRef = doc(db, 'users', postUid);
@@ -234,7 +243,10 @@ export const followUser = async (
   }
 };
 
-export const getPost = async (db: Firestore, postId: string) => {
+export const getPost = async (
+  db: Firestore,
+  postId: string
+): Promise<PostType | null> => {
   const postRef = doc(db, 'posts', postId);
 
   const docSnap = await getDoc(postRef);
@@ -254,7 +266,7 @@ export const addComment = async (
   postId: string,
   content: string,
   uid: string
-) => {
+): Promise<void> => {
   const comment: CommentType = {
     content: content,
     uid: uid,

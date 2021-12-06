@@ -25,7 +25,7 @@ const LikedBy: React.FC<LikedByProps> = ({ likes }) => {
     }
 
     fetchUserInfo();
-  }, [likes]);
+  }, [likes, db]);
 
   if (likes.length > 0) {
     return (

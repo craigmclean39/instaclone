@@ -1,4 +1,3 @@
-import { SIGBREAK } from 'constants';
 import { SyntheticEvent } from 'react';
 
 interface AddCommentProps {
@@ -28,7 +27,7 @@ const AddComment: React.FC<AddCommentProps> = ({
           }}
           value={value}></input>
         <button
-          className={`add-comment__button ${value != '' ? '' : '--inactive'}`}
+          className={`add-comment__button ${value !== '' ? '' : '--inactive'}`}
           type='submit'>
           Post
         </button>

@@ -20,7 +20,7 @@ const Avatar: React.FC<AvatarProps> = ({ profilePicSrc, size, alt }) => {
       className={`avatar--${size}`}
       alt={alt}
       src={`${
-        profilePicSrc == '' || profilePicSrc == null
+        profilePicSrc === '' || profilePicSrc === null
           ? ProfilePhotoFallback
           : profilePicSrc
       }`}></img>

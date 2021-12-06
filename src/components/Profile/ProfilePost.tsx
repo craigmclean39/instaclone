@@ -1,7 +1,7 @@
 import { PostType } from '../../types/userInfoType';
 import { ReactComponent as LikeIcon } from '../../media/likefilled.svg';
 import { ReactComponent as CommentIcon } from '../../media/comment.svg';
-import { SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
 
 interface ProfilePostProps {
   post: PostType;

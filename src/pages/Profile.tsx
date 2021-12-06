@@ -8,13 +8,7 @@ import { Page } from '../Context/AppContext';
 import '../styles/profile.css';
 import ProfileHeader from '../components/Profile/ProfileHeader';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  Firestore,
-} from '@firebase/firestore';
+import { Firestore } from '@firebase/firestore';
 import { PostType } from '../types/userInfoType';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import { getUsersPosts } from '../utilities/FirestoreHelpers';

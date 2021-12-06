@@ -36,7 +36,7 @@ const Feed: React.FC<FeedProps> = ({ db, userInfo, mode }) => {
               )
             : await getRecentPostsFromAll(db as Firestore, userInfo.userId, 20);
 
-        if (fetchedPosts != undefined) {
+        if (fetchedPosts !== undefined && fetchedPosts !== null) {
           setPosts(fetchedPosts);
 
           const postElements = fetchedPosts.map((post) => {
@@ -52,7 +52,7 @@ const Feed: React.FC<FeedProps> = ({ db, userInfo, mode }) => {
     }
 
     fetchPosts();
-  }, [db, userInfo]);
+  }, [db, userInfo, mode]);
 
   return (
     <div className='post-wrapper'>

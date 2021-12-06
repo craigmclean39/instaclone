@@ -20,7 +20,7 @@ import LikedBy from '../components/PostPage/LikedBy';
 import AddComment from '../components/PostPage/AddComment';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
-const PostPage = () => {
+const PostPage = (): JSX.Element => {
   const { userInfo, db, dispatch } = useContext(AppContext) as AppContextType;
   const params = useParams();
 
@@ -68,7 +68,7 @@ const PostPage = () => {
     if (post != null) {
       fetchPostUserInfo();
     }
-  }, [db, post]);
+  }, [db, post, userInfo]);
 
   const likeThePost = (like: boolean) => {
     if (db != null && userInfo != null && post != null) {

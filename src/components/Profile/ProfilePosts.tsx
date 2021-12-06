@@ -59,7 +59,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({
       });
 
     setPostRows(rows);
-  }, [posts, isSmall]);
+  }, [posts, isSmall, isUser]);
 
   return (
     <div className={`profile-posts-wrapper ${isSmall ? 'small-gap' : ''}`}>

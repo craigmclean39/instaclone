@@ -48,11 +48,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
 
     if (auth != null) {
       try {
-        const userCred = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        await signInWithEmailAndPassword(auth, email, password);
 
         dispatch({ type: 'signIn', payload: true });
         navigate('/', { replace: true });

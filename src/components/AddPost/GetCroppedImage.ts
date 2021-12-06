@@ -1,4 +1,7 @@
-export default async function getCroppedImg(imageSrc: any, pixelCrop: any) {
+export default async function getCroppedImg(
+  imageSrc: string,
+  pixelCrop: any
+): Promise<string> {
   const image: HTMLImageElement = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -31,7 +34,7 @@ export default async function getCroppedImg(imageSrc: any, pixelCrop: any) {
   return canvas.toDataURL('image/jpeg');
 }
 
-const createImage = (url: any): Promise<HTMLImageElement> =>
+const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
     image.addEventListener('load', () => resolve(image));

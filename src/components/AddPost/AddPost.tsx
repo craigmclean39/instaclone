@@ -276,7 +276,7 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
       <div className='add-post-wrapper__bottom-flex'>
         <form
           className={
-            postStage != PostStage.ShareImage
+            postStage !== PostStage.ShareImage
               ? 'add-post__modal'
               : !isSmall
               ? 'add-post__modal large'

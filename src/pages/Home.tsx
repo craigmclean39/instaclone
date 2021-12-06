@@ -6,7 +6,7 @@ import {
 } from '../Context/AppContext';
 import { Page } from '../Context/AppContext';
 import { Firestore } from '@firebase/firestore';
-import UserInfoType, { PostType } from '../types/userInfoType';
+import UserInfoType from '../types/userInfoType';
 import Feed, { FeedMode } from '../components/Feed/Feed';
 
 export interface HomeProps {

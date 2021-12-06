@@ -44,7 +44,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       setNumFollowers(postUserInfo?.followers.reduce(countUsers, 0));
       setNumFollowing(postUserInfo?.following.reduce(countUsers, 0));
     }
-  }, [userInfo, postUserInfo]);
+  }, [userInfo, postUserInfo, isUser]);
 
   useEffect(() => {
     const fetchPostUserInfo = async function () {
@@ -68,7 +68,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         setFollowingUser(false);
       }
     }
-  }, [userInfo]);
+  }, [userInfo, isUser, postUserId]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
   return (
