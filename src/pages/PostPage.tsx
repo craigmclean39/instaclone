@@ -18,6 +18,7 @@ import PostLikeBar from '../components/Post/PostLikeBar';
 import { doILikePost, toggleLikePost } from '../utilities/FirestoreHelpers';
 import LikedBy from '../components/PostPage/LikedBy';
 import AddComment from '../components/PostPage/AddComment';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const PostPage = () => {
   const { userInfo, db, dispatch } = useContext(AppContext) as AppContextType;
@@ -28,6 +29,8 @@ const PostPage = () => {
   const [postLiked, setPostLiked] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
   const [refreshPost, setRefreshPost] = useState<boolean>(false);
+
+  const isSmall = useMediaQuery('(max-width: 720px)');
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.PostPage });
@@ -95,13 +98,22 @@ const PostPage = () => {
   return (
     <div className='post-page-wrapper'>
       <div className='post-page-container'>
-        <div className='post-page-post'>
+        <div
+          className={`post-page-post ${
+            isSmall ? 'post-page-post--column' : ''
+          }`}>
           <div className='post-page-post__image'>
             <PostImage imgUrl={post?.imgUrl ?? ''} />
           </div>
-          <div className='post-page-post__side-bar'>
+          <div
+            className={`post-page-post__side-bar ${
+              isSmall ? 'post-page-post__side-bar--column' : ''
+            }`}>
             <div>
-              <div className='post-page-post__user-info'>
+              <div
+                className={`post-page-post__user-info ${
+                  isSmall ? 'post-page-post__user-info--column' : ''
+                }`}>
                 <Avatar
                   profilePicSrc={postUserInfo?.userProfilePic ?? ''}
                   size={AvatarSize.Medium}
@@ -113,9 +125,14 @@ const PostPage = () => {
                   </h3>
                 </Link>
               </div>
-              <PostPageComments comments={post?.comments ?? []} />
+              {isSmall ? null : (
+                <PostPageComments comments={post?.comments ?? []} />
+              )}
             </div>
-            <div className='side-bar__bottom'>
+            <div
+              className={`side-bar__bottom ${
+                isSmall ? 'side-bar__bottom--column' : ''
+              }`}>
               <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
               <LikedBy likes={post?.likes ?? []} />
               <AddComment
