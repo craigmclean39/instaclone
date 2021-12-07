@@ -7,7 +7,7 @@ import {
 import { Page } from '../Context/AppContext';
 import { Firestore } from '@firebase/firestore';
 import UserInfoType from '../types/userInfoType';
-import Feed, { FeedMode } from '../components/Feed/Feed';
+import Feed from '../components/Feed/Feed';
 
 export interface HomeProps {
   dispatch(o: AppContextActionType): void;
@@ -21,13 +21,7 @@ const Home: React.FC<HomeProps> = ({ dispatch }): JSX.Element => {
   }, [dispatch]);
 
   if (db != null && userInfo != null) {
-    return (
-      <Feed
-        db={db as Firestore}
-        userInfo={userInfo as UserInfoType}
-        mode={FeedMode.Following}
-      />
-    );
+    return <Feed db={db as Firestore} userInfo={userInfo as UserInfoType} />;
   }
   return <></>;
 };

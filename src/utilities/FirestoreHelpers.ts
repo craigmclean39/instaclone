@@ -10,9 +10,16 @@ import {
   getDocs,
   orderBy,
   limit,
+  limitToLast,
   updateDoc,
   arrayUnion,
   arrayRemove,
+  startAt,
+  startAfter,
+  endAt,
+  QuerySnapshot,
+  DocumentData,
+  QueryDocumentSnapshot,
 } from 'firebase/firestore';
 
 import UserInfoType from '../types/userInfoType';
@@ -112,30 +119,87 @@ export const getUsersPosts = async (
   return userPosts;
 };
 
+/* 
+// Query the first page of docs
+const first = query(collection(db, "cities"), orderBy("population"), limit(25));
+const documentSnapshots = await getDocs(first);
+
+// Get the last visible document
+const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+console.log("last", lastVisible);
+
+// Construct a new query starting at this document,
+// get the next 25 cities.
+const next = query(collection(db, "cities"),
+    orderBy("population"),
+    startAfter(lastVisible),
+    limit(25)); */
+
+export interface RecentPostsInterface {
+  posts: PostType[];
+  lastVisible: QueryDocumentSnapshot<DocumentData>;
+}
+
 export const getRecentPostsFromFollowing = async (
   db: Firestore,
-  following: string[]
-): Promise<PostType[] | null> => {
+  following: string[],
+  pageLength = 3,
+  lastVisible: null | QueryDocumentSnapshot<DocumentData> = null
+): Promise<RecentPostsInterface | null> => {
   if (following.length === 0) {
     return null;
   }
 
-  const ref = collection(db, 'posts');
-  const q = query(
-    ref,
+  const postsCollection = collection(db, 'posts');
+  const first = query(
+    postsCollection,
     where('uid', 'in', following),
     orderBy('timestamp', 'desc'),
-    limit(10)
+    limit(pageLength)
   );
+  const documentSnapshots = await getDocs(first);
 
-  const querySnapshot = await getDocs(q);
-  // console.log(querySnapshot.docs);
-  const posts: PostType[] = [];
-  querySnapshot.forEach((doc) => {
-    posts.push(doc.data() as PostType);
-  });
+  if (lastVisible === null) {
+    lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    // console.log('last', lastVisible);
 
-  return posts;
+    const ref = collection(db, 'posts');
+    const q = query(
+      ref,
+      where('uid', 'in', following),
+      orderBy('timestamp', 'desc'),
+      limit(pageLength)
+    );
+
+    const querySnapshot = await getDocs(q);
+    // console.log(querySnapshot.docs);
+    const posts: PostType[] = [];
+    querySnapshot.forEach((doc) => {
+      posts.push(doc.data() as PostType);
+    });
+
+    return { posts: posts, lastVisible: lastVisible };
+  } else {
+    const ref = collection(db, 'posts');
+    const q = query(
+      ref,
+      where('uid', 'in', following),
+      orderBy('timestamp', 'desc'),
+      limit(pageLength),
+      startAfter(lastVisible)
+    );
+
+    const querySnapshot = await getDocs(q);
+    // console.log(querySnapshot.docs);
+    const posts: PostType[] = [];
+    querySnapshot.forEach((doc) => {
+      posts.push(doc.data() as PostType);
+    });
+
+    lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    return { posts: posts, lastVisible: lastVisible };
+  }
 };
 
 export const getRecentPostsFromAll = async (
@@ -189,7 +253,7 @@ export const doILikePost = async (
   const docSnap = await getDoc(postRef);
 
   if (docSnap.exists()) {
-    console.log('Document data:', docSnap.data());
+    // console.log('Document data:', docSnap.data());
 
     const postData = docSnap.data() as PostType;
     if (postData.likes.includes(uid)) {
@@ -252,7 +316,7 @@ export const getPost = async (
   const docSnap = await getDoc(postRef);
 
   if (docSnap.exists()) {
-    console.log('Document data:', docSnap.data());
+    // console.log('Document data:', docSnap.data());
 
     const postData = docSnap.data() as PostType;
     return postData;
