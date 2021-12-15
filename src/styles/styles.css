@@ -16,6 +16,7 @@
   --font-color-light: white;
 
   --font-color: #383838;
+  --font-color-subtle: rgb(142, 142, 142);
 
   --font: Arial, Helvetica, sans-serif;
 }
@@ -40,6 +41,7 @@ body {
 }
 
 .link {
+  color: inherit;
   text-decoration: none;
 }
 

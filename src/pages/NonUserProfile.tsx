@@ -46,6 +46,12 @@ const NonUserProfile: React.FC = (): JSX.Element => {
             numPosts={posts.length}
             isUser={false}
             postUserId={params.uid ?? ''}
+            handleOpenFollowersModal={() => {
+              /* */
+            }}
+            handleOpenFollowingModal={() => {
+              /* */
+            }}
           />
           {isSmall ? null : <div className='profile__decorative-line'></div>}
           <ProfilePosts posts={posts} isSmall={isSmall} isUser={false} />

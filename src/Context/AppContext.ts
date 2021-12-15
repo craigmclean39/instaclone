@@ -40,20 +40,20 @@ export const appContextReducer = (
 ): AppContextType => {
   switch (action.type) {
     case 'changePage': {
-      console.log('CHANGE PAGE');
+      // console.log('CHANGE PAGE');
       const updateState = Object.assign({}, state);
       updateState.currentPage = action.payload;
       return updateState;
     }
     case 'updateUserInfo': {
-      console.log('UPDATE USER INFO');
-      console.log(action.payload);
+      // console.log('UPDATE USER INFO');
+      // console.log(action.payload);
       const updateState = Object.assign({}, state);
       updateState.userInfo = action.payload;
       return updateState;
     }
     case 'signIn': {
-      console.log('Change sign in status');
+      // console.log('Change sign in status');
       const updateState = Object.assign({}, state);
       updateState.signedIn = action.payload;
       return updateState;

@@ -5,6 +5,8 @@ export interface ProfileHeaderStatsProps {
   numFollowing: number;
   numPosts: number;
   isSmall: boolean;
+  handleOpenFollowersModal(): void;
+  handleOpenFollowingModal(): void;
 }
 
 const ProfileHeaderStats: React.FC<ProfileHeaderStatsProps> = ({
@@ -12,6 +14,8 @@ const ProfileHeaderStats: React.FC<ProfileHeaderStatsProps> = ({
   numFollowing,
   numPosts,
   isSmall,
+  handleOpenFollowersModal,
+  handleOpenFollowingModal,
 }) => {
   return (
     <ul
@@ -22,11 +26,19 @@ const ProfileHeaderStats: React.FC<ProfileHeaderStatsProps> = ({
         <span>{numPosts}</span>
         <span>{' posts'}</span>
       </li>
-      <li>
+      <li
+        className='li-link'
+        onClick={() => {
+          handleOpenFollowersModal();
+        }}>
         <span>{numFollowers}</span>
         <span>{' followers'}</span>
       </li>
-      <li>
+      <li
+        className='li-link'
+        onClick={() => {
+          handleOpenFollowingModal();
+        }}>
         <span>{numFollowing}</span>
         <span>{' following'}</span>
       </li>

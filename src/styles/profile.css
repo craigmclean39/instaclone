@@ -228,3 +228,7 @@
   display: flex;
   align-items: center;
 }
+
+.li-link {
+  cursor: pointer;
+}

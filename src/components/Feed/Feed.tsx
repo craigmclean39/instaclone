@@ -92,7 +92,7 @@ const Feed: React.FC<FeedProps> = ({ db, userInfo }) => {
     }
 
     fetchPosts();
-  }, [db, userInfo, doFetchPosts]);
+  }, [db, userInfo, doFetchPosts, endOfPage, lastVisible, posts]);
 
   return (
     <div className='post-wrapper'>

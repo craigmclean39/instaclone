@@ -14,12 +14,16 @@ interface ProfileHeaderProps {
   numPosts: number;
   isUser: boolean;
   postUserId: string;
+  handleOpenFollowersModal(): void;
+  handleOpenFollowingModal(): void;
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   numPosts,
   isUser,
   postUserId,
+  handleOpenFollowersModal,
+  handleOpenFollowingModal,
 }) => {
   const { userInfo, db } = useContext(AppContext) as AppContextType;
   const [postUserInfo, setPostUserInfo] = useState<UserInfoType | null>(null);
@@ -99,6 +103,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               numFollowers={numFollowers ? numFollowers : 0}
               numPosts={numPosts}
               isSmall={isSmall}
+              handleOpenFollowersModal={handleOpenFollowersModal}
+              handleOpenFollowingModal={handleOpenFollowingModal}
             />
             <ProfileHeaderDescription
               name={isUser ? userInfo?.userName : postUserInfo?.userName}
@@ -142,6 +148,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               numFollowers={numFollowers ? numFollowers : 0}
               numPosts={numPosts}
               isSmall={isSmall}
+              handleOpenFollowersModal={handleOpenFollowersModal}
+              handleOpenFollowingModal={handleOpenFollowingModal}
             />
           </div>
         </header>
