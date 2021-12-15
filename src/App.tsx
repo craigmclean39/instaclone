@@ -10,24 +10,15 @@ import { appContextReducer } from './Context/AppContext';
 import { useFirebase } from './hooks/useFirebase';
 
 import { Firestore } from '@firebase/firestore';
-import {
-  getStorage,
-  ref,
-  uploadString,
-  getDownloadURL,
-} from '@firebase/storage';
 
 import LogIn from './components/Login/LogIn';
 import SignUp from './components/Login/SignUp';
 import { onAuthStateChanged } from '@firebase/auth';
-import {
-  getUsersInfoFromDb,
-  addPostToPostCollection,
-} from './utilities/FirestoreHelpers';
+import { getUsersInfoFromDb, uploadPost } from './utilities/FirestoreHelpers';
 import AddPost from './components/AddPost/AddPost';
-import uniqid from 'uniqid';
 import NonUserProfile from './pages/NonUserProfile';
 import PostPage from './pages/PostPage';
+import { userInfo } from 'os';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -60,24 +51,13 @@ function App(): JSX.Element {
     setShowAddPostModal(false);
   };
 
-  const uploadPost = async (
+  const handleUpload = async (
     file: string,
     description: string
   ): Promise<void> => {
-    const storage = getStorage();
-    const fid = uniqid();
-    const fileRef = ref(storage, fid);
-
-    // console.log(file);
-
-    await uploadString(fileRef, file, 'data_url');
-    const downloadUrl = await getDownloadURL(fileRef);
-    addPostToPostCollection(
-      db as Firestore,
-      appContext.userInfo?.userId as string,
-      downloadUrl,
-      description
-    );
+    if (appContext.db != null && appContext.userInfo?.userId != undefined) {
+      uploadPost(appContext.db, file, description, appContext.userInfo?.userId);
+    }
   };
 
   useEffect(() => {
@@ -132,7 +112,7 @@ function App(): JSX.Element {
     return (
       <AppContext.Provider value={appContext}>
         {showAddPostModal ? (
-          <AddPost cancelAddPost={cancelAddPost} uploadPost={uploadPost} />
+          <AddPost cancelAddPost={cancelAddPost} uploadPost={handleUpload} />
         ) : null}
         {appContext.signedIn ? <Header addPost={addPost} /> : null}
         <Routes>

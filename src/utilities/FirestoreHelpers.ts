@@ -16,7 +16,16 @@ import {
   startAfter,
   DocumentData,
   QueryDocumentSnapshot,
+  deleteDoc,
 } from 'firebase/firestore';
+
+import {
+  getStorage,
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+} from '@firebase/storage';
 
 import UserInfoType from '../types/userInfoType';
 import { PostType, CommentType } from '../types/userInfoType';
@@ -76,10 +85,11 @@ export const addPostToPostCollection = async (
   db: Firestore,
   uid: string,
   imgUrl: string,
-  description: string
+  description: string,
+  storageId: string
 ): Promise<void> => {
   const post: PostType = {
-    id: uniqid(),
+    id: storageId,
     uid: uid,
     comments:
       description !== ''
@@ -322,4 +332,26 @@ export const addComment = async (
   await updateDoc(postRef, {
     comments: arrayUnion(comment),
   });
+};
+
+export const uploadPost = async (
+  db: Firestore,
+  file: string,
+  description: string,
+  uid: string
+): Promise<void> => {
+  const storage = getStorage();
+  const fid = uniqid();
+  const fileRef = ref(storage, fid);
+
+  await uploadString(fileRef, file, 'data_url');
+  const downloadUrl = await getDownloadURL(fileRef);
+  addPostToPostCollection(db as Firestore, uid, downloadUrl, description, fid);
+};
+
+export const deletePost = async (db: Firestore, postId: string) => {
+  const storage = getStorage();
+  const objRef = ref(storage, postId);
+  await deleteDoc(doc(db, 'posts', postId));
+  await deleteObject(objRef);
 };

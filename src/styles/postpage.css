@@ -42,12 +42,17 @@
   min-height: fit-content;
 }
 
+.side-bar__header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px var(--post-border-color);
+  padding: 14px 16px 14px 16px;
+}
+
 .post-page-post__user-info {
   display: flex;
   background-color: var(--bg-color);
   width: 335px;
-  border-bottom: solid 1px var(--post-border-color);
-  padding: 14px 16px 14px 16px;
   align-items: center;
   height: max-content;
 }
@@ -169,4 +174,12 @@
 .add-comment__input:focus {
   border: none;
   outline: none;
+}
+
+.post-page-post__delete-button {
+  color: var(--delete-color);
+  border: none;
+  background-color: transparent;
+  font-weight: 600;
+  cursor: pointer;
 }

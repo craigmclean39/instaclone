@@ -1,9 +1,10 @@
 import { useEffect, useContext, useState, SyntheticEvent } from 'react';
 import { AppContext, AppContextType } from '../Context/AppContext';
 import { Page } from '../Context/AppContext';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   addComment,
+  deletePost,
   getPost,
   getUserInfo,
 } from '../utilities/FirestoreHelpers';
@@ -29,8 +30,10 @@ const PostPage = (): JSX.Element => {
   const [postLiked, setPostLiked] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
   const [refreshPost, setRefreshPost] = useState<boolean>(false);
+  const [isUser, setIsUser] = useState(false);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.PostPage });
@@ -70,6 +73,12 @@ const PostPage = (): JSX.Element => {
     }
   }, [db, post, userInfo]);
 
+  useEffect(() => {
+    if (post?.uid === userInfo?.userId) {
+      setIsUser(true);
+    }
+  }, [post, userInfo]);
+
   const likeThePost = (like: boolean) => {
     if (db != null && userInfo != null && post != null) {
       toggleLikePost(db, post.id, userInfo?.userId, like);
@@ -95,6 +104,11 @@ const PostPage = (): JSX.Element => {
     setRefreshPost(true);
   };
 
+  const handleDelete = async () => {
+    await deletePost(db as Firestore, post?.id as string);
+    navigate('/profile', { replace: true });
+  };
+
   return (
     <div className='post-page-wrapper'>
       <div className='post-page-container'>
@@ -110,20 +124,31 @@ const PostPage = (): JSX.Element => {
               isSmall ? 'post-page-post__side-bar--column' : ''
             }`}>
             <div>
-              <div
-                className={`post-page-post__user-info ${
-                  isSmall ? 'post-page-post__user-info--column' : ''
-                }`}>
-                <Avatar
-                  profilePicSrc={postUserInfo?.userProfilePic ?? ''}
-                  size={AvatarSize.Medium}
-                  alt=''
-                />
-                <Link className='link' to={`/users/${postUserInfo?.userId}`}>
-                  <h3 className='user-info__username'>
-                    {postUserInfo?.userNickname}
-                  </h3>
-                </Link>
+              <div className='side-bar__header'>
+                <div
+                  className={`post-page-post__user-info ${
+                    isSmall ? 'post-page-post__user-info--column' : ''
+                  }`}>
+                  <Avatar
+                    profilePicSrc={postUserInfo?.userProfilePic ?? ''}
+                    size={AvatarSize.Medium}
+                    alt=''
+                  />
+                  <Link className='link' to={`/users/${postUserInfo?.userId}`}>
+                    <h3 className='user-info__username'>
+                      {postUserInfo?.userNickname}
+                    </h3>
+                  </Link>
+                </div>
+                {isUser ? (
+                  <button
+                    className='post-page-post__delete-button'
+                    onClick={() => {
+                      handleDelete();
+                    }}>
+                    Delete
+                  </button>
+                ) : null}
               </div>
               {isSmall ? null : (
                 <PostPageComments comments={post?.comments ?? []} />
