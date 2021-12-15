@@ -311,6 +311,8 @@ export const addComment = async (
   content: string,
   uid: string
 ): Promise<void> => {
+  if (content.length === 0) return;
+
   const comment: CommentType = {
     content: content,
     uid: uid,
