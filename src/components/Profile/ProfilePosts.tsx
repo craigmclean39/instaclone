@@ -28,13 +28,13 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({
         // map content to html elements
         if (isUser) {
           return (
-            <Link to={`/posts/${post.id}`}>
+            <Link key={post.id} to={`/posts/${post.id}`}>
               <ProfilePost key={post.id} post={post} />
             </Link>
           );
         }
         return (
-          <Link to={`/posts/${post.id}`}>
+          <Link key={post.id} to={`/posts/${post.id}`}>
             <PostImage key={post.id} imgUrl={post.imgUrl} />
           </Link>
         );
