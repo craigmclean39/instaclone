@@ -58,6 +58,15 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
     }
   };
 
+  const guestSignIn = async (e: SyntheticEvent) => {
+    if (auth != null) {
+      await signInWithEmailAndPassword(auth, 'guest@guest.com', 'password');
+
+      dispatch({ type: 'signIn', payload: true });
+      navigate('/', { replace: true });
+    }
+  };
+
   return (
     <div className='login-wrapper'>
       <div className='login-container'>
@@ -85,6 +94,12 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
               value={password}></input>
             <button className='instagram-button login__button' type='submit'>
               Log In
+            </button>
+            <button
+              className='instagram-button login__button'
+              type='button'
+              onClick={guestSignIn}>
+              Log in as Guest
             </button>
           </form>
         </div>
