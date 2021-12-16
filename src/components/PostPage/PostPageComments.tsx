@@ -25,7 +25,9 @@ const PostPageComments: React.FC<PostPageCommentsProps> = ({ comments }) => {
   }, [comments]);
 
   const commentElements = sortedComments.map((comment) => {
-    return <PostPageComment comment={comment} />;
+    return (
+      <PostPageComment key={comment.uid + comment.content} comment={comment} />
+    );
   });
 
   return <div className='comments'>{commentElements}</div>;
