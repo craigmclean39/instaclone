@@ -349,9 +349,38 @@ export const uploadPost = async (
   addPostToPostCollection(db as Firestore, uid, downloadUrl, description, fid);
 };
 
-export const deletePost = async (db: Firestore, postId: string) => {
+export const deletePost = async (
+  db: Firestore,
+  postId: string
+): Promise<void> => {
   const storage = getStorage();
   const objRef = ref(storage, postId);
   await deleteDoc(doc(db, 'posts', postId));
   await deleteObject(objRef);
+};
+
+export const uploadProfilePic = async (
+  db: Firestore,
+  file: string,
+  uid: string
+): Promise<void> => {
+  const storage = getStorage();
+  const fid = uid + '_profile-pic';
+  const fileRef = ref(storage, fid);
+
+  await uploadString(fileRef, file, 'data_url');
+  const downloadUrl = await getDownloadURL(fileRef);
+  addProfilePicToUser(db, uid, downloadUrl);
+};
+
+export const addProfilePicToUser = async (
+  db: Firestore,
+  uid: string,
+  imgUrl: string
+): Promise<void> => {
+  const userRef = doc(db, 'users', uid);
+
+  await updateDoc(userRef, {
+    userProfilePic: imgUrl,
+  });
 };

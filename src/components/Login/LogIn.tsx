@@ -53,7 +53,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
         dispatch({ type: 'signIn', payload: true });
         navigate('/', { replace: true });
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };

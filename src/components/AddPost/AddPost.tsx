@@ -237,8 +237,8 @@ const AddPost: React.FC<AddPostProps> = ({ cancelAddPost, uploadPost }) => {
   ]);
 
   const readFile = (file: File) => {
-    console.log('Read File');
-    console.log(file);
+    // console.log('Read File');
+    // console.log(file);
     const reader = new FileReader();
     reader.onload = (ev) => {
       //load the image so we can get width and height and adjust the coverMode of the cropper appropriately

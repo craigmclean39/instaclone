@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { AppContext, AppContextType } from '../../Context/AppContext';
 import '../../styles/profile.css';
 import ProfileHeaderDescription from './ProfileHeaderDescription';
@@ -16,6 +16,7 @@ interface ProfileHeaderProps {
   postUserId: string;
   handleOpenFollowersModal(): void;
   handleOpenFollowingModal(): void;
+  handleChangeProfilePic(e: SyntheticEvent): Promise<void>;
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
@@ -24,6 +25,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   postUserId,
   handleOpenFollowersModal,
   handleOpenFollowingModal,
+  handleChangeProfilePic,
 }) => {
   const { userInfo, db } = useContext(AppContext) as AppContextType;
   const [postUserInfo, setPostUserInfo] = useState<UserInfoType | null>(null);
@@ -82,11 +84,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <div className='profile-header__left'>
             <ProfileHeaderPicture
               isSmall={isSmall}
+              isUser={isUser}
               imgUrl={
                 isUser
                   ? userInfo?.userProfilePic ?? ''
                   : postUserInfo?.userProfilePic ?? ''
               }
+              handleClick={handleChangeProfilePic}
             />
           </div>
           <div className='profile-header__right'>
@@ -119,12 +123,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         <header className='profile-header profile-header--small'>
           <div className='profile-header__top'>
             <ProfileHeaderPicture
+              isUser={isUser}
               isSmall={isSmall}
               imgUrl={
                 isUser
                   ? userInfo?.userProfilePic ?? ''
                   : postUserInfo?.userProfilePic ?? ''
               }
+              handleClick={handleChangeProfilePic}
             />
             <ProfileHeaderName
               nickname={

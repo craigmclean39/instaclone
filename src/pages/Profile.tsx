@@ -1,4 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  SyntheticEvent,
+} from 'react';
 import {
   AppContext,
   AppContextActionType,
@@ -11,7 +17,11 @@ import { useMediaQuery } from '../hooks/useMediaQuery';
 import { Firestore } from '@firebase/firestore';
 import UserInfoType, { PostType } from '../types/userInfoType';
 import ProfilePosts from '../components/Profile/ProfilePosts';
-import { getUserInfo, getUsersPosts } from '../utilities/FirestoreHelpers';
+import {
+  getUserInfo,
+  getUsersPosts,
+  uploadProfilePic,
+} from '../utilities/FirestoreHelpers';
 import FriendsModal, {
   FriendsModalMode,
 } from '../components/FriendsModal/FriendsModal';
@@ -29,6 +39,8 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
     FriendsModalMode.Followers
   );
   const [friends, setFriends] = useState<UserInfoType[]>([]);
+  const [updateProfilePic, setUpdateProfilePic] = useState(false);
+  const [newProfilePicFile, setNewProfilePicFile] = useState('');
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.ProfilePage });
@@ -48,6 +60,23 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
 
     fetchPosts();
   }, [userInfo, db]);
+
+  useEffect(() => {
+    async function doProfilePicUpload() {
+      await uploadProfilePic(
+        db as Firestore,
+        newProfilePicFile,
+        userInfo?.userId as string
+      );
+
+      dispatch({ type: 'reloadUserInfo', payload: true });
+    }
+
+    if (updateProfilePic && newProfilePicFile !== '') {
+      doProfilePicUpload();
+      setUpdateProfilePic(false);
+    }
+  }, [updateProfilePic, db, dispatch, newProfilePicFile, userInfo]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 
@@ -89,6 +118,26 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
     setFriendsModalVisible(false);
   };
 
+  const handleChangeProfilePic = useCallback(async (e: SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      readFile(file);
+    }
+  }, []);
+
+  const readFile = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setUpdateProfilePic(true);
+      setNewProfilePicFile(ev.target?.result as string);
+    };
+
+    //Read the file and wait for it to trigger the onload callback
+    reader.readAsDataURL(file);
+  };
+
   return (
     <>
       <FriendsModal
@@ -101,6 +150,7 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
         <div className='profile-wrapper'>
           <div className={isSmall ? 'profile--small' : 'profile'}>
             <ProfileHeader
+              handleChangeProfilePic={handleChangeProfilePic}
               numPosts={posts.length}
               isUser={true}
               postUserId=''

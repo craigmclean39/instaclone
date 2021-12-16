@@ -52,6 +52,9 @@ const NonUserProfile: React.FC = (): JSX.Element => {
             handleOpenFollowingModal={() => {
               /* */
             }}
+            handleChangeProfilePic={async () => {
+              /* */
+            }}
           />
           {isSmall ? null : <div className='profile__decorative-line'></div>}
           <ProfilePosts posts={posts} isSmall={isSmall} isUser={false} />

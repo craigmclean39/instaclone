@@ -53,3 +53,11 @@ body {
 .link:hover {
   text-decoration: underline;
 }
+
+.not-visible {
+  visibility: hidden;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

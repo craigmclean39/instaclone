@@ -64,7 +64,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
           email,
           password
         );
-        console.log(userCred);
+        // console.log(userCred);
 
         //TODO: After successful user creation, create a new entry in the firestore users collection with additional info
         if (db != null) {
@@ -74,7 +74,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
         dispatch({ type: 'signIn', payload: true });
         navigate('/', { replace: true });
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };
