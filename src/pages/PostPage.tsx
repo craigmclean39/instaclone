@@ -109,6 +109,21 @@ const PostPage = (): JSX.Element => {
     navigate('/profile', { replace: true });
   };
 
+  const [focusComment, setFocusComment] = useState(false);
+  const [didFocus, setDidFocus] = useState(false);
+
+  const handleCommentIconClick = () => {
+    setFocusComment(true);
+    setDidFocus(true);
+  };
+
+  useEffect(() => {
+    if (didFocus) {
+      setFocusComment(false);
+      setDidFocus(false);
+    }
+  }, [didFocus]);
+
   return (
     <div className='post-page-wrapper'>
       <div className='post-page-container'>
@@ -158,9 +173,14 @@ const PostPage = (): JSX.Element => {
               className={`side-bar__bottom ${
                 isSmall ? 'side-bar__bottom--column' : ''
               }`}>
-              <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
+              <PostLikeBar
+                likeThePost={likeThePost}
+                liked={postLiked}
+                handleCommentIconClick={handleCommentIconClick}
+              />
               <LikedBy likes={post?.likes ?? []} />
               <AddComment
+                doFocus={focusComment}
                 value={comment}
                 handleValueChange={handleCommentChange}
                 submitComment={submitComment}

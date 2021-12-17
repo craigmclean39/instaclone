@@ -93,6 +93,21 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setComment('');
   };
 
+  const [focusComment, setFocusComment] = useState(false);
+  const [didFocus, setDidFocus] = useState(false);
+
+  const handleCommentIconClick = () => {
+    setFocusComment(true);
+    setDidFocus(true);
+  };
+
+  useEffect(() => {
+    if (didFocus) {
+      setFocusComment(false);
+      setDidFocus(false);
+    }
+  }, [didFocus]);
+
   return (
     <article className='post'>
       <PostHeader
@@ -105,9 +120,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <Link to={`/posts/${post.id}`}>
         <PostImage imgUrl={post.imgUrl} />
       </Link>
-      <PostLikeBar likeThePost={likeThePost} liked={postLiked} />
+      <PostLikeBar
+        likeThePost={likeThePost}
+        liked={postLiked}
+        handleCommentIconClick={handleCommentIconClick}
+      />
       <PostComments comments={post.comments} />
       <AddComment
+        doFocus={focusComment}
         value={comment}
         handleValueChange={handleCommentChange}
         submitComment={submitComment}

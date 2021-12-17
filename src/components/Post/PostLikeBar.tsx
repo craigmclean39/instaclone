@@ -4,10 +4,15 @@ import { ReactComponent as CommentButton } from '../../media/comment.svg';
 
 interface PostLikeBarProps {
   likeThePost(like: boolean): void;
+  handleCommentIconClick(): void;
   liked: boolean;
 }
 
-const PostLikeBar: React.FC<PostLikeBarProps> = ({ likeThePost, liked }) => {
+const PostLikeBar: React.FC<PostLikeBarProps> = ({
+  likeThePost,
+  liked,
+  handleCommentIconClick,
+}) => {
   return (
     <div className={`post__like-bar ${liked ? 'post__like-bar--liked' : ''}`}>
       {liked ? (
@@ -15,7 +20,7 @@ const PostLikeBar: React.FC<PostLikeBarProps> = ({ likeThePost, liked }) => {
       ) : (
         <LikeButton onClick={() => likeThePost(true)} />
       )}
-      <CommentButton />
+      <CommentButton onClick={handleCommentIconClick} />
     </div>
   );
 };
