@@ -40,7 +40,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
       const onePostPerUser: JSX.Element[] = [];
       postMap.forEach((valueArr) => {
         onePostPerUser.push(
-          <div key={valueArr[0].postId}>
+          <div key={valueArr[0].id}>
             <Link to={`/users/${valueArr[0].uid}`}>
               <PostImage imgUrl={valueArr[0].imgUrl} />
             </Link>
@@ -52,8 +52,6 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
       let rowKey = 0;
       const rows = onePostPerUser
         .reduce(function (r: any, element, index) {
-          // create element groups with size 3, result looks like:
-          // [[elem1, elem2, elem3], [elem4, elem5, elem6], ...]
           index % groupSize === 0 && r.push([]);
           r[r.length - 1].push(element);
           return r;
@@ -64,7 +62,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
           return (
             <div
               className={`explore-posts-row ${isSmall ? 'small-gap' : ''}`}
-              key={rowKey}>
+              key={'row-' + rowKey}>
               {rowContent}
             </div>
           );
