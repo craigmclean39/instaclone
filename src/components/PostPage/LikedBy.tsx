@@ -14,7 +14,7 @@ const LikedBy: React.FC<LikedByProps> = ({ likes }) => {
   const [firstLikeUserInfo, setFirstLikeUserInfo] =
     useState<UserInfoType | null>(null);
 
-  const { db } = useContext(AppContext) as AppContextType;
+  const { db, userInfo } = useContext(AppContext) as AppContextType;
 
   useEffect(() => {
     async function fetchUserInfo() {
@@ -38,9 +38,15 @@ const LikedBy: React.FC<LikedByProps> = ({ likes }) => {
         <span className='liked-by__text'>Liked by</span>&nbsp;
         <Link
           className='link liked-by__link'
-          to={`/users/${firstLikeUserInfo?.userId}`}>
+          to={
+            firstLikeUserInfo?.userId !== userInfo?.userId
+              ? `/users/${firstLikeUserInfo?.userId}`
+              : '/profile'
+          }>
           {' '}
-          {`${firstLikeUserInfo?.userNickname}`}
+          {firstLikeUserInfo?.userId !== userInfo?.userId
+            ? `${firstLikeUserInfo?.userNickname}`
+            : 'you'}
         </Link>
         &nbsp;
         {`${likes.length > 1 ? ' and others' : ''}`}
