@@ -56,7 +56,13 @@ function App(): JSX.Element {
     description: string
   ): Promise<void> => {
     if (appContext.db != null && appContext.userInfo?.userId != undefined) {
-      uploadPost(appContext.db, file, description, appContext.userInfo?.userId);
+      await uploadPost(
+        appContext.db,
+        file,
+        description,
+        appContext.userInfo?.userId
+      );
+      appContextDispatch({ type: 'reloadUserInfo', payload: true });
     }
   };
 
