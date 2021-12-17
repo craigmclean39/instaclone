@@ -13,6 +13,7 @@ interface ExploreGridProps {
 
 const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
   const [posts, setPosts] = useState<JSX.Element[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -69,16 +70,28 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({ db, userInfo, isSmall }) => {
         });
 
       setPosts(rows);
+
+      setIsLoaded(true);
     }
 
-    fetchPosts();
+    if (db != null) {
+      fetchPosts();
+    }
+
+    return () => {
+      setIsLoaded(false);
+    };
   }, [db, userInfo, isSmall]);
 
-  return (
-    <section className={`explore-posts-wrapper ${isSmall ? 'small-gap' : ''}`}>
-      {posts}
-    </section>
-  );
+  if (isLoaded && db != null) {
+    return (
+      <section
+        className={`explore-posts-wrapper ${isSmall ? 'small-gap' : ''}`}>
+        {posts}
+      </section>
+    );
+  }
+  return <></>;
 };
 
 export default ExploreGrid;

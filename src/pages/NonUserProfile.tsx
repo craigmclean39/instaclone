@@ -14,6 +14,7 @@ const NonUserProfile: React.FC = (): JSX.Element => {
   const { userInfo, db, dispatch } = useContext(AppContext) as AppContextType;
 
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const params = useParams();
 
@@ -30,38 +31,48 @@ const NonUserProfile: React.FC = (): JSX.Element => {
         );
 
         setPosts(userPosts);
+        setIsLoaded(true);
       }
     }
 
-    fetchPosts();
+    if (db != null && userInfo != null) {
+      fetchPosts();
+    }
+
+    return () => {
+      setIsLoaded(false);
+    };
   }, [userInfo, db, params.uid]);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
 
-  return (
-    <div className='profile-container'>
-      <div className='profile-wrapper'>
-        <div className={isSmall ? 'profile--small' : 'profile'}>
-          <ProfileHeader
-            numPosts={posts.length}
-            isUser={false}
-            postUserId={params.uid ?? ''}
-            handleOpenFollowersModal={() => {
-              /* */
-            }}
-            handleOpenFollowingModal={() => {
-              /* */
-            }}
-            handleChangeProfilePic={async () => {
-              /* */
-            }}
-          />
-          {isSmall ? null : <div className='profile__decorative-line'></div>}
-          <ProfilePosts posts={posts} isSmall={isSmall} isUser={false} />
+  if (isLoaded) {
+    return (
+      <div className='profile-container'>
+        <div className='profile-wrapper'>
+          <div className={isSmall ? 'profile--small' : 'profile'}>
+            <ProfileHeader
+              numPosts={posts.length}
+              isUser={false}
+              postUserId={params.uid ?? ''}
+              handleOpenFollowersModal={() => {
+                /* */
+              }}
+              handleOpenFollowingModal={() => {
+                /* */
+              }}
+              handleChangeProfilePic={async () => {
+                /* */
+              }}
+            />
+            {isSmall ? null : <div className='profile__decorative-line'></div>}
+            <ProfilePosts posts={posts} isSmall={isSmall} isUser={false} />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return <></>;
 };
 
 export default NonUserProfile;

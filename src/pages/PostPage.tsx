@@ -31,6 +31,7 @@ const PostPage = (): JSX.Element => {
   const [comment, setComment] = useState<string>('');
   const [refreshPost, setRefreshPost] = useState<boolean>(false);
   const [isUser, setIsUser] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const isSmall = useMediaQuery('(max-width: 720px)');
   const navigate = useNavigate();
@@ -43,10 +44,17 @@ const PostPage = (): JSX.Element => {
     async function fetchPost() {
       const fetchedPost = await getPost(db as Firestore, params.pid as string);
       setPost(fetchedPost);
+      setIsLoaded(true);
     }
 
-    fetchPost();
-    setRefreshPost(false);
+    if (db != null) {
+      fetchPost();
+      setRefreshPost(false);
+    }
+
+    return () => {
+      setIsLoaded(false);
+    };
   }, [params, db, refreshPost]);
 
   useEffect(() => {
@@ -124,73 +132,79 @@ const PostPage = (): JSX.Element => {
     }
   }, [didFocus]);
 
-  return (
-    <div className='post-page-wrapper'>
-      <div className='post-page-container'>
-        <div
-          className={`post-page-post ${
-            isSmall ? 'post-page-post--column' : ''
-          }`}>
-          <div className='post-page-post__image'>
-            <PostImage imgUrl={post?.imgUrl ?? ''} />
-          </div>
+  if (isLoaded) {
+    return (
+      <div className='post-page-wrapper'>
+        <div className='post-page-container'>
           <div
-            className={`post-page-post__side-bar ${
-              isSmall ? 'post-page-post__side-bar--column' : ''
+            className={`post-page-post ${
+              isSmall ? 'post-page-post--column' : ''
             }`}>
-            <div>
-              <div className='side-bar__header'>
-                <div
-                  className={`post-page-post__user-info ${
-                    isSmall ? 'post-page-post__user-info--column' : ''
-                  }`}>
-                  <Avatar
-                    profilePicSrc={postUserInfo?.userProfilePic ?? ''}
-                    size={AvatarSize.Medium}
-                    alt=''
-                  />
-                  <Link className='link' to={`/users/${postUserInfo?.userId}`}>
-                    <h3 className='user-info__username'>
-                      {postUserInfo?.userNickname}
-                    </h3>
-                  </Link>
-                </div>
-                {isUser ? (
-                  <button
-                    className='post-page-post__delete-button'
-                    onClick={() => {
-                      handleDelete();
-                    }}>
-                    Delete
-                  </button>
-                ) : null}
-              </div>
-              {isSmall ? null : (
-                <PostPageComments comments={post?.comments ?? []} />
-              )}
+            <div className='post-page-post__image'>
+              <PostImage imgUrl={post?.imgUrl ?? ''} />
             </div>
             <div
-              className={`side-bar__bottom ${
-                isSmall ? 'side-bar__bottom--column' : ''
+              className={`post-page-post__side-bar ${
+                isSmall ? 'post-page-post__side-bar--column' : ''
               }`}>
-              <PostLikeBar
-                likeThePost={likeThePost}
-                liked={postLiked}
-                handleCommentIconClick={handleCommentIconClick}
-              />
-              <LikedBy likes={post?.likes ?? []} />
-              <AddComment
-                doFocus={focusComment}
-                value={comment}
-                handleValueChange={handleCommentChange}
-                submitComment={submitComment}
-              />
+              <div>
+                <div className='side-bar__header'>
+                  <div
+                    className={`post-page-post__user-info ${
+                      isSmall ? 'post-page-post__user-info--column' : ''
+                    }`}>
+                    <Avatar
+                      profilePicSrc={postUserInfo?.userProfilePic ?? ''}
+                      size={AvatarSize.Medium}
+                      alt=''
+                    />
+                    <Link
+                      className='link'
+                      to={`/users/${postUserInfo?.userId}`}>
+                      <h3 className='user-info__username'>
+                        {postUserInfo?.userNickname}
+                      </h3>
+                    </Link>
+                  </div>
+                  {isUser ? (
+                    <button
+                      className='post-page-post__delete-button'
+                      onClick={() => {
+                        handleDelete();
+                      }}>
+                      Delete
+                    </button>
+                  ) : null}
+                </div>
+                {isSmall ? null : (
+                  <PostPageComments comments={post?.comments ?? []} />
+                )}
+              </div>
+              <div
+                className={`side-bar__bottom ${
+                  isSmall ? 'side-bar__bottom--column' : ''
+                }`}>
+                <PostLikeBar
+                  likeThePost={likeThePost}
+                  liked={postLiked}
+                  handleCommentIconClick={handleCommentIconClick}
+                />
+                <LikedBy likes={post?.likes ?? []} />
+                <AddComment
+                  doFocus={focusComment}
+                  value={comment}
+                  handleValueChange={handleCommentChange}
+                  submitComment={submitComment}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default PostPage;

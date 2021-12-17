@@ -13,33 +13,43 @@ const PostPageComment: React.FC<PostPageCommentProps> = ({ comment }) => {
   const [commentUserInfo, setCommentUserInfo] = useState<UserInfoType | null>(
     null
   );
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const { db } = useContext(AppContext) as AppContextType;
 
   useEffect(() => {
     async function fetchCommentUserInfo() {
       const fetchedData = await getUserInfo(comment.uid, db as Firestore);
       setCommentUserInfo(fetchedData);
+      setIsLoaded(true);
     }
 
     fetchCommentUserInfo();
+
+    return () => {
+      setIsLoaded(false);
+    };
   }, [comment, db]);
 
-  return (
-    <div className='comment'>
-      <Avatar
-        profilePicSrc={commentUserInfo?.userProfilePic ?? ''}
-        size={AvatarSize.Medium}
-        alt=''
-      />
-      <div className='comment__content'>
-        <span className='content__username'>
-          {commentUserInfo?.userNickname}
-        </span>
-        &nbsp;
-        {comment.content}
+  if (isLoaded) {
+    return (
+      <div className='comment'>
+        <Avatar
+          profilePicSrc={commentUserInfo?.userProfilePic ?? ''}
+          size={AvatarSize.Medium}
+          alt=''
+        />
+        <div className='comment__content'>
+          <span className='content__username'>
+            {commentUserInfo?.userNickname}
+          </span>
+          &nbsp;
+          {comment.content}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return <></>;
 };
 
 export default PostPageComment;

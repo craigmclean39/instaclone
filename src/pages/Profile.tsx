@@ -41,6 +41,7 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
   const [friends, setFriends] = useState<UserInfoType[]>([]);
   const [updateProfilePic, setUpdateProfilePic] = useState(false);
   const [newProfilePicFile, setNewProfilePicFile] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.ProfilePage });
@@ -56,9 +57,15 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
 
         setPosts(userPosts);
       }
+
+      setIsLoaded(true);
     }
 
     fetchPosts();
+
+    return () => {
+      setIsLoaded(false);
+    };
   }, [userInfo, db]);
 
   useEffect(() => {
@@ -138,36 +145,41 @@ const Profile: React.FC<ProfileProps> = ({ dispatch }): JSX.Element => {
     reader.readAsDataURL(file);
   };
 
-  return (
-    <>
-      <FriendsModal
-        visible={friendsModalVisible}
-        mode={friendsModalMode}
-        handleClose={handleCloseFriendsModal}
-        friends={friends}
-      />
-      <div className='profile-container'>
-        <div className='profile-wrapper'>
-          <div className={isSmall ? 'profile--small' : 'profile'}>
-            <ProfileHeader
-              handleChangeProfilePic={handleChangeProfilePic}
-              numPosts={posts.length}
-              isUser={true}
-              postUserId=''
-              handleOpenFollowersModal={() => {
-                handleOpenFriendsModal(FriendsModalMode.Followers);
-              }}
-              handleOpenFollowingModal={() => {
-                handleOpenFriendsModal(FriendsModalMode.Following);
-              }}
-            />
-            {isSmall ? null : <div className='profile__decorative-line'></div>}
-            <ProfilePosts posts={posts} isSmall={isSmall} isUser={true} />
+  if (isLoaded) {
+    return (
+      <>
+        <FriendsModal
+          visible={friendsModalVisible}
+          mode={friendsModalMode}
+          handleClose={handleCloseFriendsModal}
+          friends={friends}
+        />
+        <div className='profile-container'>
+          <div className='profile-wrapper'>
+            <div className={isSmall ? 'profile--small' : 'profile'}>
+              <ProfileHeader
+                handleChangeProfilePic={handleChangeProfilePic}
+                numPosts={posts.length}
+                isUser={true}
+                postUserId=''
+                handleOpenFollowersModal={() => {
+                  handleOpenFriendsModal(FriendsModalMode.Followers);
+                }}
+                handleOpenFollowingModal={() => {
+                  handleOpenFriendsModal(FriendsModalMode.Following);
+                }}
+              />
+              {isSmall ? null : (
+                <div className='profile__decorative-line'></div>
+              )}
+              <ProfilePosts posts={posts} isSmall={isSmall} isUser={true} />
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
+  return <></>;
 };
 
 export default Profile;
