@@ -18,7 +18,6 @@ import { getUsersInfoFromDb, uploadPost } from './utilities/FirestoreHelpers';
 import AddPost from './components/AddPost/AddPost';
 import NonUserProfile from './pages/NonUserProfile';
 import PostPage from './pages/PostPage';
-import { userInfo } from 'os';
 
 const initialState: AppContextType = {
   currentPage: Page.HomePage,
@@ -40,6 +39,8 @@ function App(): JSX.Element {
   const { db, auth } = useFirebase();
   const navigate = useNavigate();
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const [showAddPostModal, setShowAddPostModal] = useState(false);
   const addPost = (): void => {
     // console.log('add post');
@@ -55,7 +56,7 @@ function App(): JSX.Element {
     file: string,
     description: string
   ): Promise<void> => {
-    if (appContext.db != null && appContext.userInfo?.userId != undefined) {
+    if (appContext.db !== null && appContext.userInfo?.userId !== undefined) {
       await uploadPost(
         appContext.db,
         file,
@@ -92,11 +93,19 @@ function App(): JSX.Element {
           navigate('/login', { replace: true });
         } else {
           // console.log('signing in');
-          fetchUserInfo(user.uid);
+          if (!isLoaded) {
+            fetchUserInfo(user.uid);
+          }
         }
       });
+
+      setIsLoaded(true);
     }
-  }, [db, auth]);
+
+    return () => {
+      setIsLoaded(false);
+    };
+  }, [db, auth, navigate, isLoaded]);
 
   // Check if a reloadUserInfo flag has been updated and reload info as required
   useEffect(() => {
@@ -114,7 +123,7 @@ function App(): JSX.Element {
     }
   }, [appContext, db]);
 
-  if (db !== null && auth !== null) {
+  if (db !== null && auth !== null && isLoaded) {
     return (
       <AppContext.Provider value={appContext}>
         {showAddPostModal ? (

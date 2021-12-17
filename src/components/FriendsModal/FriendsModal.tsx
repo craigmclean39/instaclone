@@ -1,7 +1,6 @@
 import '../../styles/friendsmodal.css';
 import { ReactComponent as CloseIcon } from '../../media/close.svg';
 import UserInfoType from '../../types/userInfoType';
-import Avatar, { AvatarSize } from '../Avatar/Avatar';
 import FriendRow from './FriendRow';
 
 export interface FriendsModalProps {

@@ -66,7 +66,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     if (db != null) {
       fetchPostUserInfo();
     }
-  }, [db]);
+  }, [db, isUser, postUserId]);
 
   useEffect(() => {
     if (!isUser) {
