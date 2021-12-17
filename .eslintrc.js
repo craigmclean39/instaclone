@@ -7,8 +7,6 @@ module.exports = {
     node: true, // Defines things like process.env when generating through node
   },
   extends: [
-    'react-app',
-    'react-app/jest',
     'plugin:jsx-a11y/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
