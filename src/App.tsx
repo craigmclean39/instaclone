@@ -90,7 +90,9 @@ function App(): JSX.Element {
           // console.log('Signing Out');
           appContextDispatch({ type: 'signIn', payload: false });
           appContextDispatch({ type: 'updateUserInfo', payload: null });
-          navigate('/login', { replace: true });
+          if (!isLoaded) {
+            navigate('/login', { replace: true });
+          }
         } else {
           // console.log('signing in');
           if (!isLoaded) {
