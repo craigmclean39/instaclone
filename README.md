@@ -94,6 +94,7 @@ Welcome to Instaclone! This is an instagram-like site created with React, Typesc
 
 - [React Router v6](https://reactrouter.com/)
 - [uniqid](https://www.npmjs.com/package/uniqid)
+- [React Easy Crop](https://www.npmjs.com/package/react-easy-crop)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
