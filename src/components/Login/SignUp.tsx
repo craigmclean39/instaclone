@@ -11,6 +11,7 @@ import { createNewUser } from '../../utilities/FirestoreHelpers';
 import '../../styles/login.css';
 import LoginLogo from '../../media/instagram-header1.png';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { FirebaseError } from '@firebase/util';
 
 export interface SignUpProps {
   dispatch(o: AppContextActionType): void;
@@ -21,6 +22,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.SignUpPage });
@@ -31,6 +33,8 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
   const navigate = useNavigate();
 
   const handleChange = (name: string) => (e: SyntheticEvent) => {
+    setErrorMessage('');
+
     const target = e.target as HTMLInputElement;
     switch (name) {
       case 'fullName': {
@@ -66,15 +70,15 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
         );
         // console.log(userCred);
 
-        //TODO: After successful user creation, create a new entry in the firestore users collection with additional info
         if (db != null) {
           await createNewUser(db, userCred.user.uid, fullName, username);
         }
 
         dispatch({ type: 'signIn', payload: true });
         navigate('/', { replace: true });
-      } catch (e) {
+      } catch (err) {
         // console.log(e);
+        setErrorMessage((err as FirebaseError).message);
       }
     }
   };
@@ -122,6 +126,7 @@ const SignUp: React.FC<SignUpProps> = ({ dispatch }) => {
               placeholder='Password'
               onChange={handleChange('password')}
               value={password}></input>
+            <p className='error'>{errorMessage}</p>
             <button className='instagram-button login__button' type='submit'>
               Sign up
             </button>

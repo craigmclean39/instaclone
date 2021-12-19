@@ -12,6 +12,7 @@
   --icon-color-light: white;
   --like-color: rgb(237, 73, 86);
   --delete-color: rgb(237, 73, 86);
+  --error-color: rgb(237, 73, 86);
   --avatar-border-color: #383838;
   --input-placeholder-color: rgb(142, 142, 142);
   --font-color-light: white;
@@ -62,4 +63,9 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.error {
+  font-size: 14px;
+  color: var(--error-color);
 }

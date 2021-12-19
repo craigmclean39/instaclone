@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import LoginLogo from '../../media/instagram-header1.png';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { FirebaseError } from '@firebase/util';
 
 export interface LogInProps {
   dispatch(o: AppContextActionType): void;
@@ -18,6 +19,7 @@ export interface LogInProps {
 const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     dispatch({ type: 'changePage', payload: Page.LogInPage });
@@ -28,6 +30,8 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
   const navigate = useNavigate();
 
   const handleChange = (name: string) => (e: SyntheticEvent) => {
+    setErrorMessage('');
+
     const target = e.target as HTMLInputElement;
     switch (name) {
       case 'email': {
@@ -45,6 +49,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setErrorMessage('');
 
     if (auth != null) {
       try {
@@ -52,8 +57,8 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
 
         dispatch({ type: 'signIn', payload: true });
         navigate('/', { replace: true });
-      } catch (e) {
-        // console.log(e);
+      } catch (err) {
+        setErrorMessage((err as FirebaseError).message);
       }
     }
   };
@@ -92,6 +97,7 @@ const LogIn: React.FC<LogInProps> = ({ dispatch }) => {
               placeholder='Password'
               onChange={handleChange('password')}
               value={password}></input>
+            <p className='error'>{errorMessage}</p>
             <button className='instagram-button login__button' type='submit'>
               Log In
             </button>
